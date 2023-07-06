@@ -17,7 +17,7 @@ import {
   video,
   audio,
   img,
-} from '@markdoc-html-schemas';
+} from '../packages/markdoc-html-tag-schemas/dist/index.js';
 
 export default defineMarkdocConfig({
   nodes: {

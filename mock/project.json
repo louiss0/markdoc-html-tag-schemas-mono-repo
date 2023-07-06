@@ -10,15 +10,7 @@
       "options": {}
     },
     "dev": {
-      "executor": "@nxtensions/astro:dev",
-      "dependsOn": [
-        {
-          "projects":"markdoc-html-tags",
-          "target": "dev",
-          "params": "ignore"   
-        
-      }
-      ]
+      "executor": "@nxtensions/astro:dev"
     },
     "preview": {
       "dependsOn": [
