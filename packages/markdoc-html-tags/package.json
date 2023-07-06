@@ -2,14 +2,12 @@
   "name": "@forastro/markdoc-html-tags",
   "version": "0.0.0",
   "type": "module",
-  "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "import": "./dist/index.js"
     }
   },
   "files": [
@@ -17,9 +15,6 @@
   ],
   "publishConfig": {
     "access": "public"
-  },
-  "dependencies": {
-    "@markdoc/markdoc": "^0.3.0"
   },
   "peerDependencies": {
     "@markdoc/markdoc": ">0.2.0",

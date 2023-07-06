@@ -1,5 +1,5 @@
 {
-  "name": "..--docs",
+  "name": "docs",
   "$schema": "../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "targets": {
@@ -7,19 +7,19 @@
       "executor": "nx:run-commands",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "command": "vitepress build packages/..//docs"
+        "command": "vitepress build docs"
       }
     },
     "dev": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "vitepress dev packages/..//docs"
+        "command": "vitepress dev docs"
       }
     },
     "serve": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "vitepress serve packages/..//docs"
+        "command": "vitepress serve docs"
       }
     }
   },
