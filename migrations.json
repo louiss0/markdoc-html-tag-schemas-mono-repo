@@ -1,0 +1,52 @@
+{
+  "migrations": [
+    {
+      "cli": "nx",
+      "version": "16.0.0-beta.1",
+      "description": "Replace @nrwl/js with @nx/js",
+      "implementation": "./src/migrations/update-16-0-0-add-nx-packages/update-16-0-0-add-nx-packages",
+      "package": "@nrwl/js",
+      "name": "update-16-0-0-add-nx-packages"
+    },
+    {
+      "cli": "nx",
+      "version": "16.0.0-beta.1",
+      "description": "Replace @nrwl/linter with @nx/linter",
+      "implementation": "./src/migrations/update-16-0-0-add-nx-packages/update-16-0-0-add-nx-packages",
+      "package": "@nrwl/linter",
+      "name": "update-16-0-0-add-nx-packages"
+    },
+    {
+      "cli": "nx",
+      "version": "16.0.0-beta.1",
+      "description": "Replace @nrwl/eslint-plugin-nx with @nx/eslint-plugin",
+      "implementation": "./src/migrations/update-16-0-0-add-nx-packages/update-16-0-0-add-nx-packages",
+      "package": "@nrwl/eslint-plugin-nx",
+      "name": "update-16-0-0-add-nx-packages"
+    },
+    {
+      "cli": "nx",
+      "version": "16.0.0-beta.1",
+      "description": "Replace @nrwl/cypress with @nx/cypress",
+      "implementation": "./src/migrations/update-16-0-0-add-nx-packages/update-16-0-0-add-nx-packages",
+      "package": "@nrwl/cypress",
+      "name": "update-16-0-0-add-nx-packages"
+    },
+    {
+      "cli": "nx",
+      "version": "16.2.0-beta.0",
+      "description": "Normalize tsconfig.cy.json files to be located at '<projectRoot>/cypress/tsconfig.json'",
+      "implementation": "./src/migrations/update-16-2-0/update-cy-tsconfig",
+      "package": "@nrwl/cypress",
+      "name": "update-16-2-0-normalize-tsconfigs"
+    },
+    {
+      "cli": "nx",
+      "version": "16.4.0-beta.10",
+      "description": "Remove tsconfig.e2e.json and add settings to project tsconfig.json. tsConfigs executor option is now deprecated. The project level tsconfig.json file should be used instead.",
+      "implementation": "./src/migrations/update-16-4-0/tsconfig-sourcemaps",
+      "package": "@nrwl/cypress",
+      "name": "update-16-3-0-remove-old-tsconfigs"
+    }
+  ]
+}
