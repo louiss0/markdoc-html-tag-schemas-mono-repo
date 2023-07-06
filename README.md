@@ -1,6 +1,6 @@
-# Markdoc HTML Schemas Mono-Repo
+# Markdoc HTML Tag Schemas Mono-Repo
 
-This repo is an NX repo that is created for the package **Markdoc HTML Schemas**.
+This repo is an NX repo that is created for the package **Markdoc HTML Tag Schemas**.
 A package that is designed to allow people to create schemas for HTML.
 I have decided to put an app that is designed to be used to test this package.
 I put a docs project inside of here as well so that I can document this project.
