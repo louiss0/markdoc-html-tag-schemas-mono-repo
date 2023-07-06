@@ -1,5 +1,5 @@
 {
-  "name": "@forastro/markdoc-html-tags",
+  "name": "markdoc-html-tag-schemas",
   "version": "0.0.0",
   "type": "module",
   "module": "./dist/index.js",
@@ -13,9 +13,6 @@
   "files": [
     "dist"
   ],
-  "publishConfig": {
-    "access": "public"
-  },
   "peerDependencies": {
     "@markdoc/markdoc": ">0.2.0",
     "astro": ">2.0.0"
@@ -36,7 +33,6 @@
   },
   "keywords": [
     "markdown",
-    "markdoc",
-    "astro"
+    "markdoc"
   ]
 }
