@@ -64,19 +64,19 @@ Here is a list of packages used for Markdoc HTML Schemas
 To develop run.
 
 ```shell
-nx run markdoc-html-tags:dev
+nx run markdoc-html-tag-schemas:dev
 ```
 
 To release run.
 
 ```shell
-nx run markdoc-html-tags:release
+nx run markdoc-html-tag-schemas:release
 ```
 
 To lint run.
 
 ```shell
-nx run markdoc-html-tags:lint
+nx run markdoc-html-tag-schemas:lint
 ```
 
 I decided to configure everything so that this package is an ESM-only package.
