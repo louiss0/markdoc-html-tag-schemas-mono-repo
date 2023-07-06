@@ -1,4 +1,4 @@
-import { SizesAttribute } from "packages/markdoc-html-tags/src/utils"
+import { SizesAttribute } from "packages/markdoc-html-tag-schemas/src/utils"
 
 
 describe.todo("Testing SizesAttribute.returnMarkdocErrorObjectOrNothing()", () => {

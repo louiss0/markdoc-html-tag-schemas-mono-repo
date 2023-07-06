@@ -1,4 +1,4 @@
-import { MediaAttribute } from "packages/markdoc-html-tags/src/lib/schema/source"
+import { MediaAttribute } from "packages/markdoc-html-tag-schemas/src/lib/schema/source"
 
 describe.todo("Testing MediaAttribute.returnMarkdocErrorObjectOrNothing()", () => {
 

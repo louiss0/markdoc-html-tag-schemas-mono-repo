@@ -1,8 +1,8 @@
 
 
 import type { ValidationError, Config as MarkdocConfig, Scalar, } from "@markdoc/markdoc"
-import { generateMarkdocErrorObject, generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserATypeIsNotRight, generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight } from "packages/markdoc-html-tags/src/utils/helpers"
-import type { ReturnMarkdocErrorObjectOrNothingContract } from "packages/markdoc-html-tags/src/utils/internal"
+import { generateMarkdocErrorObject, generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserATypeIsNotRight, generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight } from "packages/markdoc-html-tag-schemas/src/utils/helpers"
+import type { ReturnMarkdocErrorObjectOrNothingContract } from "packages/markdoc-html-tag-schemas/src/utils/internal"
 
 
 export abstract class MarkdocValidatorAttribute {
@@ -42,7 +42,7 @@ export class HttpURLOrPathAttribute extends MarkdocValidatorAttribute implements
 
 
 
-        if (value !== "string") {
+        if (typeof value !== "string") {
             return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserATypeIsNotRight("string")
         }
 

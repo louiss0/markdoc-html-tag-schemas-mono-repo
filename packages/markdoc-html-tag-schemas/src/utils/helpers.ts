@@ -8,10 +8,9 @@ import type {
     ProperSchemaMatches,
     MarkdocAttributeSchema,
     RequiredSchemaAttributeType,
-} from 'packages/markdoc-html-tags/src/lib/attributes';
+} from 'packages/markdoc-html-tag-schemas/src/lib/attributes';
 
-import { toLowercaseWithDashes, type AllowedMarkdocTypesAsStrings, isViableMarkdocValue } from 'packages/markdoc-html-tags/src/utils/internal';
-import { config } from 'process';
+import { toLowercaseWithDashes, type AllowedMarkdocTypesAsStrings, isViableMarkdocValue } from 'packages/markdoc-html-tag-schemas/src/utils/internal';
 
 
 
@@ -138,9 +137,9 @@ export function generateSelfClosingTagSchema
     const {
         attributes,
         inline = true,
-        transform = (node: markdoc.Node) => {
+        transform = (node, config) => {
 
-            const { primary, ...attributes } = node.transformAttributes(config)
+            const {primary, ...attributes} = node.transformAttributes(config)
 
 
 

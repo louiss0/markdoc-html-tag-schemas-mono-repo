@@ -2,7 +2,7 @@ import { defineConfig } from 'vitest/config';
 import viteTsConfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
-    cacheDir: "../../node_modules/.vite/markdoc-html-tags",
+    cacheDir: "../../node_modules/.vite/markdoc-html-tag-schemas",
     plugins: [
         viteTsConfigPaths({
             root: "../../",

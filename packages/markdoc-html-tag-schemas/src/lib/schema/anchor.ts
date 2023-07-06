@@ -4,7 +4,7 @@ import {
 
     generateMarkdocErrorObject,
     getGenerateNonPrimarySchema,
-} from "packages/markdoc-html-tags/src/utils"
+} from "packages/markdoc-html-tag-schemas/src/utils"
 
 
 

@@ -1,4 +1,4 @@
-import { SrcSetAttribute } from "packages/markdoc-html-tags/src/utils"
+import { SrcSetAttribute } from "packages/markdoc-html-tag-schemas/src/utils"
 
 
 

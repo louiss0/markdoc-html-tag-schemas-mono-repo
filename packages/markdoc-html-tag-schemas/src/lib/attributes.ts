@@ -8,8 +8,8 @@ import {
     generateMarkdocErrorObject,
     generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserATypeIsNotRight,
     generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight
-} from "packages/markdoc-html-tags/src/utils";
-import { isAnObjectWithStringKeysAndValuesThatAreStringsOrNumbers, transformObjectIntoStyleString, type ReturnMarkdocErrorObjectOrNothingContract } from "packages/markdoc-html-tags/src/utils/internal";
+} from "packages/markdoc-html-tag-schemas/src/utils";
+import { isAnObjectWithStringKeysAndValuesThatAreStringsOrNumbers, transformObjectIntoStyleString, type ReturnMarkdocErrorObjectOrNothingContract } from "packages/markdoc-html-tag-schemas/src/utils/internal";
 
 
 

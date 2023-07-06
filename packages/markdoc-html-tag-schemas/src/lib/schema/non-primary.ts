@@ -4,14 +4,14 @@ import {
     SrcSetAttribute,
     generateNonPrimarySchemaWithATransformThatGeneratesDataAttributes,
     getGenerateNonPrimarySchema,
-} from "packages/markdoc-html-tags/src/utils";
+} from "packages/markdoc-html-tag-schemas/src/utils";
 
 
-import { MarkdocAttributeSchemas } from "packages/markdoc-html-tags/src/lib/attributes";
+import { MarkdocAttributeSchemas } from "packages/markdoc-html-tag-schemas/src/lib/attributes";
 
-export { source } from "packages/markdoc-html-tags/src/lib/schema/source"
+export { source } from "packages/markdoc-html-tag-schemas/src/lib/schema/source"
 
-export { iframe } from "packages/markdoc-html-tags/src/lib/schema/iframe"
+export { iframe } from "packages/markdoc-html-tag-schemas/src/lib/schema/iframe"
 
 const {
     contenteditable,

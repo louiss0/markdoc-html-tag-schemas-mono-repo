@@ -1,7 +1,7 @@
-# markdoc-html-tags
+# markdoc-html-tag-schemas
 
 This library was generated with [Nx](https://nx.dev).
 
 ## Building
 
-Run `nx build markdoc-html-tags` to build the library.
+Run `nx build markdoc-html-tag-schemas` to build the library.

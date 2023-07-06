@@ -1,4 +1,4 @@
-import { HrefAttribute } from "packages/markdoc-html-tags/src/lib/schema/anchor";
+import { HrefAttribute } from "packages/markdoc-html-tag-schemas/src/lib/schema/anchor";
 
 describe("Make sure the AnchorAttribute's returnMarkdocErrorObjectOrNull ", () => {
 
