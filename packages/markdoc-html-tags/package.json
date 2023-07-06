@@ -22,7 +22,7 @@
   },
   "scripts": {
     "dev": "tsup --watch",
-    "publint": "publint",
+    "lint": "publint",
     "release": "pnpm build && dotenv release-it"
   },
   "repository": {
