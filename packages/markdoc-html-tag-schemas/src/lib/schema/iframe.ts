@@ -1,7 +1,8 @@
+
 import type { ValidationError } from "@markdoc/markdoc"
-import { MarkdocAttributeSchemas } from "packages/markdoc-html-tags/src/lib/attributes"
-import { HttpURLOrPathAttribute, MarkdocValidatorAttribute, generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserATypeIsNotRight, generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight, getGenerateNonPrimarySchema } from "packages/markdoc-html-tags/src/utils"
-import { isObject } from "packages/markdoc-html-tags/src/utils/internal"
+import { MarkdocAttributeSchemas } from "packages/markdoc-html-tag-schemas/src/lib/attributes";
+import { HttpURLOrPathAttribute, MarkdocValidatorAttribute, generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserATypeIsNotRight, generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight, getGenerateNonPrimarySchema } from "packages/markdoc-html-tag-schemas/src/utils"
+import { isObject } from "packages/markdoc-html-tag-schemas/src/utils/internal"
 
 
 const { ariaHidden, height, width } = MarkdocAttributeSchemas
@@ -21,6 +22,10 @@ export class AllowAttribute extends MarkdocValidatorAttribute {
         "web-share",
     ]
 
+    private readonly keywordAndOriginGroupsRegex = /^(?<keywords>self|src)\s(?<origin>https?:\/\/[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6})*$/;
+
+    private readonly anchoredStarRegex = /^\*$/;
+
     returnMarkdocErrorObjectOrNothing(value: unknown) {
 
 
@@ -39,10 +44,8 @@ export class AllowAttribute extends MarkdocValidatorAttribute {
 
         const keysWithValuesThatDoNotHaveAProperAllowlist = Object.entries(value).reduce(
             (carry: Array<string>, [key, value]) =>
-                typeof value === "string"
-                    && /^(?<keywords>self|src)\s(?<origin>https?:\/\/[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6})*$/.test(value)
-                    || typeof value === "string"
-                    && /^\*$/.test(value)
+                typeof value === "string" && this.keywordAndOriginGroupsRegex.test(value)
+                    || typeof value === "string" && this.anchoredStarRegex.test(value)
                     ? carry
                     : carry.concat(key),
             [])
@@ -72,13 +75,14 @@ export const iframe = getGenerateNonPrimarySchema({
 
                 override returnMarkdocErrorObjectOrNothing(value: unknown): void | ValidationError {
 
-                    return value !== "string"
-                        ? generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserATypeIsNotRight("string")
-                        : !this.httpUrlRegex.test(value)
-                            ? generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(
+
+                    if (typeof value !== "string")
+                        return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserATypeIsNotRight("string")
+                    
+                    if (!this.httpUrlRegex.test(value))
+                        return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(
                                 `The string ${value} must be a valid HTTP URL`
                             )
-                            : undefined
 
                 }
             },
