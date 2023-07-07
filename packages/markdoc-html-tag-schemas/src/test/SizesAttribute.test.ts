@@ -1,22 +1,21 @@
 import { SizesAttribute } from "packages/markdoc-html-tag-schemas/src/utils"
 
 
-describe.todo("Testing SizesAttribute.returnMarkdocErrorObjectOrNothing()", () => {
+describe("Testing SizesAttribute.returnMarkdocErrorObjectOrNothing()", () => {
 
 
     const sizesAttribute = new SizesAttribute()
 
 
-    describe.todo(
-        "Returns a markdoc error object when a value is not an object",
-        () => {
+    describe("Returns a markdoc error object when a value is not an object", () => {
 
-            it.each(["foo", null, [], undefined])
+
+            it.each(["foo", null, [], ])
                 ("Expect %# to return a markdoc error object that is based of type", (value) => {
 
 
-                    expect(sizesAttribute.returnMarkdocErrorObjectOrNothing(value)
-                    ).toEqualMarkdocErrorObjectThatTellsTheUserThatATypeIsNotRight()
+                    expect(sizesAttribute.returnMarkdocErrorObjectOrNothing(value))
+                        .toEqualMarkdocErrorObjectThatTellsTheUserThatATypeIsNotRight()
 
                 })
         }
