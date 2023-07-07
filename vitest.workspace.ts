@@ -1,3 +1,3 @@
 export default [
-    'packages/*',
+    'packages/markdoc-html-tag-schemas',
 ]
