@@ -1,19 +1,18 @@
 import { MediaAttribute } from "packages/markdoc-html-tag-schemas/src/lib/schema/source"
 
-describe.todo("Testing MediaAttribute.returnMarkdocErrorObjectOrNothing()", () => {
+describe("Testing MediaAttribute.returnMarkdocErrorObjectOrNothing()", () => {
 
 
     const mediaAttribute = new MediaAttribute()
 
-    describe.todo("It returns an invalid-type markdoc error object when a string is not passed", () => {
+    describe("It returns an invalid-type markdoc error object when a string is not passed", () => {
 
         it.each([null, undefined, true, 4])
             ("Returns, %# a invalid-type markdoc error object", (value) => {
 
 
-                expect(
-                    mediaAttribute.returnMarkdocErrorObjectOrNothing(value)
-                )
+                expect(mediaAttribute.returnMarkdocErrorObjectOrNothing(value))
+                    .toEqualMarkdocErrorObjectThatTellsTheUserThatATypeIsNotRight()
 
 
             })
