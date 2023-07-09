@@ -1,13 +1,10 @@
 
-import * as markdoc from "@markdoc/markdoc";
-
-const { Tag } = markdoc
-
+import type { ValidationError } from "@markdoc/markdoc";
 import { MarkdocValidatorAttribute, generateMarkdocErrorObject, generateSelfClosingTagSchema, } from "packages/markdoc-html-tag-schemas/src/utils";
 
 export class AbbreviationAttribute extends MarkdocValidatorAttribute {
 
-    returnMarkdocErrorObjectOrNothing(value: string,): markdoc.ValidationError | void {
+    returnMarkdocErrorObjectOrNothing(value: string,): ValidationError | void {
 
 
 
@@ -33,7 +30,7 @@ export class AbbreviationAttribute extends MarkdocValidatorAttribute {
 
 
 
-export const abbr = generateSelfClosingTagSchema<RegExp | null, StringConstructor | markdoc.CustomAttributeType, "abbr">(
+export const abbr = generateSelfClosingTagSchema(
     {
         render: "abbr",
         validationType: AbbreviationAttribute,
@@ -48,13 +45,16 @@ export const abbr = generateSelfClosingTagSchema<RegExp | null, StringConstructo
                 matches: /[A-Z]/
             }
         },
-        transform(node) {
-            const { primary, label } = node.attributes;
+        transform(node, config, createTag) {
 
-            return new Tag("abbr", {
-                ...node.transformAttributes(node.attributes),
-                title: primary
-            }, label ? [label] : primary.match(/[A-Z]/g))
+            const { primary, label } = node.transformAttributes(config);
+
+            return createTag("abbr",
+                label ? [label] : primary.match(/[A-Z]/g),
+                {
+                    title: primary
+                },
+            )
         }
     }
 )
