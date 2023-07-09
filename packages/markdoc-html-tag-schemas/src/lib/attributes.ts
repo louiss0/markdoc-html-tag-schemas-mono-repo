@@ -1,4 +1,4 @@
-import type { Scalar, SchemaAttribute, ValidationError, ValidationType } from "@markdoc/markdoc";
+import type { Scalar, SchemaAttribute, ValidationError, } from "@markdoc/markdoc";
 import {
 
     HttpURLOrPathAttribute,
@@ -41,11 +41,10 @@ export type ProperSchemaMatches = Exclude<SchemaAttribute["matches"], Array<stri
     | ReadonlyArray<string>
 
 
-export type RequiredSchemaAttributeType = Exclude<SchemaAttribute["type"], undefined | Array<ValidationType>>
+export type RequiredSchemaAttributeType = Exclude<SchemaAttribute["type"], undefined>
 
 export type MarkdocAttributeSchema<T extends ProperSchemaMatches, U extends RequiredSchemaAttributeType> = {
-    type: T extends ReadonlyArray<unknown> | RegExp
-    ? TypeIsAStringOrNumberReturnStringOrNumberConstructorElseReturnMarkdoc<T> : U
+    type: U
     default?: T extends ReadonlyArray<unknown> | RegExp
     ? TypeIsAStringOrNumberReturnTheValuesIfRegexReturnStringElseNever<T>
     : ReturnTypeBasedOnConstructor<U>
@@ -57,15 +56,13 @@ export type PrimaryMarkdocAttributeSchema<T extends ProperSchemaMatches, U exten
     MarkdocAttributeSchema<T, U>
     & { render?: true }
 
-export type SchemaAttributesWithAPrimaryKey<T extends ProperSchemaMatches, U extends RequiredSchemaAttributeType> = {
-    primary: PrimaryMarkdocAttributeSchema<T, U>
-    [key: string]: MarkdocAttributeSchema<T, U>
-}
-
-export type SchemaAttributesWithNoPrimaryKey<T extends ProperSchemaMatches, U extends RequiredSchemaAttributeType> =
-    { primary?: never }
+export type SchemaAttributesWithAPrimaryKey<T extends ProperSchemaMatches, U extends RequiredSchemaAttributeType> =
+    { primary: PrimaryMarkdocAttributeSchema<T, U> }
     & Record<string, MarkdocAttributeSchema<T, U>>
 
+export type SchemaAttributesWithNoPrimaryKey<T extends ProperSchemaMatches, U extends RequiredSchemaAttributeType> =
+    { primary?: never; }
+    & Record<string, MarkdocAttributeSchema<T, U>>
 
 
 
