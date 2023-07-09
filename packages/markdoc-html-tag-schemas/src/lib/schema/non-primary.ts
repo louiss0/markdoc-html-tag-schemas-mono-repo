@@ -13,6 +13,8 @@ export { source } from "packages/markdoc-html-tag-schemas/src/lib/schema/source"
 
 export { iframe } from "packages/markdoc-html-tag-schemas/src/lib/schema/iframe"
 
+export { a } from "packages/markdoc-html-tag-schemas/src/lib/schema/anchor"
+
 const {
     contenteditable,
     draggable,
@@ -57,11 +59,15 @@ export const ul = generateNonPrimarySchemaWithATransformThatGeneratesDataAttribu
     }
 })();
 
+
+
 export const hr = getGenerateNonPrimarySchema({
     render: "hr",
     selfClosing: true,
     attributes: { ariaHidden }
 })();
+
+
 
 export const br = getGenerateNonPrimarySchema({
     render: "br",
@@ -72,10 +78,14 @@ export const br = getGenerateNonPrimarySchema({
 
 export const blockquote = getGenerateNonPrimarySchema({
     render: "blockquote",
-    selfClosing: true,
     attributes: {
         cite
-    }
+    },
+    children: [
+        "list",
+        "paragraph",
+        "image"
+    ],
 })();
 
 export const details = generateNonPrimarySchemaWithATransformThatGeneratesDataAttributes({
