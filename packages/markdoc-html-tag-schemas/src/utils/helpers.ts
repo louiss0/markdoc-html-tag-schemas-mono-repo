@@ -76,13 +76,16 @@ export const createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue =
         );
 
 
-type GeneratePrimarySchemaPrimaryConfig<T extends ProperSchemaMatches,
-    U extends RequiredSchemaAttributeType, R extends string,> = Pick<
-        NonPrimaryTagsSchema<T, U, R>,
-        "render" | "description" | "selfClosing" | "inline"
-    > & {
-        type: MarkdocAttributeSchema<T, U>["type"]
-    }
+type GeneratePrimarySchemaPrimaryConfig<
+    T extends ProperSchemaMatches,
+    U extends RequiredSchemaAttributeType,
+    R extends string,
+> = Pick<
+    NonPrimaryTagsSchema<T, U, R>,
+    "render" | "description" | "selfClosing" | "inline"
+> & {
+    type: MarkdocAttributeSchema<T, U>["type"]
+}
 
 
 type CustomTransformConfig<
@@ -175,34 +178,13 @@ export const getGenerateNonPrimarySchema = <
 };
 
 
-getGenerateNonPrimarySchema({
-    render: "test",
-    description: "",
-    attributes: {
-        label: {
-            type: String,
-            description: "This is the label for the text"
-        },
-        number: {
-            type: Number,
-            description: "This is the label for the text"
-        },
-        isSubscribed: {
-            type: Boolean,
-            description: "This is the label for the text"
-        },
-    },
-    selfClosing: true
-})();
-
-
 type GenerateSelfClosingTagSchemaPrimaryConfig<
     T extends ProperSchemaMatches,
     U extends RequiredSchemaAttributeType,
     R extends string
 > = Required<
     Pick<NonPrimaryTagsSchema<T, U, R>, 'description' | 'render'> & {
-        validationType: MarkdocAttributeSchema<T, U>['type'];
+        type: MarkdocAttributeSchema<T, U>['type'];
     }
 >;
 
@@ -221,7 +203,7 @@ export function generateSelfClosingTagSchema<
     primaryConfig: GenerateSelfClosingTagSchemaPrimaryConfig<T, U, R>,
     secondaryConfig: GenerateSelfClosingTagSchemaSecondaryConfig<T, RequiredSchemaAttributeType, R> = {}
 ) {
-    const { render, validationType, description } = primaryConfig;
+    const { render, type, description, } = primaryConfig;
 
     const {
         attributes,
@@ -236,7 +218,7 @@ export function generateSelfClosingTagSchema<
     const generatePrimarySchema = getGeneratePrimarySchema<T, U, R>(
         {
             render,
-            type: validationType,
+            type,
             description,
             selfClosing: true,
             inline,
@@ -329,8 +311,7 @@ export const generateNonPrimarySchemaWithATransformThatGeneratesDataAttributes =
                     const keysWithNoNumberBooleanOrStringValues = Object.entries(
                         attrs['data']
                     ).reduce(
-                        (carry: Array<string>, [key, value]) =>
-                            isViableMarkdocValue(value) ? carry.concat(key) : carry,
+                        (carry: Array<string>, [key, value]) => isViableMarkdocValue(value) ? carry.concat(key) : carry,
                         []
                     );
 
@@ -357,7 +338,7 @@ export const generateNonPrimarySchemaWithATransformThatGeneratesDataAttributes =
 
                         const arrayTuplesWithKeysThatHaveDataAsThePrefixForEachWordAndIsCamelCased =
                             Object.entries(data).map(([key, value]) => [
-                                `data - ${toLowercaseWithDashes(key)}`,
+                                `data-${toLowercaseWithDashes(key)}`,
                                 value,
                             ]);
 
