@@ -95,7 +95,6 @@ export const a = getGenerateNonPrimarySchema({
 
     },
     children: [
-
         "span",
         "em",
         "strong",

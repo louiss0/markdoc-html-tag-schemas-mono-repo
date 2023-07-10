@@ -33,7 +33,7 @@ export class AbbreviationAttribute extends MarkdocValidatorAttribute {
 export const abbr = generateSelfClosingTagSchema(
     {
         render: "abbr",
-        validationType: AbbreviationAttribute,
+        type: AbbreviationAttribute,
         description: "A tag that automatically creates an abbreviation of a capitalised word"
     },
     {
