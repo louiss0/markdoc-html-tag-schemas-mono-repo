@@ -14,5 +14,6 @@
         "statusBarItem.remoteForeground": "#15202b",
         "tab.activeBorder": "#1accff"
     },
-    "peacock.remoteColor": "#00b3e6"
+    "peacock.remoteColor": "#00b3e6",
+    "testing.automaticallyOpenPeekView": "never"
 }
