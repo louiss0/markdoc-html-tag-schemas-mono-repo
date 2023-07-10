@@ -145,7 +145,7 @@ export const getGenerateNonPrimarySchema = <
     const V extends GenerateNonPrimarySchemaConfig<T, U, R>,
     R extends string
 >(
-    { attributes, ...rest }: V
+    primaryConfig: V
 ) => {
     const generateNonPrimarySchema = <
         const W extends GenerateNonSecondarySchemaConfig<T, U, R>
@@ -155,8 +155,7 @@ export const getGenerateNonPrimarySchema = <
         Object.freeze(
             secondaryConfig
                 ? {
-                    attributes,
-                    ...rest,
+                    ...primaryConfig,
                     ...{
                         ...secondaryConfig,
                         transform: secondaryConfig.transform
@@ -171,7 +170,7 @@ export const getGenerateNonPrimarySchema = <
                     },
 
                 }
-                : Object.assign(rest, { attributes })
+                : primaryConfig
         ) satisfies NonPrimaryTagsSchema<T, U, R>;
 
     return generateNonPrimarySchema;
