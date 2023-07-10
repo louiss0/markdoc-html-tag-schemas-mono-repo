@@ -8,6 +8,7 @@ import {
 
 
 import { MarkdocAttributeSchemas } from "packages/markdoc-html-tag-schemas/src/lib/attributes";
+import { MediaAttribute } from "packages/markdoc-html-tag-schemas/src/lib/schema/source";
 
 export { source } from "packages/markdoc-html-tag-schemas/src/lib/schema/source"
 
@@ -28,17 +29,118 @@ const {
     cite,
     width,
     height,
-    refferpolicy
+    target,
+    refferpolicy,
 } = MarkdocAttributeSchemas
 
 
 
-/* 
-  TODO: Create the map and the area schema's    
-  TODO: Create the track schema. 
-  TODO: Create the track schema. 
-*/
 
+export const map = getGenerateNonPrimarySchema(
+    {
+        render: 'map',
+        attributes: {
+            name: {
+                type: String,
+                required: true
+            }
+        },
+        children: ["area"]
+    }
+)();
+
+export const area = getGenerateNonPrimarySchema({
+    render: "area",
+    selfClosing: true,
+    attributes: {
+        type: {
+            type: String,
+            errorLevel: "warning",
+            description: "The type of image that is being used",
+            matches: /^image\/(?<image_type>jpg|jpeg|gif|tiff|webp|png)$/
+        },
+        media: {
+            type: MediaAttribute
+        },
+        href: {
+            type: HttpURLOrPathAttribute,
+            required: true
+        },
+        hreflang: lang,
+        target: {
+            ...target,
+            matches: target.matches.concat("framename")
+
+        },
+        alt: {
+            type: String,
+            required: true
+        },
+        download: {
+            type: [String, Boolean]
+        },
+        shape: {
+            type: String,
+            matches: [
+                "rect",
+                "circle",
+                "poly",
+            ]
+        },
+        rel: {
+            type: String,
+            matches: [
+                "alternate",
+                "author",
+                "bookmark",
+                "help",
+                "license",
+                "next",
+                "nofollow",
+                "noreferrer",
+                "prefetch",
+                "prev",
+                "search",
+                "tag",
+            ]
+        },
+        refferpolicy,
+    },
+})();
+
+
+export const track = getGenerateNonPrimarySchema(
+    {
+        render: 'track',
+        attributes: {
+            src: {
+                type: HttpURLOrPathAttribute,
+                required: true,
+                description: "The url where the file is placed"
+
+            },
+            default: {
+                type: Boolean,
+            },
+            label: {
+                type: String,
+
+            },
+            srclang: lang,
+            kind: {
+                type: String,
+                matches: [
+                    "captions",
+                    "chapters",
+                    "descriptions",
+                    "metadata",
+                    "subtitles",
+                ]
+            },
+        },
+        children: ["area"]
+    }
+)();
 
 
 
