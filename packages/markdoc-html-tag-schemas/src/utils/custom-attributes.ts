@@ -100,14 +100,14 @@ export class SrcSetAttribute extends HttpURLOrPathAttribute {
     protected readonly relativePathAndEitherViewportWidthOrWidthSizeRegex =
         /^(?<init_path>\.\.\/)+(?<folder_path>[a-z0-9\-_]+\/)*(?<filename>(?:\w+(?:\s?\w+)+)|[a-zA-Z0-9\-_]+)(?<extension>\.[a-z]{2,6})\s(?<width_or_viewport_width>\d{1,4}v?w)$/
 
-    protected readonly relativePathAndOneToTwoPixelDensityRegex =
-        /^(?<init_path>\.\.\/)+(?<folder_path>[a-z0-9\-_]+\/)*(?<filename>(?:\w+(?:\s?\w+)+)|[a-zA-Z0-9\-_]+)(?<extension>\.[a-z]{2,6})\s(?<one_to_two_pixel_density>[1-2]x)$/
+    protected readonly relativePathAndPixelDensityRegex =
+        /^(?<init_path>\.\.\/)+(?<folder_path>[a-z0-9\-_]+\/)*(?<filename>(?:\w+(?:\s?\w+)+)|[a-zA-Z0-9\-_]+)(?<extension>\.[a-z]{2,6})\s(?<pixel_density>\d{1,3}x)$/
 
     protected readonly absolutePathAndEitherViewportWidthOrWidthSizeRegex =
         /^(?<folder_path>[a-z0-9\-_]+\/)+(?<filename>(?:\w+(?:\s?\w+)+)|[a-zA-Z0-9\-_]+)(?<extension>\.[a-z]{2,6})\s(?<width_or_viewport_width>\d{1,4}v?w)$/
 
-    protected readonly absolutePathAndOneToTwoPixelDensityRegex =
-        /^(?<folder_path>[a-z0-9\-_]+\/)+(?<filename>(?:\w+(?:\s?\w+)+)|[a-zA-Z0-9\-_]+)(?<extension>\.[a-z]{2,6})\s(?<one_to_two_pixel_density>[1-2]x)$/
+    protected readonly absolutePathAndPixelDensityRegex =
+        /^(?<folder_path>[a-z0-9\-_]+\/)+(?<filename>(?:\w+(?:\s?\w+)+)|[a-zA-Z0-9\-_]+)(?<extension>\.[a-z]{2,6})\s(?<pixel_density>\d{1,3}x)$/
 
 
     override transform(value: string | Array<string>): Scalar {
@@ -122,9 +122,9 @@ export class SrcSetAttribute extends HttpURLOrPathAttribute {
 
         return [
             this.relativePathAndEitherViewportWidthOrWidthSizeRegex.test(value),
-            this.relativePathAndOneToTwoPixelDensityRegex.test(value),
+            this.relativePathAndPixelDensityRegex.test(value),
             this.absolutePathAndEitherViewportWidthOrWidthSizeRegex.test(value),
-            this.absolutePathAndOneToTwoPixelDensityRegex.test(value),
+            this.absolutePathAndPixelDensityRegex.test(value),
             this.httpUrlRegex.test(value)
         ].some(Boolean)
 
@@ -163,8 +163,7 @@ export class SrcSetAttribute extends HttpURLOrPathAttribute {
                         
                         If you are trying to use a url please use one that is http 
                         
-                        `
-                ) : undefined
+                        `) : undefined
 
 
         }
@@ -174,12 +173,11 @@ export class SrcSetAttribute extends HttpURLOrPathAttribute {
         if (Array.isArray(value)) {
 
 
-            if (!(value.length >= 2)) {
+            if (value.length < 2) {
 
-                return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(`
-                        If you want to use an array you should use more than one value.
-                        A string is better in that situation
-                    `)
+                return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(`If you want to use an array you should use more than one value.
+                A string is better in that situation
+                        `)
 
             }
 
@@ -193,8 +191,7 @@ export class SrcSetAttribute extends HttpURLOrPathAttribute {
                         If you are using an array please use a string that specifies,
                          a relative or absolute path and either a width viewport width or 1-2 pixel density at the end.
 
-                         Please use a space before writing the number. 
-                          
+                         Please use a space before writing the number.                          
                     `) : undefined
 
         }
