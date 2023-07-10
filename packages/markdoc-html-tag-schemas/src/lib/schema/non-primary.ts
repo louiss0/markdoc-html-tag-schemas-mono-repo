@@ -42,7 +42,8 @@ export const map = getGenerateNonPrimarySchema(
         attributes: {
             name: {
                 type: String,
-                required: true
+                required: true,
+                matches: /^#\b\w+/
             }
         },
         children: ["area"]
@@ -71,6 +72,10 @@ export const area = getGenerateNonPrimarySchema({
             ...target,
             matches: target.matches.concat("framename")
 
+        },
+        coords: {
+            type: String,
+            matches: /^(?<first_digit>\d{1,3})(?<digit_prefix_with_comma>,d{1,3})*$/
         },
         alt: {
             type: String,
@@ -465,6 +470,11 @@ export const img = getGenerateNonPrimarySchema(
                     "low",
                     "auto",
                 ]
+            },
+            usemap: {
+                type: String,
+                matches: /^#\b\w+/
+
             },
             ismap: {
                 type: Boolean
