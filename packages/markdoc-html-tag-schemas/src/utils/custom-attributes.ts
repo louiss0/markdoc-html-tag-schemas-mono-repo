@@ -101,13 +101,13 @@ export class SrcSetAttribute extends HttpURLOrPathAttribute {
         /^(?<init_path>\.\.\/)+(?<folder_path>[a-z0-9\-_]+\/)*(?<filename>(?:\w+(?:\s?\w+)+)|[a-zA-Z0-9\-_]+)(?<extension>\.[a-z]{2,6})\s(?<width_or_viewport_width>\d{1,4}v?w)$/
 
     protected readonly relativePathAndPixelDensityRegex =
-        /^(?<init_path>\.\.\/)+(?<folder_path>[a-z0-9\-_]+\/)*(?<filename>(?:\w+(?:\s?\w+)+)|[a-zA-Z0-9\-_]+)(?<extension>\.[a-z]{2,6})\s(?<pixel_density>\d{1,3}x)$/
+        /^(?<init_path>\.\.\/)+(?<folder_path>[a-z0-9\-_]+\/)*(?<filename>(?:\w+(?:\s?\w+)+)|[a-zA-Z0-9\-_]+)(?<extension>\.[a-z]{2,6})\s(?<pixel_density>\d{1,3}(?:\.\d)?x)$/
 
     protected readonly absolutePathAndEitherViewportWidthOrWidthSizeRegex =
         /^(?<folder_path>[a-z0-9\-_]+\/)+(?<filename>(?:\w+(?:\s?\w+)+)|[a-zA-Z0-9\-_]+)(?<extension>\.[a-z]{2,6})\s(?<width_or_viewport_width>\d{1,4}v?w)$/
 
     protected readonly absolutePathAndPixelDensityRegex =
-        /^(?<folder_path>[a-z0-9\-_]+\/)+(?<filename>(?:\w+(?:\s?\w+)+)|[a-zA-Z0-9\-_]+)(?<extension>\.[a-z]{2,6})\s(?<pixel_density>\d{1,3}x)$/
+        /^(?<folder_path>[a-z0-9\-_]+\/)+(?<filename>(?:\w+(?:\s?\w+)+)|[a-zA-Z0-9\-_]+)(?<extension>\.[a-z]{2,6})\s(?<pixel_density>\d{1,3}(?:\.\d)?x)$/
 
 
     override transform(value: string | Array<string>): Scalar {
