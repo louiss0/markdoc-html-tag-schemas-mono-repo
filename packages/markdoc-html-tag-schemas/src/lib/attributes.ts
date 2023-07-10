@@ -126,7 +126,19 @@ export namespace MarkdocAttributeSchemas {
 
         },
         description: "A attribute that forces the user to specify the keys and values that are needed for schema to work"
-    });
+    })();
+
+    export const target = getGenerateMarkdocAttributeSchema({
+        type: String,
+        errorLevel: "error",
+        matches: [
+            "_target",
+            "_blank",
+            "_parent",
+            "_top",
+        ]
+
+    })()
 
 
     export const tabindex = getGenerateMarkdocAttributeSchema({
