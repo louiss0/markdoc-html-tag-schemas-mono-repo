@@ -3,22 +3,22 @@ import { z } from 'astro/zod';
 
 
 
-// const markdocErrorObjectStructure = {
-//     id: "invalid-",
-//     level: "",
-//     message: "",
-//     location: {
-//         file: "",
-//         start: {
-//             line: 0,
-//             character: 0
-//         },
-//         end: {
-//             line: 0,
-//             character: 0
-//         }
-//     }
-// }
+const markdocErrorObjectStructure = {
+    id: "invalid-",
+    level: "",
+    message: "",
+    location: {
+        file: "",
+        start: {
+            line: 0,
+            character: 0
+        },
+        end: {
+            line: 0,
+            character: 0
+        }
+    }
+}
 
 const lineAndCharacterSchema = z.object({
     line: z.number(),
@@ -65,13 +65,13 @@ expect.extend({
                 expected: received,
                 actual: received,
                 message: () => `Received ${this.utils.printReceived(
-                    markdocErrorObjectSchema.shape
-                )} is equal to ${this.utils.printExpected(markdocErrorObjectSchema.shape)}`,
+                    markdocErrorObjectStructure
+                )} is equal to ${this.utils.printExpected(markdocErrorObjectStructure)}`,
             }
             : {
                 pass: false,
                 actual: received,
-                expected: markdocErrorObjectSchema.shape,
+                expected: markdocErrorObjectStructure,
                 message: () => res.error.format()._errors.join(",")
 
             }
@@ -85,7 +85,7 @@ expect.extend({
         return res.success
             ? {
                 pass: true,
-                message: () => this.utils.printExpected(markdocErrorObjectSchemaForInvalidType.shape),
+                message: () => this.utils.printExpected(markdocErrorObjectStructure),
                 actual: received,
                 expected: received,
 
@@ -94,7 +94,7 @@ expect.extend({
                 pass: false,
                 message: () => this.utils.printReceived(received),
                 actual: received,
-                expected: markdocErrorObjectSchemaForInvalidType.shape,
+                expected: markdocErrorObjectStructure,
             }
 
     },
@@ -108,7 +108,7 @@ expect.extend({
         return res.success
             ? {
                 pass: true,
-                message: () => this.utils.printExpected(markdocErrorObjectSchemaForInvalidValue.shape),
+                message: () => this.utils.printExpected(markdocErrorObjectStructure),
                 actual: received,
                 expected: received,
 
@@ -117,7 +117,7 @@ expect.extend({
                 pass: false,
                 message: () => this.utils.printReceived(received),
                 actual: received,
-                expected: markdocErrorObjectSchemaForInvalidValue.shape,
+                expected: markdocErrorObjectStructure,
             }
     },
 
