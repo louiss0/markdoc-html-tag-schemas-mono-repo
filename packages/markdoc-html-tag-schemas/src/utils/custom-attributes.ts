@@ -93,7 +93,6 @@ export class HttpURLOrPathAttribute extends MarkdocValidatorAttribute implements
 };
 
 
-// TODO: TEST SrcSetAttribute
 export class SrcSetAttribute extends HttpURLOrPathAttribute {
 
 
@@ -187,9 +186,8 @@ export class SrcSetAttribute extends HttpURLOrPathAttribute {
                 )
 
             return !everyValueIsAStringWithARelativeOrAbsolutePathsAndEitherAWidthSizeOrPixelDensity
-                ? generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(`
-                        If you are using an array please use a string that specifies,
-                         a relative or absolute path and either a width viewport width or 1-2 pixel density at the end.
+                ? generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(`If you are using an array please use a string that specifies,
+                         a relative or absolute path and either a width viewport width or a pixel density at the end.
 
                          Please use a space before writing the number.                          
                     `) : undefined
@@ -210,7 +208,6 @@ export class SrcSetAttribute extends HttpURLOrPathAttribute {
 }
 
 
-// TODO: TEST SizesAttribute
 export class SizesAttribute extends MarkdocValidatorAttribute {
 
 
@@ -272,9 +269,7 @@ export class IntegerAttribute extends MarkdocValidatorAttribute implements Retur
 
         if (!Number.isInteger(value)) {
 
-            return generateMarkdocErrorObject(
-                "invalid-value",
-                "error",
+            return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(
                 `The value ${value} is not an integer. 
                 Please provide an integer not a float  
                 `

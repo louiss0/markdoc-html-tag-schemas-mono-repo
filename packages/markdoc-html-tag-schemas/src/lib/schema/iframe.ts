@@ -7,7 +7,6 @@ import { isObject } from "packages/markdoc-html-tag-schemas/src/utils/internal"
 
 const { ariaHidden, height, width } = MarkdocAttributeSchemas
 
-// TODO: test AllowAttribute
 export class AllowAttribute extends MarkdocValidatorAttribute {
 
 
@@ -37,9 +36,7 @@ export class AllowAttribute extends MarkdocValidatorAttribute {
         )
 
         if (!allKeysAreOneOfTheRequiredListOfAllowedPermissionDirectives)
-            return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(`
-                          All values of this object 
-                        `)
+            return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(`The keys in this object are not viable keys use one of these keys instead ${this.allowedPermissionDirectives.join(",")} `)
 
 
         const keysWithValuesThatDoNotHaveAProperAllowlist = Object.entries(value).reduce(
@@ -54,10 +51,8 @@ export class AllowAttribute extends MarkdocValidatorAttribute {
 
         if (keysWithValuesThatDoNotHaveAProperAllowlist.length !== 0)
             return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(`
-                          Please don't use any kind of string as a value
-                          use the keywords src of self followed by multiple URL's,
-                          You just use the * to allow all all url's  
-                        `)
+            Please don't use any kind of string as a value. Use the keywords src of self followed by multiple URL's. You just use the * to allow all all url's 
+            `)
 
 
 
@@ -78,11 +73,11 @@ export const iframe = getGenerateNonPrimarySchema({
 
                     if (typeof value !== "string")
                         return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserATypeIsNotRight("string")
-                    
+
                     if (!this.httpUrlRegex.test(value))
                         return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(
-                                `The string ${value} must be a valid HTTP URL`
-                            )
+                            `The string ${value} must be a valid HTTP URL`
+                        )
 
                 }
             },

@@ -15,7 +15,6 @@ import {
 
 
 
-// TODO: TEST MediaAttribute
 export class MediaAttribute extends MarkdocValidatorAttribute {
     private readonly deviceOperatorAndOrientationRegex =
         /(?<device_choice>screen|aural|braille|print|tty|tv|handheld|projection)\s(?<operator>and|not|,)\s(?<orientation_query>\(orientation:(?:portrait|landscape)\))?/
