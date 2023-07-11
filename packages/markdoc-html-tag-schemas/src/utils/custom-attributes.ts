@@ -1,11 +1,18 @@
 
 
-import type { ValidationError, Config as MarkdocConfig, Scalar, } from "@markdoc/markdoc"
+import type { ValidationError, Config as MarkdocConfig, Scalar } from "@markdoc/markdoc"
 import { generateMarkdocErrorObject, generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserATypeIsNotRight, generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight } from "packages/markdoc-html-tag-schemas/src/utils/helpers"
-import type { ReturnMarkdocErrorObjectOrNothingContract } from "packages/markdoc-html-tag-schemas/src/utils/internal"
 
 
-export abstract class MarkdocValidatorAttribute {
+export interface CustomAttributeTransformContract {
+    transform(value: any, config: MarkdocConfig): Scalar
+}
+
+export interface CustomAttributeValidationContract {
+    validate(value: unknown, config: MarkdocConfig): ValidationError[];
+}
+
+export abstract class MarkdocValidatorAttribute implements CustomAttributeValidationContract {
 
 
 
@@ -24,7 +31,9 @@ export abstract class MarkdocValidatorAttribute {
 
 }
 
-export class PathAttribute extends MarkdocValidatorAttribute {
+
+
+export class PathAttribute extends MarkdocValidatorAttribute implements CustomAttributeTransformContract {
     readonly relativePathRegex =
         /^(?<init_path>\.\.\/)+(?<folder_path>[a-z0-9\-_]+\/)*(?<filename>(?:\w+(?:\s?\w+)+)|[a-zA-Z0-9\-_]+)(?<extension>\.[a-z]{2,6})?$/
 
@@ -38,65 +47,14 @@ export class PathAttribute extends MarkdocValidatorAttribute {
             return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserATypeIsNotRight("string")
         }
 
-        const oneOfTheseIsFalse = [
+        const oneOfTheseIsTrue = [
             this.wordsNumbersAndDashesRegex.test(value),
             this.relativePathRegex.test(value),
             this.absolutePathRegex.test(value)
         ].some(Boolean)
 
-        if (oneOfTheseIsFalse) return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(
+        if (!oneOfTheseIsTrue) return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(
             `This is not the right string. 
-            A path must be a single word with dashes.  
-            An absolute path or relative path. 
-            `
-        )
-
-
-    }
-
-
-    transform(value: string): Scalar {
-
-        return value?.trim()
-
-    }
-
-};
-
-
-export class HttpURLOrPathAttribute extends PathAttribute {
-
-
-    constructor () {
-        super()
-    }
-
-    readonly httpUrlRegex =
-        /^(https?:\/\/)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/
-
-
-
-    override returnMarkdocErrorObjectOrNothing(value: unknown,): void | ValidationError {
-
-
-
-        if (typeof value !== "string") {
-            return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserATypeIsNotRight("string")
-        }
-
-        const isValidPathOrHTTPUrl = [
-            this.httpUrlRegex.test(value),
-            this.relativePathRegex.test(value),
-            this.absolutePathRegex.test(value)
-        ].some(Boolean)
-
-        if (!isValidPathOrHTTPUrl) {
-
-            return generateMarkdocErrorObject(
-                "invalid-attribute",
-                "error",
-                `The string ${value} must be a valid URL, a Relative or Absolute Path.
-
                 A relative path must have:
                 
                 1 or more ( ../ ) which is a relative path
@@ -112,11 +70,48 @@ export class HttpURLOrPathAttribute extends PathAttribute {
                 0 or more ( word/ )  which is a file path. 
 
                 A file name and an extension which is a dot (.) followed by a word with 2-6 letters.
-                
-                `
-            )
+            `
+        )
 
-        }
+
+    }
+
+
+    transform(value: string) {
+
+        return value?.trim()
+
+    }
+
+};
+
+
+export class HttpURLAttribute extends MarkdocValidatorAttribute {
+
+
+    readonly httpUrlRegex =
+        /^(https?:\/\/)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/
+
+
+
+    override returnMarkdocErrorObjectOrNothing(value: unknown,): void | ValidationError {
+
+
+
+        if (typeof value !== "string")
+            return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserATypeIsNotRight("string");
+
+
+        if (!this.httpUrlRegex.test(value))
+            return generateMarkdocErrorObject(
+                "invalid-attribute",
+                "error",
+                `The string ${value} must be a valid URL, a Relative or Absolute Path.
+
+                                
+                `
+            );
+
 
 
     }
@@ -127,12 +122,11 @@ export class HttpURLOrPathAttribute extends PathAttribute {
 };
 
 
-export class SrcSetAttribute extends HttpURLOrPathAttribute {
+export class SrcSetAttribute extends MarkdocValidatorAttribute implements CustomAttributeTransformContract {
 
 
-    constructor () {
-        super()
-    }
+
+
 
     protected readonly relativePathAndEitherViewportWidthOrWidthSizeRegex =
         /^(?<init_path>\.\.\/)+(?<folder_path>[a-z0-9\-_]+\/)*(?<filename>(?:\w+(?:\s?\w+)+)|[a-zA-Z0-9\-_]+)(?<extension>\.[a-z]{2,6})\s(?<width_or_viewport_width>\d{1,4}v?w)$/
@@ -147,7 +141,7 @@ export class SrcSetAttribute extends HttpURLOrPathAttribute {
         /^(?<folder_path>[a-z0-9\-_]+\/)+(?<filename>(?:\w+(?:\s?\w+)+)|[a-zA-Z0-9\-_]+)(?<extension>\.[a-z]{2,6})\s(?<pixel_density>\d{1,3}(?:\.\d)?x)$/
 
 
-    override transform(value: string | Array<string>): Scalar {
+    transform(value: string | Array<string>): Scalar {
 
         return typeof value !== "string" ? value.join(",") : value
 
@@ -162,7 +156,6 @@ export class SrcSetAttribute extends HttpURLOrPathAttribute {
             this.relativePathAndPixelDensityRegex.test(value),
             this.absolutePathAndEitherViewportWidthOrWidthSizeRegex.test(value),
             this.absolutePathAndPixelDensityRegex.test(value),
-            this.httpUrlRegex.test(value)
         ].some(Boolean)
 
 
@@ -210,30 +203,28 @@ export class SrcSetAttribute extends HttpURLOrPathAttribute {
         if (Array.isArray(value)) {
 
 
-            if (value.length < 2) {
+            if (value.length < 2)
+                return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(
+                    `If you want to use an array you should use more than one value. 
+                    A string is better in that situation
+                    `)
 
-                return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(`If you want to use an array you should use more than one value.
-                A string is better in that situation
-                        `)
-
-            }
 
             const everyValueIsAStringWithARelativeOrAbsolutePathsAndEitherAWidthSizeOrPixelDensity =
                 value.every(
                     value => value === "string" && this.checkIfStringIsValid(value)
                 )
 
-            return !everyValueIsAStringWithARelativeOrAbsolutePathsAndEitherAWidthSizeOrPixelDensity
-                ? generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(`If you are using an array please use a string that specifies,
-                         a relative or absolute path and either a width viewport width or a pixel density at the end.
+            if (!everyValueIsAStringWithARelativeOrAbsolutePathsAndEitherAWidthSizeOrPixelDensity) return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(
+                `If you are using an array please use a string that specifies,
+                     a relative or absolute path and either a width viewport width or a pixel density at the end.
+                    
+                    Please use a space before writing the number.                          
 
-                         Please use a space before writing the number.                          
-                    `) : undefined
-
-        }
+        `)
 
 
-        return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(`
+            return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(`
                     You must return an array or a string when using this attribute.
                     Please write the string as a valid URL or a path to a file.
                     You can also specify a pixel density, a width or a viewport width.
@@ -241,12 +232,13 @@ export class SrcSetAttribute extends HttpURLOrPathAttribute {
                     a pixel density, a width or a viewport width.  
                 `)
 
+        }
+
     }
 
 }
 
-
-export class SizesAttribute extends MarkdocValidatorAttribute {
+export class SizesAttribute extends MarkdocValidatorAttribute implements CustomAttributeTransformContract {
 
 
     private readonly mediaSizesAttribute =
@@ -273,8 +265,8 @@ export class SizesAttribute extends MarkdocValidatorAttribute {
 
         if (invalidMediaQueryAndSizes) {
 
-            return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(`
-                The values that you supplied are incorrect.
+            return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(
+                `The values that you supplied are incorrect.
                 You are supposed to supply a min|max width query along with sizes for this attribute.
                 Ex: (min-width:40em) 45w.
                 Ex: (min-width:40em) and (max-width:30) 45vw.
@@ -286,7 +278,6 @@ export class SizesAttribute extends MarkdocValidatorAttribute {
                 You have to specify only one media query and size per string.
 
                 These ${invalidMediaQueryAndSizes.join(",")} aren't the right values. 
-
             `)
 
         }
@@ -297,7 +288,7 @@ export class SizesAttribute extends MarkdocValidatorAttribute {
 
 
 
-export class IntegerAttribute extends MarkdocValidatorAttribute implements ReturnMarkdocErrorObjectOrNothingContract {
+export class IntegerAttribute extends MarkdocValidatorAttribute {
 
     override returnMarkdocErrorObjectOrNothing(value: unknown,): void | ValidationError {
 
