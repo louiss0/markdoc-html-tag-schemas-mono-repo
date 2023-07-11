@@ -1,5 +1,5 @@
 import {
-    HttpURLOrPathAttribute,
+    HttpURLAttribute,
     PathAttribute,
     SizesAttribute,
     SrcSetAttribute,
@@ -35,6 +35,18 @@ const {
 } = MarkdocAttributeSchemas
 
 
+export const address = generateNonPrimarySchemaWithATransformThatGeneratesDataAttributes({
+    render: "address",
+    attributes: {
+        ariaHidden,
+        draggable,
+        translate,
+        spellcheck,
+        dir,
+        ariaLabel
+    },
+    children: ["div", "inline", "span", "paragraph", "list"]
+});
 
 
 export const map = getGenerateNonPrimarySchema(
@@ -65,7 +77,7 @@ export const area = getGenerateNonPrimarySchema({
             type: MediaAttribute
         },
         href: {
-            type: HttpURLOrPathAttribute,
+            type: [PathAttribute, HttpURLAttribute],
             required: true
         },
         hreflang: lang,
@@ -120,7 +132,7 @@ export const track = getGenerateNonPrimarySchema(
         render: 'track',
         attributes: {
             src: {
-                type: HttpURLOrPathAttribute,
+                type: [PathAttribute, HttpURLAttribute],
                 required: true,
                 description: "The url where the file is placed"
 
@@ -283,7 +295,7 @@ export const video = getGenerateNonPrimarySchema({
     attributes: {
         ariaHidden,
         src: {
-            type: HttpURLOrPathAttribute,
+            type: [PathAttribute, HttpURLAttribute],
             required: true,
             description: "This is the link to the audio file you want to use"
         },
@@ -352,7 +364,7 @@ export const audio = getGenerateNonPrimarySchema({
     selfClosing: true,
     attributes: {
         src: {
-            type: HttpURLOrPathAttribute,
+            type: [PathAttribute, HttpURLAttribute],
             required: true,
             errorLevel: "warning",
             description: "This is the link to the audio file you want to use"
@@ -420,7 +432,7 @@ export const img = getGenerateNonPrimarySchema(
         selfClosing: true,
         attributes: {
             src: {
-                type: HttpURLOrPathAttribute,
+                type: [PathAttribute, HttpURLAttribute],
                 required: true,
                 errorLevel: "critical",
                 description: "The src of the image you want to see"
