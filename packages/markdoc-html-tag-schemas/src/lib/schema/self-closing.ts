@@ -129,7 +129,13 @@ export const kbd = generateSelfClosingTagSchema({
 export const bdo = generateSelfClosingTagSchema({
     render: "bdo",
     type: String,
-    description: "A schema for creating a sup element"
+    description: "A schema for creating a bdo element"
+});
+
+export const bdi = generateSelfClosingTagSchema({
+    render: "bdi",
+    type: String,
+    description: "A schema for creating a bdi element"
 });
 
 export const data = generateSelfClosingTagSchema({
