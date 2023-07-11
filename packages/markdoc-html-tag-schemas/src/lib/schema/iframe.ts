@@ -1,7 +1,6 @@
 
-import type { ValidationError } from "@markdoc/markdoc"
 import { MarkdocAttributeSchemas } from "packages/markdoc-html-tag-schemas/src/lib/attributes";
-import { HttpURLOrPathAttribute, MarkdocValidatorAttribute, generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserATypeIsNotRight, generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight, getGenerateNonPrimarySchema } from "packages/markdoc-html-tag-schemas/src/utils"
+import { HttpURLAttribute, MarkdocValidatorAttribute, PathAttribute, generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserATypeIsNotRight, generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight, getGenerateNonPrimarySchema } from "packages/markdoc-html-tag-schemas/src/utils"
 import { isObject } from "packages/markdoc-html-tag-schemas/src/utils/internal"
 
 
@@ -21,9 +20,9 @@ export class AllowAttribute extends MarkdocValidatorAttribute {
         "web-share",
     ]
 
-    private readonly keywordAndOriginGroupsRegex = /^(?<keywords>self|src)\s(?<origin>https?:\/\/[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6})*$/;
+    readonly keywordAndOriginGroupsRegex = /^(?<keywords>self|src)\s(?<origin>https?:\/\/[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6})*$/;
 
-    private readonly anchoredStarRegex = /^\*$/;
+    readonly anchoredStarRegex = /^\*$/;
 
     returnMarkdocErrorObjectOrNothing(value: unknown) {
 
@@ -66,21 +65,7 @@ export const iframe = getGenerateNonPrimarySchema({
     selfClosing: true,
     attributes: {
         src: {
-            type: class extends HttpURLOrPathAttribute {
-
-                override returnMarkdocErrorObjectOrNothing(value: unknown): void | ValidationError {
-
-
-                    if (typeof value !== "string")
-                        return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserATypeIsNotRight("string")
-
-                    if (!this.httpUrlRegex.test(value))
-                        return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(
-                            `The string ${value} must be a valid HTTP URL`
-                        )
-
-                }
-            },
+            type: [HttpURLAttribute, PathAttribute],
             required: true,
             description: "This attribute is the path to the place containing media to display"
         },
@@ -123,8 +108,6 @@ export const iframe = getGenerateNonPrimarySchema({
                 "allow-top-navigation-to-custom-protocols",
             ]
         },
-
-
         ariaHidden,
         width,
         height,
