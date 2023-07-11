@@ -5,7 +5,7 @@ export { abbr } from "packages/markdoc-html-tag-schemas/src/lib/schema/abbreviat
 import { MarkdocAttributeSchemas, type ProperSchemaMatches, type RequiredSchemaAttributeType } from "packages/markdoc-html-tag-schemas/src/lib/attributes"
 
 
-
+//* Inline tags
 
 export const sup = generateSelfClosingTagSchema({
     render: "sup",
@@ -63,11 +63,6 @@ export const sub = generateSelfClosingTagSchema({
     description: "A schema for creating a sub element"
 });
 
-export const span = generateSelfClosingTagSchema({
-    render: "span",
-    type: String,
-    description: "A schema for creating a span element"
-}, { inline: false });
 
 export const cite = generateSelfClosingTagSchema({
     render: "cite",
@@ -79,32 +74,12 @@ export const code = generateSelfClosingTagSchema({
     type: String,
     description: "A schema for creating a code element"
 });
-
-export const dfn = generateSelfClosingTagSchema({
-    render: "dfn",
-    type: String,
-    description: "A schema for creating a dfn element"
-}, { inline: false });
-
 export const samp = generateSelfClosingTagSchema({
     render: "samp",
     type: String,
     description: "A schema for creating a samp element"
 });
 
-export const time = generateSelfClosingTagSchema<ProperSchemaMatches, RequiredSchemaAttributeType, "time">({
-    render: "time",
-    type: String,
-    description: "A schema for creating a time element"
-}, {
-    inline: false,
-    attributes: {
-        datetime: {
-            ...MarkdocAttributeSchemas.datetime,
-            required: true
-        }
-    }
-});
 
 export const mark = generateSelfClosingTagSchema({
     render: "mark",
@@ -139,6 +114,23 @@ export const data = generateSelfClosingTagSchema({
     description: "A schema for creating a data element"
 });
 
+//* Non inline tags 
+
+export const time = generateSelfClosingTagSchema<ProperSchemaMatches, RequiredSchemaAttributeType, "time">({
+    render: "time",
+    type: String,
+    description: "A schema for creating a time element"
+}, {
+    inline: false,
+    attributes: {
+        datetime: {
+            ...MarkdocAttributeSchemas.datetime,
+            required: true
+        }
+    }
+});
+
+
 export const dd = generateSelfClosingTagSchema({
     render: "dd",
     type: String,
@@ -152,4 +144,16 @@ export const dt = generateSelfClosingTagSchema({
 }, { inline: false });
 
 
+export const span = generateSelfClosingTagSchema({
+    render: "span",
+    type: String,
+    description: "A schema for creating a span element"
+}, { inline: false });
+
+
+export const dfn = generateSelfClosingTagSchema({
+    render: "dfn",
+    type: String,
+    description: "A schema for creating a dfn element"
+}, { inline: false });
 

@@ -58,10 +58,6 @@ export class HrefAttribute extends MarkdocValidatorAttribute {
 
         }
 
-
-
-
-
     }
 
 
