@@ -78,7 +78,7 @@ export const a = getGenerateNonPrimarySchema({
     render: "a",
     attributes: {
         href: {
-            type: [PathAttribute, HrefAttribute],
+            type: HrefAttribute,
             required: true,
         },
         target: MarkdocAttributeSchemas.target,
