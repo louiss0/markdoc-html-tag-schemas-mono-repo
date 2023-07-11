@@ -28,18 +28,10 @@ export class HrefAttribute extends MarkdocValidatorAttribute {
     override returnMarkdocErrorObjectOrNothing(value: string): ValidationError | void {
 
 
-
-        const httpUrlAttributeReturnMarkdocErrorObjectOrNothingResult =
-            this.httpUrlAttribute.returnMarkdocErrorObjectOrNothing(value)
-
-        const pathAttributeReturnMarkdocErrorObjectOrNothingResult =
-            this.pathAttribute.returnMarkdocErrorObjectOrNothing(value)
-
-        if (httpUrlAttributeReturnMarkdocErrorObjectOrNothingResult ?? pathAttributeReturnMarkdocErrorObjectOrNothingResult)
-
-            return httpUrlAttributeReturnMarkdocErrorObjectOrNothingResult ?? pathAttributeReturnMarkdocErrorObjectOrNothingResult
-
         const theValueIsNotValid = ![
+            this.httpUrlAttribute.httpUrlRegex.test(value),
+            this.pathAttribute.absolutePathRegex.test(value),
+            this.pathAttribute.absolutePathRegex.test(value),
             this.mailtoRegex.test(value),
             this.routePathRegex.test(value),
             this.telRegex.test(value),
@@ -65,6 +57,10 @@ export class HrefAttribute extends MarkdocValidatorAttribute {
             )
 
         }
+
+
+
+
 
     }
 
