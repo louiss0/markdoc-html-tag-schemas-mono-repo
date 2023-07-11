@@ -1,11 +1,8 @@
-import type { CustomAttributeTypeInterface, Scalar, ValidationError } from "@markdoc/markdoc";
+import type { Scalar, } from "@markdoc/markdoc";
 
 
 export type AllowedMarkdocTypesAsStrings = "string" | "number" | "array" | "boolean" | "object"
 
-export interface ReturnMarkdocErrorObjectOrNothingContract extends CustomAttributeTypeInterface {
-    returnMarkdocErrorObjectOrNothing(value: unknown): void | ValidationError
-}
 
 
 const isValidPropKey = (value: unknown): value is PropertyKey =>
@@ -61,17 +58,17 @@ export const isViableMarkdocValue = (value: unknown): value is Scalar =>
     )
     || isAnObjectThatHasViableMarkdocValues(value);
 
-export const isAnObjectWithStringKeysAndValuesThatAreStringsOrNumbers = (value: unknown): value is Record<"string", string | number> =>
-    isObject(value)
-    && Object.keys(value).every(
-        (key) => typeof key === "string"
-    )
-    && Object.values(value).every(
-        (value) => typeof value === "string" || typeof value === "number"
-    )
+export const isAnObjectWithStringKeysAndValuesThatAreStringsOrNumbers =
+    (value: unknown): value is Record<"string", string | number> => isObject(value)
+        && Object.keys(value).every(
+            (key) => typeof key === "string"
+        )
+        && Object.values(value).every(
+            (value) => typeof value === "string" || typeof value === "number"
+        )
 
-export const transformObjectIntoStyleString = (object: Record<string, string | number>) => Object.entries(object)
-    .reduce(
+export const transformObjectIntoStyleString =
+    (object: Record<string, string | number>) => Object.entries(object).reduce(
         (carry, [key, value]) => `${carry}${toLowercaseWithDashes(key)}:${value};`,
         ""
     );
