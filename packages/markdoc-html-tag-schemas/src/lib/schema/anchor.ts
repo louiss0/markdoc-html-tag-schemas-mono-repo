@@ -1,19 +1,21 @@
 import type { ValidationError } from "@markdoc/markdoc"
 import { MarkdocAttributeSchemas } from "packages/markdoc-html-tag-schemas/src/lib/attributes";
 import {
-    HttpURLOrPathAttribute,
-
+    HttpURLAttribute,
+    MarkdocValidatorAttribute,
     PathAttribute,
-
     generateMarkdocErrorObject,
     getGenerateNonPrimarySchema,
 } from "packages/markdoc-html-tag-schemas/src/utils"
 
 
+export class HrefAttribute extends MarkdocValidatorAttribute {
 
-export class HrefAttribute extends HttpURLOrPathAttribute {
 
 
+    private readonly httpUrlAttribute = new HttpURLAttribute()
+
+    private readonly pathAttribute = new PathAttribute()
 
     readonly routePathRegex = /(?<init_path>\/)(?<folder_path>[a-z0-9\-_]+\/)*(?<destination>[a-z0-9\-_])?/
 
@@ -27,11 +29,17 @@ export class HrefAttribute extends HttpURLOrPathAttribute {
 
 
 
+        const httpUrlAttributeReturnMarkdocErrorObjectOrNothingResult =
+            this.httpUrlAttribute.returnMarkdocErrorObjectOrNothing(value)
+
+        const pathAttributeReturnMarkdocErrorObjectOrNothingResult =
+            this.pathAttribute.returnMarkdocErrorObjectOrNothing(value)
+
+        if (httpUrlAttributeReturnMarkdocErrorObjectOrNothingResult ?? pathAttributeReturnMarkdocErrorObjectOrNothingResult)
+
+            return httpUrlAttributeReturnMarkdocErrorObjectOrNothingResult ?? pathAttributeReturnMarkdocErrorObjectOrNothingResult
 
         const theValueIsNotValid = ![
-            this.httpUrlRegex.test(value),
-            this.absolutePathRegex.test(value),
-            this.relativePathRegex.test(value),
             this.mailtoRegex.test(value),
             this.routePathRegex.test(value),
             this.telRegex.test(value),
@@ -70,7 +78,7 @@ export const a = getGenerateNonPrimarySchema({
     render: "a",
     attributes: {
         href: {
-            type: HrefAttribute,
+            type: [PathAttribute, HrefAttribute],
             required: true,
         },
         target: MarkdocAttributeSchemas.target,
