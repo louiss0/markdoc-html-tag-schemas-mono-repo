@@ -24,21 +24,59 @@ export abstract class MarkdocValidatorAttribute {
 
 }
 
-export class HttpURLOrPathAttribute extends MarkdocValidatorAttribute implements ReturnMarkdocErrorObjectOrNothingContract {
-
-
+export class PathAttribute extends MarkdocValidatorAttribute {
     readonly relativePathRegex =
         /^(?<init_path>\.\.\/)+(?<folder_path>[a-z0-9\-_]+\/)*(?<filename>(?:\w+(?:\s?\w+)+)|[a-zA-Z0-9\-_]+)(?<extension>\.[a-z]{2,6})?$/
 
     readonly absolutePathRegex = /^(?<folder_path>[a-z0-9\-_]+\/)+(?<filename>(?:\w+(?:\s?\w+)+)|[a-zA-Z0-9\-_]+)(?<extension>\.[a-z]{2,6})?$/
 
+    readonly wordsNumbersAndDashesRegex = /^[A-Za-z\-_0-9]+$/
+
+    returnMarkdocErrorObjectOrNothing(value: unknown,): void | ValidationError {
+
+        if (typeof value !== "string") {
+            return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserATypeIsNotRight("string")
+        }
+
+        const oneOfTheseIsFalse = [
+            this.wordsNumbersAndDashesRegex.test(value),
+            this.relativePathRegex.test(value),
+            this.absolutePathRegex.test(value)
+        ].some(Boolean)
+
+        if (oneOfTheseIsFalse) return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(
+            `This is not the right string. 
+            A path must be a single word with dashes.  
+            An absolute path or relative path. 
+            `
+        )
+
+
+    }
+
+
+    transform(value: string): Scalar {
+
+        return value?.trim()
+
+    }
+
+};
+
+
+export class HttpURLOrPathAttribute extends PathAttribute {
+
+
+    constructor () {
+        super()
+    }
 
     readonly httpUrlRegex =
         /^(https?:\/\/)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/
 
 
 
-    returnMarkdocErrorObjectOrNothing(value: unknown,): void | ValidationError {
+    override returnMarkdocErrorObjectOrNothing(value: unknown,): void | ValidationError {
 
 
 
@@ -84,17 +122,17 @@ export class HttpURLOrPathAttribute extends MarkdocValidatorAttribute implements
     }
 
 
-    transform(value: string): Scalar {
 
-        return value?.trim()
-
-    }
 
 };
 
 
 export class SrcSetAttribute extends HttpURLOrPathAttribute {
 
+
+    constructor () {
+        super()
+    }
 
     protected readonly relativePathAndEitherViewportWidthOrWidthSizeRegex =
         /^(?<init_path>\.\.\/)+(?<folder_path>[a-z0-9\-_]+\/)*(?<filename>(?:\w+(?:\s?\w+)+)|[a-zA-Z0-9\-_]+)(?<extension>\.[a-z]{2,6})\s(?<width_or_viewport_width>\d{1,4}v?w)$/

@@ -1,5 +1,6 @@
 import {
     HttpURLOrPathAttribute,
+    PathAttribute,
     SizesAttribute,
     SrcSetAttribute,
     generateNonPrimarySchemaWithATransformThatGeneratesDataAttributes,
@@ -82,7 +83,7 @@ export const area = getGenerateNonPrimarySchema({
             required: true
         },
         download: {
-            type: [String, Boolean]
+            type: [PathAttribute, Boolean]
         },
         shape: {
             type: String,

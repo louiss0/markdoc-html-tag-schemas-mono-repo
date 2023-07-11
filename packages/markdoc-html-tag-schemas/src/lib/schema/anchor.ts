@@ -3,6 +3,8 @@ import { MarkdocAttributeSchemas } from "packages/markdoc-html-tag-schemas/src/l
 import {
     HttpURLOrPathAttribute,
 
+    PathAttribute,
+
     generateMarkdocErrorObject,
     getGenerateNonPrimarySchema,
 } from "packages/markdoc-html-tag-schemas/src/utils"
@@ -88,7 +90,7 @@ export const a = getGenerateNonPrimarySchema({
 
         },
         download: {
-            type: HttpURLOrPathAttribute,
+            type: [PathAttribute, Boolean],
             errorLevel: "error",
             description: "Allows the user to download a file from the computer or the project file system"
         }
