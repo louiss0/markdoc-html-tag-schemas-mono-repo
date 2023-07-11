@@ -1,15 +1,16 @@
 import type { Scalar, SchemaAttribute, ValidationError, } from "@markdoc/markdoc";
 import {
 
-    HttpURLOrPathAttribute,
+    HttpURLAttribute,
     IntegerAttribute,
     MarkdocValidatorAttribute,
+    PathAttribute,
     createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue,
     generateMarkdocErrorObject,
     generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserATypeIsNotRight,
     generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight
 } from "packages/markdoc-html-tag-schemas/src/utils";
-import { isAnObjectWithStringKeysAndValuesThatAreStringsOrNumbers, transformObjectIntoStyleString, type ReturnMarkdocErrorObjectOrNothingContract } from "packages/markdoc-html-tag-schemas/src/utils/internal";
+import { isAnObjectWithStringKeysAndValuesThatAreStringsOrNumbers, transformObjectIntoStyleString, } from "packages/markdoc-html-tag-schemas/src/utils/internal";
 
 
 
@@ -100,7 +101,7 @@ export namespace MarkdocAttributeSchemas {
 
 
     export const style = getGenerateMarkdocAttributeSchema({
-        type: class extends MarkdocValidatorAttribute implements ReturnMarkdocErrorObjectOrNothingContract {
+        type: class extends MarkdocValidatorAttribute {
 
 
             transform(value: Record<string, string | number>): Scalar {
@@ -198,23 +199,7 @@ export namespace MarkdocAttributeSchemas {
 
 
     export const cite = getGenerateMarkdocAttributeSchema({
-        type: class extends HttpURLOrPathAttribute {
-
-            override returnMarkdocErrorObjectOrNothing(value: unknown): void | ValidationError {
-
-                return value !== "string"
-                    ? generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserATypeIsNotRight("string")
-                    : !this.httpUrlRegex.test(value)
-                        ? generateMarkdocErrorObject(
-                            "invalid-attribute",
-                            "error",
-                            `The string ${value} must be a valid HTTP URL`
-                        )
-                        : undefined
-
-            }
-
-        },
+        type: [PathAttribute, HttpURLAttribute],
         description: "A url that leads to a citation",
         errorLevel: "warning"
     })()

@@ -15,5 +15,6 @@
         "tab.activeBorder": "#1accff"
     },
     "peacock.remoteColor": "#00b3e6",
-    "testing.automaticallyOpenPeekView": "never"
+    "testing.automaticallyOpenPeekView": "never",
+    "peacock.color": "#215732"
 }
