@@ -243,24 +243,6 @@ export const dl = getGenerateNonPrimarySchema({
     ]
 })()
 
-export const figure = generateNonPrimarySchemaWithATransformThatGeneratesDataAttributes({
-    render: "figure",
-    attributes: {
-        ariaHidden,
-        ariaLabel
-    },
-    children: [
-        "figcaption",
-        "p",
-        "footer",
-        "img",
-        "audio",
-        "picture",
-        "video",
-        "link",
-    ]
-})();
-
 
 
 export const colgroup = getGenerateNonPrimarySchema({

@@ -32,11 +32,6 @@ export const wbr = generateSelfClosingTagSchema({
     description: "A schema for creating a sup element"
 },);
 
-export const figcaption = generateSelfClosingTagSchema({
-    render: "figcaption",
-    type: String,
-    description: "This is the description of a figure"
-}, { inline: false, });
 
 
 export const del = generateSelfClosingTagSchema<ProperSchemaMatches, RequiredSchemaAttributeType, "del">({
