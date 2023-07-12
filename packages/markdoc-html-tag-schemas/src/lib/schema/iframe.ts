@@ -1,6 +1,6 @@
 
 import { MarkdocAttributeSchemas } from "packages/markdoc-html-tag-schemas/src/lib/attributes";
-import { HttpURLAttribute, MarkdocValidatorAttribute, PathAttribute, generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserATypeIsNotRight, generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight, getGenerateNonPrimarySchema } from "packages/markdoc-html-tag-schemas/src/utils"
+import { MarkdocValidatorAttribute, SourceAttribute, generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserATypeIsNotRight, generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight, getGenerateNonPrimarySchema } from "packages/markdoc-html-tag-schemas/src/utils"
 import { isObject } from "packages/markdoc-html-tag-schemas/src/utils/internal"
 
 
@@ -65,7 +65,7 @@ export const iframe = getGenerateNonPrimarySchema({
     selfClosing: true,
     attributes: {
         src: {
-            type: [HttpURLAttribute, PathAttribute],
+            type: SourceAttribute,
             required: true,
             description: "This attribute is the path to the place containing media to display"
         },

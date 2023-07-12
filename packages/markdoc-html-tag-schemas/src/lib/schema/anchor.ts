@@ -1,6 +1,7 @@
 import type { ValidationError } from "@markdoc/markdoc"
 import { MarkdocAttributeSchemas } from "packages/markdoc-html-tag-schemas/src/lib/attributes";
 import {
+    DownloadAttribute,
     HttpURLAttribute,
     MarkdocValidatorAttribute,
     PathAttribute,
@@ -90,7 +91,7 @@ export const a = getGenerateNonPrimarySchema({
 
         },
         download: {
-            type: [PathAttribute, Boolean],
+            type: DownloadAttribute,
             errorLevel: "error",
             description: "Allows the user to download a file from the computer or the project file system"
         }
