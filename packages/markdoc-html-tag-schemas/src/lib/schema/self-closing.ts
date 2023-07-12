@@ -131,6 +131,12 @@ export const time = generateSelfClosingTagSchema<ProperSchemaMatches, RequiredSc
     }
 });
 
+export const summary = generateSelfClosingTagSchema({
+    render: "summary",
+    type: String,
+    description: "This is the summary for the details tag"
+}, { inline: false });
+
 
 export const dd = generateSelfClosingTagSchema({
     render: "dd",

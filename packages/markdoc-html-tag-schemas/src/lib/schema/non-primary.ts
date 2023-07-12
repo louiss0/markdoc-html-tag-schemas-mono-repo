@@ -447,6 +447,8 @@ export const details = generateNonPrimarySchemaWithATransformThatGeneratesDataAt
     ]
 })();
 
+
+
 export const picture = generateNonPrimarySchemaWithATransformThatGeneratesDataAttributes({
     render: "picture",
     attributes: { ariaHidden, },
@@ -517,12 +519,4 @@ export const p = generateNonPrimarySchemaWithATransformThatGeneratesDataAttribut
 
 
 
-export const summary = getGenerateNonPrimarySchema({
-    render: "summary",
-    attributes: { ariaHidden },
-    children: [
-        "inline",
-        "div"
-    ]
-})();
 
