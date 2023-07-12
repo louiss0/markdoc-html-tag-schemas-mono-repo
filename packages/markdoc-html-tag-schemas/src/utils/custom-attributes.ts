@@ -35,9 +35,9 @@ export abstract class MarkdocValidatorAttribute implements CustomAttributeValida
 
 export class PathAttribute extends MarkdocValidatorAttribute implements CustomAttributeTransformContract {
     readonly relativePathRegex =
-        /^(?<init_path>\.\.\/)+(?<folder_path>[a-z0-9\-_]+\/)*(?<filename>(?:\w+(?:\s?\w+)+)|[a-zA-Z0-9\-_]+)(?<extension>\.[a-z]{2,6})?$/
+        /^(?<init_path>\.\.\/)+(?<folder_path>[a-z0-9\-_]+\/)*(?<filename>(?:\w+(?:\s?\w+)+)|[a-zA-Z0-9\-_]+)(?<extension>\.[a-z0-9]{2,6})?$/
 
-    readonly absolutePathRegex = /^(?<folder_path>[a-z0-9\-_]+\/)+(?<filename>(?:\w+(?:\s?\w+)+)|[a-zA-Z0-9\-_]+)(?<extension>\.[a-z]{2,6})?$/
+    readonly absolutePathRegex = /^\/(?<folder_path>[a-z0-9\-_]+\/)*(?<filename>(?:\w+(?:\s?\w+)+)|[a-zA-Z0-9\-_]+)(?<extension>\.[a-z0-9]{2,6})?$/
 
     readonly wordsNumbersAndDashesRegex = /^[A-Za-z\-_0-9]+$/
 
@@ -135,11 +135,24 @@ export class SourceAttribute extends MarkdocValidatorAttribute {
         const httpURLAttributeReturnMarkdocErrorOrNothingResult =
             this.httpUrlAttribute.returnMarkdocErrorObjectOrNothing(value)
 
-        return pathAttributeReturnMarkdocErrorOrNothingResult
-            && httpURLAttributeReturnMarkdocErrorOrNothingResult
-            && generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(`${pathAttributeReturnMarkdocErrorOrNothingResult.message},
-            ${httpURLAttributeReturnMarkdocErrorOrNothingResult.message}
-            `)
+
+
+        if (pathAttributeReturnMarkdocErrorOrNothingResult
+            && httpURLAttributeReturnMarkdocErrorOrNothingResult) {
+
+            const messages = new Set()
+
+
+            messages
+                .add(pathAttributeReturnMarkdocErrorOrNothingResult.message)
+                .add(httpURLAttributeReturnMarkdocErrorOrNothingResult.message)
+
+            return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(
+                `${[...messages.values()].join()},`
+            )
+
+        }
+
 
 
     }
