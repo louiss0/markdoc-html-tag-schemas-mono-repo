@@ -1,10 +1,8 @@
-import type { Scalar, SchemaAttribute, ValidationError, } from "@markdoc/markdoc";
+import type { Scalar, SchemaAttribute, ValidationError, ValidationType, } from "@markdoc/markdoc";
 import {
-
-    HttpURLAttribute,
     IntegerAttribute,
     MarkdocValidatorAttribute,
-    PathAttribute,
+    SourceAttribute,
     createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue,
     generateMarkdocErrorObject,
     generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserATypeIsNotRight,
@@ -37,12 +35,16 @@ type ReturnTypeBasedOnConstructor<T> =
     T extends ArrayConstructor | "Array" ? Array<string> | Array<number> | Array<Record<string, Scalar>> :
     T extends ObjectConstructor | "Object" ? Record<string, Scalar> : never
 
-export type ProperSchemaMatches = Exclude<SchemaAttribute["matches"], Array<string> | undefined>
+export type ProperSchemaMatches =
+    Exclude<SchemaAttribute["matches"], Array<string> | undefined>
     | ReadonlyArray<number>
     | ReadonlyArray<string>
 
 
-export type RequiredSchemaAttributeType = Exclude<SchemaAttribute["type"], undefined>
+export type RequiredSchemaAttribute =
+    Exclude<SchemaAttribute["type"],
+        undefined | Array<ValidationType>
+    >
 
 export type MarkdocAttributeSchema<T extends ProperSchemaMatches, U extends RequiredSchemaAttribute> = {
     type: U
@@ -53,15 +55,15 @@ export type MarkdocAttributeSchema<T extends ProperSchemaMatches, U extends Requ
 } & Omit<SchemaAttribute, "matches" | "default" | "type">
 
 
-export type PrimaryMarkdocAttributeSchema<T extends ProperSchemaMatches, U extends RequiredSchemaAttributeType> =
+export type PrimaryMarkdocAttributeSchema<T extends ProperSchemaMatches, U extends RequiredSchemaAttribute> =
     MarkdocAttributeSchema<T, U>
-    & { render?: true }
+    & { render: false }
 
-export type SchemaAttributesWithAPrimaryKey<T extends ProperSchemaMatches, U extends RequiredSchemaAttributeType> =
+export type SchemaAttributesWithAPrimaryKey<T extends ProperSchemaMatches, U extends RequiredSchemaAttribute> =
     { primary: PrimaryMarkdocAttributeSchema<T, U> }
     & Record<string, MarkdocAttributeSchema<T, U>>
 
-export type SchemaAttributesWithNoPrimaryKey<T extends ProperSchemaMatches, U extends RequiredSchemaAttributeType> =
+export type SchemaAttributesWithNoPrimaryKey<T extends ProperSchemaMatches, U extends RequiredSchemaAttribute> =
     { primary?: never; }
     & Record<string, MarkdocAttributeSchema<T, U>>
 
@@ -69,7 +71,7 @@ export type SchemaAttributesWithNoPrimaryKey<T extends ProperSchemaMatches, U ex
 
 const getGenerateMarkdocAttributeSchema =
     <
-        T extends RequiredSchemaAttributeType,
+        T extends RequiredSchemaAttribute,
         U extends ProperSchemaMatches,
         V extends Pick<MarkdocAttributeSchema<U, T>, "errorLevel" | "description" | "type" | "required">
         = Required<Pick<MarkdocAttributeSchema<U, T>, "errorLevel" | "description" | "type" | "required">>,
@@ -199,7 +201,7 @@ export namespace MarkdocAttributeSchemas {
 
 
     export const cite = getGenerateMarkdocAttributeSchema({
-        type: [PathAttribute, HttpURLAttribute],
+        type: SourceAttribute,
         description: "A url that leads to a citation",
         errorLevel: "warning"
     })()
@@ -248,7 +250,7 @@ export namespace MarkdocAttributeSchemas {
         "ebu", "ee", "efi", "egl", "egy", "eka", "el", "elx", "en", "en-AU", "en-CA", "en-GB", "en-US", "enm", "eo", "es", "es-419", "es-AR", "es-CL", "es-CO", "es-CR", "es-EC", "es-ES", "es-GT", "es-HN", "es-MX", "es-NI", "es-PA", "es-PE", "es-PR", "es-PY", "es-SV", "es-US", "es-UY", "es-VE", "et", "eu", "ewo", "ext",
         "fa", "fa-AF", "ff", "ff-Adlm", "ff-Latn", "fi", "fil", "fit", "fj", "fo", "fon", "fr", "fr-CA", "fr-CH", "frc", "frm", "fro", "frp", "frr", "frs", "fur", "fy",
         "ga", "gaa", "gag", "gan", "gay", "gba", "gbz", "gd", "gez", "gil", "gl", "glk", "gmh",
-    ] as const
+    ]
 
     export const lang = generateProperStringAttributeSchema({
         description: "An attribute for specifying the language of an element",
