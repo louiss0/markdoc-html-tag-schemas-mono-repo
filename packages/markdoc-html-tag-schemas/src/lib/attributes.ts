@@ -44,13 +44,13 @@ export type ProperSchemaMatches = Exclude<SchemaAttribute["matches"], Array<stri
 
 export type RequiredSchemaAttributeType = Exclude<SchemaAttribute["type"], undefined>
 
-export type MarkdocAttributeSchema<T extends ProperSchemaMatches, U extends RequiredSchemaAttributeType> = {
+export type MarkdocAttributeSchema<T extends ProperSchemaMatches, U extends RequiredSchemaAttribute> = {
     type: U
-    default?: T extends ReadonlyArray<unknown> | RegExp
+    default?: T extends Array<unknown> | RegExp
     ? TypeIsAStringOrNumberReturnTheValuesIfRegexReturnStringElseNever<T>
     : ReturnTypeBasedOnConstructor<U>
     matches?: T
-} & Omit<SchemaAttribute, "matches" | "default" | "type" | "render">
+} & Omit<SchemaAttribute, "matches" | "default" | "type">
 
 
 export type PrimaryMarkdocAttributeSchema<T extends ProperSchemaMatches, U extends RequiredSchemaAttributeType> =
