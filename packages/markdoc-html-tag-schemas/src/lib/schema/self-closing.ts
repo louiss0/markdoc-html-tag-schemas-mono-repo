@@ -2,7 +2,7 @@
 import { generateSelfClosingTagSchema } from "packages/markdoc-html-tag-schemas/src/utils";
 
 export { abbr } from "packages/markdoc-html-tag-schemas/src/lib/schema/abbreviation"
-import { MarkdocAttributeSchemas, type ProperSchemaMatches, type RequiredSchemaAttributeType } from "packages/markdoc-html-tag-schemas/src/lib/attributes"
+import { MarkdocAttributeSchemas, type ProperSchemaMatches, type RequiredSchemaAttribute } from "packages/markdoc-html-tag-schemas/src/lib/attributes"
 
 
 //* Inline tags
@@ -34,7 +34,7 @@ export const wbr = generateSelfClosingTagSchema({
 
 
 
-export const del = generateSelfClosingTagSchema<ProperSchemaMatches, RequiredSchemaAttributeType, "del">({
+export const del = generateSelfClosingTagSchema<ProperSchemaMatches, RequiredSchemaAttribute, "del">({
     render: "del",
     type: String,
     description: "A schema for creating a sup element"
@@ -44,7 +44,8 @@ export const del = generateSelfClosingTagSchema<ProperSchemaMatches, RequiredSch
         datetime: MarkdocAttributeSchemas.datetime
     }
 });
-export const ins = generateSelfClosingTagSchema<ProperSchemaMatches, RequiredSchemaAttributeType, "ins">({
+
+export const ins = generateSelfClosingTagSchema<ProperSchemaMatches, RequiredSchemaAttribute, "ins">({
     render: "ins",
     type: String,
     description: "A schema for creating a sup element"
@@ -116,7 +117,7 @@ export const data = generateSelfClosingTagSchema({
 
 //* Non inline tags 
 
-export const time = generateSelfClosingTagSchema<ProperSchemaMatches, RequiredSchemaAttributeType, "time">({
+export const time = generateSelfClosingTagSchema<ProperSchemaMatches, RequiredSchemaAttribute, "time">({
     render: "time",
     type: String,
     description: "A schema for creating a time element"
