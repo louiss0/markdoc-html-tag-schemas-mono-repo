@@ -57,7 +57,7 @@ export type MarkdocAttributeSchema<T extends ProperSchemaMatches, U extends Requ
 
 export type PrimaryMarkdocAttributeSchema<T extends ProperSchemaMatches, U extends RequiredSchemaAttribute> =
     MarkdocAttributeSchema<T, U>
-    & { render: false }
+    & { render: true; required: true }
 
 export type SchemaAttributesWithAPrimaryKey<T extends ProperSchemaMatches, U extends RequiredSchemaAttribute> =
     { primary: PrimaryMarkdocAttributeSchema<T, U> }
@@ -212,7 +212,7 @@ export namespace MarkdocAttributeSchemas {
 
             returnMarkdocErrorObjectOrNothing(value: unknown): void | ValidationError {
 
-                return value !== "string"
+                return typeof value !== "string"
                     ? generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserATypeIsNotRight("string")
                     : isNaN(Date.parse(value))
                         ? generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(
