@@ -110,7 +110,7 @@ export const getGeneratePrimarySchema = <
             attributes: {
                 primary: {
                     type,
-                    render: false,
+                    render: true,
                     required: true
                 },
                 ...attributes
@@ -294,15 +294,22 @@ export const generateNonPrimarySchemaWithATransformThatGeneratesDataAttributes =
                 secondaryConfig?: W
             ) => {
 
-            const primaryConfigWithDataAttributeInserted = Object.assign(
-                primaryConfig,
-                {
-                    render,
-                    attributes: {
-                        ...attributes,
+            const objectWithRenderPropertyDataAttributeFilledInAndOtherAttributesSpreadIn = {
+                render,
+                attributes: {
+                    data: {
+                        type: Object,
+                        required: false
                     },
-                }
-            );
+                    ...attributes,
+                },
+            }
+
+            const primaryConfigWithDataAttributeInserted =
+                Object.assign(
+                    primaryConfig,
+                    objectWithRenderPropertyDataAttributeFilledInAndOtherAttributesSpreadIn
+                );
             const generateNonPrimarySchema = getGenerateNonPrimarySchema(
                 primaryConfigWithDataAttributeInserted
             );
@@ -316,7 +323,7 @@ export const generateNonPrimarySchemaWithATransformThatGeneratesDataAttributes =
                     const keysWithNoNumberBooleanOrStringValues = Object.entries(
                         attrs['data']
                     ).reduce(
-                        (carry: Array<string>, [key, value]) => isViableMarkdocValue(value) ? carry.concat(key) : carry,
+                        (carry: Array<string>, [key, value]) => !isViableMarkdocValue(value) ? carry.concat(key) : carry,
                         []
                     );
 
