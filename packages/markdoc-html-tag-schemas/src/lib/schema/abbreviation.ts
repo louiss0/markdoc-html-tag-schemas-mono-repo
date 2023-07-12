@@ -1,5 +1,6 @@
 
 import type { ValidationError } from "@markdoc/markdoc";
+import type { ProperSchemaMatches, RequiredSchemaAttribute } from "packages/markdoc-html-tag-schemas/src/lib/attributes";
 import { MarkdocValidatorAttribute, generateMarkdocErrorObject, generateSelfClosingTagSchema, } from "packages/markdoc-html-tag-schemas/src/utils";
 
 export class AbbreviationAttribute extends MarkdocValidatorAttribute {
@@ -30,7 +31,7 @@ export class AbbreviationAttribute extends MarkdocValidatorAttribute {
 
 
 
-export const abbr = generateSelfClosingTagSchema(
+export const abbr = generateSelfClosingTagSchema<ProperSchemaMatches, RequiredSchemaAttribute, "abbr">(
     {
         render: "abbr",
         type: AbbreviationAttribute,
@@ -46,6 +47,7 @@ export const abbr = generateSelfClosingTagSchema(
             }
         },
         transform(node, config, createTag) {
+
 
             const { primary, label } = node.transformAttributes(config);
 
