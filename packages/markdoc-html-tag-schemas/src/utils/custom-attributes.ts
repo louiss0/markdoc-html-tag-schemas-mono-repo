@@ -107,10 +107,74 @@ export class HttpURLAttribute extends MarkdocValidatorAttribute {
                 "invalid-attribute",
                 "error",
                 `The string ${value} must be a valid URL, a Relative or Absolute Path.
-
-                                
                 `
             );
+
+
+
+    }
+
+
+};
+
+
+export class SourceAttribute extends MarkdocValidatorAttribute {
+
+
+
+    private readonly httpUrlAttribute = new HttpURLAttribute()
+    private readonly pathAttribute = new PathAttribute()
+
+    override returnMarkdocErrorObjectOrNothing(value: unknown,): void | ValidationError {
+
+
+
+        const pathAttributeReturnMarkdocErrorOrNothingResult =
+            this.pathAttribute.returnMarkdocErrorObjectOrNothing(value)
+
+        const httpURLAttributeReturnMarkdocErrorOrNothingResult =
+            this.httpUrlAttribute.returnMarkdocErrorObjectOrNothing(value)
+
+        return pathAttributeReturnMarkdocErrorOrNothingResult
+            && httpURLAttributeReturnMarkdocErrorOrNothingResult
+            && generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(`${pathAttributeReturnMarkdocErrorOrNothingResult.message},
+            ${httpURLAttributeReturnMarkdocErrorOrNothingResult.message}
+            `)
+
+
+    }
+
+
+
+};
+
+export class DownloadAttribute extends MarkdocValidatorAttribute {
+
+
+
+    private readonly pathAttribute = new PathAttribute()
+
+    override returnMarkdocErrorObjectOrNothing(value: unknown,): void | ValidationError {
+
+
+
+        if (typeof value === "string") {
+
+            const isInvalidPath = [
+                this.pathAttribute.absolutePathRegex.test(value),
+                this.pathAttribute.relativePathRegex.test(value),
+            ].some(Boolean)
+
+            if (!isInvalidPath) return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(`
+            This string ${value} is not a valid absolute or relative path  
+            `)
+
+        }
+
+        if (typeof value !== "boolean" && typeof value !== "string")
+            return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(`
+            This is not a string or a boolean please type one of those.
+            `)
 
 
 
@@ -122,10 +186,14 @@ export class HttpURLAttribute extends MarkdocValidatorAttribute {
 };
 
 
+
 export class SrcSetAttribute extends MarkdocValidatorAttribute implements CustomAttributeTransformContract {
 
 
 
+    constructor () {
+        super()
+    }
 
 
     protected readonly relativePathAndEitherViewportWidthOrWidthSizeRegex =
@@ -141,9 +209,11 @@ export class SrcSetAttribute extends MarkdocValidatorAttribute implements Custom
         /^(?<folder_path>[a-z0-9\-_]+\/)+(?<filename>(?:\w+(?:\s?\w+)+)|[a-zA-Z0-9\-_]+)(?<extension>\.[a-z]{2,6})\s(?<pixel_density>\d{1,3}(?:\.\d)?x)$/
 
 
-    transform(value: string | Array<string>): Scalar {
+    transform(value: unknown): Scalar {
 
-        return typeof value !== "string" ? value.join(",") : value
+        return typeof value !== "string"
+            ? Array.isArray(value) && value?.join(",")
+            : value
 
     }
 
@@ -247,7 +317,10 @@ export class SizesAttribute extends MarkdocValidatorAttribute implements CustomA
 
     transform(value: Array<string>): Scalar {
 
-        return value.join(",")
+        return typeof value !== "string"
+            ? Array.isArray(value) && value?.join(",")
+            : value
+
 
     }
 
