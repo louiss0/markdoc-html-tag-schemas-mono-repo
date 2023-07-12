@@ -1,7 +1,7 @@
 import {
-    HttpURLAttribute,
-    PathAttribute,
+    DownloadAttribute,
     SizesAttribute,
+    SourceAttribute,
     SrcSetAttribute,
     generateNonPrimarySchemaWithATransformThatGeneratesDataAttributes,
     getGenerateNonPrimarySchema,
@@ -43,7 +43,7 @@ export const video = getGenerateNonPrimarySchema({
     attributes: {
         ariaHidden,
         src: {
-            type: [PathAttribute, HttpURLAttribute],
+            type: SourceAttribute,
             required: true,
             description: "This is the link to the audio file you want to use"
         },
@@ -112,7 +112,7 @@ export const audio = getGenerateNonPrimarySchema({
     selfClosing: true,
     attributes: {
         src: {
-            type: [PathAttribute, HttpURLAttribute],
+            type: SourceAttribute,
             required: true,
             errorLevel: "warning",
             description: "This is the link to the audio file you want to use"
@@ -173,6 +173,7 @@ export const audio = getGenerateNonPrimarySchema({
     },
 })();
 
+
 export const hr = getGenerateNonPrimarySchema({
     render: "hr",
     selfClosing: true,
@@ -195,7 +196,7 @@ export const img = getGenerateNonPrimarySchema(
         selfClosing: true,
         attributes: {
             src: {
-                type: [PathAttribute, HttpURLAttribute],
+                type: SourceAttribute,
                 required: true,
                 errorLevel: "critical",
                 description: "The src of the image you want to see"
@@ -279,7 +280,7 @@ export const address = generateNonPrimarySchemaWithATransformThatGeneratesDataAt
         dir,
         ariaLabel
     },
-    children: ["div", "inline", "span", "paragraph", "list"]
+    children: ["inline", "span", "paragraph", "list"]
 });
 
 
@@ -311,7 +312,7 @@ export const area = getGenerateNonPrimarySchema({
             type: MediaAttribute
         },
         href: {
-            type: [PathAttribute, HttpURLAttribute],
+            type: SourceAttribute,
             required: true
         },
         hreflang: lang,
@@ -329,7 +330,7 @@ export const area = getGenerateNonPrimarySchema({
             required: true
         },
         download: {
-            type: [PathAttribute, Boolean]
+            type: DownloadAttribute
         },
         shape: {
             type: String,
@@ -366,7 +367,7 @@ export const track = getGenerateNonPrimarySchema(
         render: 'track',
         attributes: {
             src: {
-                type: [PathAttribute, HttpURLAttribute],
+                type: SourceAttribute,
                 required: true,
                 description: "The url where the file is placed"
 
