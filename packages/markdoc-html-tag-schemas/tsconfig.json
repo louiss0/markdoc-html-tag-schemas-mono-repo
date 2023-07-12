@@ -19,4 +19,7 @@
       "./src/setup/vitest.d.ts"
     ]
   },
+  "exclude": [
+    "dist/**"
+  ]
 }
