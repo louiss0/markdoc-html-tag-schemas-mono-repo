@@ -31,19 +31,17 @@ type ObjectWithTransformMethod<T extends string> = {
     ): ReturnType<MarkdocTransform>;
 };
 
-type StrictMarkdocSchema<
-    R extends string,
-    C extends markdoc.ConfigType = markdoc.ConfigType
-> = markdoc.Schema<C, R> & { render: R };
 
 type TagsSchema<
     T extends ProperSchemaMatches,
     U extends RequiredSchemaAttribute,
     R extends string,
     C extends markdoc.ConfigType = markdoc.ConfigType
-> = Omit<StrictMarkdocSchema<R, C>, 'attributes'> & {
+> = Omit<markdoc.Schema<C, R>, 'attributes'> & {
     attributes: SchemaAttributesWithAPrimaryKey<T, U>;
 };
+
+export type FilledTagsSchema = TagsSchema<ProperSchemaMatches, RequiredSchemaAttribute, string>
 
 type SelfClosing = {
     selfClosing: true;
@@ -63,6 +61,9 @@ type NonPrimaryTagsSchema<
     attributes: SchemaAttributesWithNoPrimaryKey<T, U>
 };
 
+export type FilledNonPrimaryTagsSchema = NonPrimaryTagsSchema<ProperSchemaMatches, RequiredSchemaAttribute, string>
+
+
 export const createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue =
     (
         ...conditionalErrors: Array<
@@ -75,6 +76,7 @@ export const createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue =
             []
         );
 
+type GenericRenderProperty<T extends string> = { render: T }
 
 type GeneratePrimarySchemaPrimaryConfig<
     T extends ProperSchemaMatches,
@@ -82,10 +84,10 @@ type GeneratePrimarySchemaPrimaryConfig<
     R extends string,
 > = Pick<
     NonPrimaryTagsSchema<T, U, R>,
-    "render" | "description" | "selfClosing" | "inline"
+    | "description" | "selfClosing" | "inline"
 > & {
     type: MarkdocAttributeSchema<T, U>["type"]
-}
+} & GenericRenderProperty<R>
 
 
 type CustomTransformConfig<
@@ -126,14 +128,15 @@ export const getGeneratePrimarySchema = <
 
 
 
-export type GenerateNonPrimarySchemaConfig<
+type GenerateNonPrimarySchemaConfig<
     T extends ProperSchemaMatches,
     U extends RequiredSchemaAttribute,
     R extends string
-> = (NonSelfClosing | SelfClosing) &
-    Pick<NonPrimaryTagsSchema<T, U, R>, 'attributes' | 'render' | 'description'>;
+> = (NonSelfClosing | SelfClosing)
+    & Pick<NonPrimaryTagsSchema<T, U, R>, 'attributes' | 'description'>
+    & GenericRenderProperty<R>;
 
-export type GenerateNonPrimarySchemaSecondaryConfig<
+type GenerateNonPrimarySchemaSecondaryConfig<
     T extends ProperSchemaMatches,
     U extends RequiredSchemaAttribute,
     R extends string
@@ -153,18 +156,21 @@ export const getGenerateNonPrimarySchema = <
     ) =>
         Object.freeze(
             secondaryConfig
-                ? Object.assign({ ...primaryConfig }, secondaryConfig, {
+                ? Object.assign(
+                    { ...primaryConfig },
+                    secondaryConfig,
+                    {
 
-                    transform: secondaryConfig.transform
-                        ? (node: markdoc.Node, config: markdoc.Config) =>
-                            secondaryConfig.transform?.(
-                                node,
-                                config,
-                                createTag
-                            )
-                        : undefined,
+                        transform: secondaryConfig.transform
+                            ? (node: markdoc.Node, config: markdoc.Config) =>
+                                secondaryConfig.transform?.(
+                                    node,
+                                    config,
+                                    createTag
+                                )
+                            : undefined,
 
-                })
+                    })
                 : primaryConfig
         ) satisfies NonPrimaryTagsSchema<T, U, R>;
 
@@ -177,11 +183,12 @@ type GenerateSelfClosingTagSchemaPrimaryConfig<
     U extends RequiredSchemaAttribute,
     R extends string
 > = Required<
-    Pick<NonPrimaryTagsSchema<T, U, R>, 'description' | 'render'>
+    Pick<NonPrimaryTagsSchema<T, U, R>, 'description'>
     & {
         type: MarkdocAttributeSchema<T, U>['type'];
     }
->;
+> & GenericRenderProperty<R>;
+
 
 type GenerateSelfClosingTagSchemaSecondaryConfig<
     T extends ProperSchemaMatches,
@@ -214,7 +221,7 @@ export function generateSelfClosingTagSchema<
         }
     } = secondaryConfig
 
-    const generatePrimarySchema = getGeneratePrimarySchema<T, RequiredSchemaAttribute, R>(
+    const generatePrimarySchema = getGeneratePrimarySchema<T, U, R>(
         {
             render,
             type,
@@ -374,3 +381,6 @@ export const generateNonPrimarySchemaWithATransformThatGeneratesDataAttributes =
             });
         };
     };
+
+//! Im doing this to avoid having to import everything again. 
+export const getNodes = () => markdoc.nodes 
