@@ -116,6 +116,26 @@ export const data = generateSelfClosingTagSchema({
     description: "A schema for creating a data element"
 });
 
+export const dd = generateSelfClosingTagSchema({
+    render: "dd",
+    type: String,
+    description: "A schema for creating a dd element"
+});
+
+export const dt = generateSelfClosingTagSchema({
+    render: "dt",
+    type: String,
+    description: "A schema for creating a dt element",
+});
+
+export const span = generateSelfClosingTagSchema({
+    render: "span",
+    type: String,
+    description: "A schema for creating a span element"
+};
+
+
+
 //* Non inline tags 
 
 export const time = generateSelfClosingTagSchema<ProperSchemaMatches, RequiredSchemaAttribute, "time">({
@@ -179,24 +199,8 @@ export const summary = generateSelfClosingTagSchema({
 }, { inline: false });
 
 
-export const dd = generateSelfClosingTagSchema({
-    render: "dd",
-    type: String,
-    description: "A schema for creating a dd element"
-}, { inline: false });
-
-export const dt = generateSelfClosingTagSchema({
-    render: "dt",
-    type: String,
-    description: "A schema for creating a dt element",
-}, { inline: false });
 
 
-export const span = generateSelfClosingTagSchema({
-    render: "span",
-    type: String,
-    description: "A schema for creating a span element"
-}, { inline: false });
 
 
 export const dfn = generateSelfClosingTagSchema({
