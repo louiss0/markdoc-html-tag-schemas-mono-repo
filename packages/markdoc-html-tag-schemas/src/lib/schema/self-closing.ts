@@ -132,7 +132,7 @@ export const span = generateSelfClosingTagSchema({
     render: "span",
     type: String,
     description: "A schema for creating a span element"
-};
+});
 
 
 
