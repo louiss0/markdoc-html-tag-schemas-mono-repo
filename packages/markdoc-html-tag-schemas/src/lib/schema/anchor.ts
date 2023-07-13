@@ -74,6 +74,7 @@ export const a = getGenerateNonPrimarySchema({
             type: HrefAttribute,
             required: true,
         },
+        title: MarkdocAttributeSchemas.title,
         target: MarkdocAttributeSchemas.target,
         referrerpolicy: {
             type: String,
