@@ -39,7 +39,6 @@ export class PathAttribute extends MarkdocValidatorAttribute implements CustomAt
 
     readonly absolutePathRegex = /^\/(?<folder_path>[a-z0-9\-_]+\/)*(?<filename>(?:\w+(?:\s?\w+)+)|[a-zA-Z0-9\-_]+)(?<extension>\.[a-z0-9]{2,6})?$/
 
-    readonly wordsNumbersAndDashesRegex = /^[A-Za-z\-_0-9]+$/
 
     returnMarkdocErrorObjectOrNothing(value: unknown,): void | ValidationError {
 
@@ -48,7 +47,6 @@ export class PathAttribute extends MarkdocValidatorAttribute implements CustomAt
         }
 
         const oneOfTheseIsTrue = [
-            this.wordsNumbersAndDashesRegex.test(value),
             this.relativePathRegex.test(value),
             this.absolutePathRegex.test(value)
         ].some(Boolean)
