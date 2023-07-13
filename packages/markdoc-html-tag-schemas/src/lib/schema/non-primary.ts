@@ -158,7 +158,7 @@ export const audio = getGenerateNonPrimarySchema({
         muted: {
             type: Boolean,
             default: false,
-            description: "A Boolean attribute that indicates whether the audio will be initially silenced.Its default value is false."
+            description: "A Boolean attribute twhat indicates whether the audio will be initially silenced.Its default value is false."
         },
         preload: {
             type: String,
@@ -239,6 +239,7 @@ export const img = getGenerateNonPrimarySchema(
             },
             width,
             height,
+            title,
             refferpolicy,
             fetchprority: {
                 type: String,
@@ -281,7 +282,7 @@ export const address = generateNonPrimarySchemaWithATransformThatGeneratesDataAt
         ariaLabel
     },
     children: ["inline", "span", "paragraph", "list"]
-});
+})();
 
 
 export const map = getGenerateNonPrimarySchema(
@@ -428,7 +429,7 @@ export const blockquote = getGenerateNonPrimarySchema({
     children: [
         "list",
         "paragraph",
-        "image"
+        "img"
     ],
 })();
 
@@ -443,7 +444,8 @@ export const details = generateNonPrimarySchemaWithATransformThatGeneratesDataAt
         }
     },
     children: [
-        "summary"
+        "summary",
+        "text"
     ]
 })();
 
