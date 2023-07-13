@@ -1,8 +1,9 @@
 
-import { generateSelfClosingTagSchema } from "packages/markdoc-html-tag-schemas/src/utils";
+import { MarkdocValidatorAttribute, generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserATypeIsNotRight, generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight, generateSelfClosingTagSchema } from "packages/markdoc-html-tag-schemas/src/utils";
 
 export { abbr } from "packages/markdoc-html-tag-schemas/src/lib/schema/abbreviation"
 import { MarkdocAttributeSchemas, type ProperSchemaMatches, type RequiredSchemaAttribute } from "packages/markdoc-html-tag-schemas/src/lib/attributes"
+import type { ValidationError } from "@markdoc/markdoc";
 
 
 //* Inline tags
@@ -119,15 +120,55 @@ export const data = generateSelfClosingTagSchema({
 
 export const time = generateSelfClosingTagSchema<ProperSchemaMatches, RequiredSchemaAttribute, "time">({
     render: "time",
-    type: String,
+    type: class extends MarkdocValidatorAttribute {
+        returnMarkdocErrorObjectOrNothing(value: unknown): void | ValidationError {
+
+            const isNotAString = typeof value !== "string";
+
+            if (isNotAString) {
+
+                return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserATypeIsNotRight("string")
+            }
+
+
+            const dateIsNotANumber = isNaN(Date.parse(value));
+            if (dateIsNotANumber)
+
+                return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(
+                    `This value ${value} is not a parse able date time string
+                             Please use a proper date format 
+                            `
+                )
+
+        }
+    },
     description: "A schema for creating a time element"
 }, {
-    inline: false,
     attributes: {
-        datetime: {
-            ...MarkdocAttributeSchemas.datetime,
-            required: true
+        datetime: MarkdocAttributeSchemas.datetime
+    },
+    inline: false,
+    transform(node, config, createTag) {
+
+        const { primary, datetime } = node.transformAttributes(config) as {
+            primary: string;
+            datetime?: string
         }
+
+        if (datetime) return createTag("time", [primary], { datetime })
+
+        const date = new Date(primary)
+
+        return createTag("time", [date.toLocaleDateString(undefined, {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+        })], {
+            datetime: date.toISOString()
+        })
+
+
+
     }
 });
 
