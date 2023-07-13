@@ -47,7 +47,7 @@ export type RequiredSchemaAttribute =
     >
 
 export type MarkdocAttributeSchema<T extends ProperSchemaMatches, U extends RequiredSchemaAttribute> = {
-    type: U
+    type?: U
     default?: T extends Array<unknown> | RegExp
     ? TypeIsAStringOrNumberReturnTheValuesIfRegexReturnStringElseNever<T>
     : ReturnTypeBasedOnConstructor<U>
@@ -173,7 +173,7 @@ export namespace MarkdocAttributeSchemas {
 
             return createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue(
                 [
-                    /\b\w+ (?: [\w.,!?':;-]+)*\b/.test(value),
+                    !/\b\w+ (?: [\w.,!?':;-]+)*\b/.test(value),
                     generateMarkdocErrorObject(
                         "invalid-attribute",
                         "error",
@@ -211,6 +211,7 @@ export namespace MarkdocAttributeSchemas {
         type: class extends MarkdocValidatorAttribute {
 
             returnMarkdocErrorObjectOrNothing(value: unknown): void | ValidationError {
+
 
                 return typeof value !== "string"
                     ? generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserATypeIsNotRight("string")
