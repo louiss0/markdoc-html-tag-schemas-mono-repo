@@ -296,8 +296,9 @@ export class SrcSetAttribute extends MarkdocValidatorAttribute implements Custom
                     value => value === "string" && this.checkIfStringIsValid(value)
                 )
 
-            if (!everyValueIsAStringWithARelativeOrAbsolutePathsAndEitherAWidthSizeOrPixelDensity) return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(
-                `If you are using an array please use a string that specifies,
+            if (!everyValueIsAStringWithARelativeOrAbsolutePathsAndEitherAWidthSizeOrPixelDensity)
+                return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(
+                    `If you are using an array please use a string that specifies,
                      a relative or absolute path and either a width viewport width or a pixel density at the end.
                     
                     Please use a space before writing the number.                          
@@ -305,15 +306,15 @@ export class SrcSetAttribute extends MarkdocValidatorAttribute implements Custom
         `)
 
 
-            return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(`
+        }
+
+        return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(`
                     You must return an array or a string when using this attribute.
                     Please write the string as a valid URL or a path to a file.
                     You can also specify a pixel density, a width or a viewport width.
                     When writing a array you must specify more than one value and specify,
                     a pixel density, a width or a viewport width.  
                 `)
-
-        }
 
     }
 

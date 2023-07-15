@@ -13,7 +13,7 @@ describe("Testing SizesAttribute.returnMarkdocErrorObjectOrNothing()", () => {
 
     describe("returns an error when a value that is not a string or array is passed", () => {
 
-        it.each([0, {}, "foo", [],])
+        it.each([0, {}, "foo", null,])
             ("For the %# index it returns undefined", (value) => {
 
 
@@ -103,9 +103,9 @@ describe("Testing SizesAttribute.returnMarkdocErrorObjectOrNothing()", () => {
               {
                 "id": "invalid-value",
                 "level": "error",
-                "message": "If you want to use an array you should use more than one value.
-                              A string is better in that situation
-                                      ",
+                "message": "If you want to use an array you should use more than one value. 
+                                  A string is better in that situation
+                                  ",
               }
             `)
 
@@ -130,10 +130,11 @@ describe("Testing SizesAttribute.returnMarkdocErrorObjectOrNothing()", () => {
                 "id": "invalid-value",
                 "level": "error",
                 "message": "If you are using an array please use a string that specifies,
-                                       a relative or absolute path and either a width viewport width or a pixel density at the end.
+                                   a relative or absolute path and either a width viewport width or a pixel density at the end.
+                                  
+                                  Please use a space before writing the number.                          
 
-                                       Please use a space before writing the number.                          
-                                  ",
+                      ",
               }
             `)
 
