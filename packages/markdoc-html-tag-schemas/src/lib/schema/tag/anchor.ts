@@ -1,5 +1,5 @@
 import type { ValidationError } from "@markdoc/markdoc"
-import { MarkdocAttributeSchemas } from "packages/markdoc-html-tag-schemas/src/lib/attributes";
+import { MarkdocAttributeSchemas } from "packages/markdoc-html-tag-schemas/src/lib/schema/attribute";
 import {
     DownloadAttribute,
     HttpURLAttribute,

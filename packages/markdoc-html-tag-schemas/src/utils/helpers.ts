@@ -6,7 +6,7 @@ import type {
     ProperSchemaMatches,
     MarkdocAttributeSchema,
     RequiredSchemaAttribute,
-} from 'packages/markdoc-html-tag-schemas/src/lib/attributes';
+} from 'packages/markdoc-html-tag-schemas/src/lib/schema/attribute';
 
 import {
     toLowercaseWithDashes,
@@ -121,7 +121,7 @@ export const getGeneratePrimarySchema = <
             transform: transform
                 ? (node: markdoc.Node, config: markdoc.Config) =>
                     transform(node, config, createTag)
-                : undefined,
+                : transform,
             ...rest2
         } satisfies TagsSchema<T, U, R>)
 
@@ -157,7 +157,7 @@ export const getGenerateNonPrimarySchema = <
         Object.freeze(
             secondaryConfig
                 ? Object.assign(
-                    { ...primaryConfig },
+                    primaryConfig,
                     secondaryConfig,
                     {
 
@@ -264,11 +264,12 @@ type GenerateNonPrimarySchemaConfigThatDoesNotAllowDataConfig<
     T extends ProperSchemaMatches,
     U extends RequiredSchemaAttribute,
     R extends string
-> = GenerateNonPrimarySchemaConfig<T, U, R> & {
-    attributes: { data?: never } & Partial<
-        SchemaAttributesWithNoPrimaryKey<T, U>
-    >;
-};
+> = GenerateNonPrimarySchemaConfig<T, U, R>
+    & {
+        attributes: { data?: never }
+        & Partial<SchemaAttributesWithNoPrimaryKey<T, U>
+        >;
+    };
 
 type GenerateNonSecondarySchemaConfigThatDoesNotAllowTransformConfig<
     T extends ProperSchemaMatches,
@@ -383,4 +384,4 @@ export const generateNonPrimarySchemaWithATransformThatGeneratesDataAttributes =
     };
 
 //! Im doing this to avoid having to import everything again. 
-export const getNodes = () => markdoc.nodes 
+export const getNodes = () => markdoc.nodes  

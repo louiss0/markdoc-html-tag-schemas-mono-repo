@@ -1,5 +1,5 @@
 
-import { MarkdocAttributeSchemas } from "packages/markdoc-html-tag-schemas/src/lib/attributes";
+import { MarkdocAttributeSchemas } from "packages/markdoc-html-tag-schemas/src/lib/schema/attribute";
 import { MarkdocValidatorAttribute, SourceAttribute, generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserATypeIsNotRight, generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight, getGenerateNonPrimarySchema } from "packages/markdoc-html-tag-schemas/src/utils"
 import { isObject } from "packages/markdoc-html-tag-schemas/src/utils/internal"
 

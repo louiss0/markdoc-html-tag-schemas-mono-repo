@@ -1,8 +1,8 @@
 
 import { MarkdocValidatorAttribute, generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserATypeIsNotRight, generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight, generateSelfClosingTagSchema } from "packages/markdoc-html-tag-schemas/src/utils";
 
-export { abbr } from "packages/markdoc-html-tag-schemas/src/lib/schema/abbreviation"
-import { MarkdocAttributeSchemas, type ProperSchemaMatches, type RequiredSchemaAttribute } from "packages/markdoc-html-tag-schemas/src/lib/attributes"
+export { abbr } from "packages/markdoc-html-tag-schemas/src/lib/schema/tag/abbreviation"
+import { MarkdocAttributeSchemas, type ProperSchemaMatches, type RequiredSchemaAttribute } from "packages/markdoc-html-tag-schemas/src/lib/schema/attribute"
 import type { ValidationError } from "@markdoc/markdoc";
 
 

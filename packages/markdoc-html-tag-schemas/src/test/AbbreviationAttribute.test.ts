@@ -1,4 +1,4 @@
-import { AbbreviationAttribute, } from 'packages/markdoc-html-tag-schemas/src/lib/schema/abbreviation';
+import { AbbreviationAttribute, } from 'packages/markdoc-html-tag-schemas/src/lib/schema/tag/abbreviation';
 // import { generateMarkdocErrorObject } from "src/utils";
 
 

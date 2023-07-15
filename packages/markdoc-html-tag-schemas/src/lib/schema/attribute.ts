@@ -77,7 +77,9 @@ const getGenerateMarkdocAttributeSchema =
     >
         (primaryConfig: V) =>
         <W extends Omit<MarkdocAttributeSchema<U, T>, GetFilledKeys<V>>>
-            (secondaryConfig?: W) => Object.freeze(Object.assign({ ...primaryConfig }, secondaryConfig))
+            (secondaryConfig?: W) => Object.freeze(
+                secondaryConfig ? { ...primaryConfig, ...secondaryConfig } : primaryConfig
+            )
 
 type GetFilledKeys<T extends Record<string, unknown>> = {
     [K in keyof T]: T[K] extends undefined | null ? never : K

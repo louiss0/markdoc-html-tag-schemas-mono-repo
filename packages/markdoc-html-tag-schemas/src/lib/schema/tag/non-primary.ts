@@ -8,14 +8,14 @@ import {
 } from "packages/markdoc-html-tag-schemas/src/utils";
 
 
-import { MarkdocAttributeSchemas } from "packages/markdoc-html-tag-schemas/src/lib/attributes";
-import { MediaAttribute } from "packages/markdoc-html-tag-schemas/src/lib/schema/source";
+import { MarkdocAttributeSchemas } from "packages/markdoc-html-tag-schemas/src/lib/schema/attribute";
+import { MediaAttribute } from "packages/markdoc-html-tag-schemas/src/lib/schema/tag/source";
 
-export { source } from "packages/markdoc-html-tag-schemas/src/lib/schema/source"
+export { source } from "packages/markdoc-html-tag-schemas/src/lib/schema/tag/source"
 
-export { iframe } from "packages/markdoc-html-tag-schemas/src/lib/schema/iframe"
+export { iframe } from "packages/markdoc-html-tag-schemas/src/lib/schema/tag/iframe"
 
-export { a } from "packages/markdoc-html-tag-schemas/src/lib/schema/anchor"
+export { a } from "packages/markdoc-html-tag-schemas/src/lib/schema/tag/anchor"
 
 const {
     contenteditable,
@@ -158,7 +158,7 @@ export const audio = getGenerateNonPrimarySchema({
         muted: {
             type: Boolean,
             default: false,
-            description: "A Boolean attribute twhat indicates whether the audio will be initially silenced.Its default value is false."
+            description: "A Boolean attribute that indicates whether the audio will be initially silenced.Its default value is false."
         },
         preload: {
             type: String,

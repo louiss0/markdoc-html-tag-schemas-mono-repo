@@ -1,4 +1,4 @@
-import { AllowAttribute } from "packages/markdoc-html-tag-schemas/src/lib/schema/iframe"
+import { AllowAttribute } from "packages/markdoc-html-tag-schemas/src/lib/schema/tag/iframe"
 
 
 

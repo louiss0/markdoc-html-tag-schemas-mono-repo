@@ -1,6 +1,6 @@
 
-import * as selfClosingTags from 'packages/markdoc-html-tag-schemas/src/lib/schema/self-closing';
-import * as nonPrimaryTags from 'packages/markdoc-html-tag-schemas/src/lib/schema/non-primary';
+import * as selfClosingTags from 'packages/markdoc-html-tag-schemas/src/lib/schema/tag/self-closing';
+import * as nonPrimaryTags from 'packages/markdoc-html-tag-schemas/src/lib/schema/tag/non-primary';
 import { type Config, type NodeType } from '@markdoc/markdoc';
 import { getNodes, type FilledNonPrimaryTagsSchema, type FilledTagsSchema } from 'packages/markdoc-html-tag-schemas/src/utils';
 const { a, ul, img, ...restOfTheNonPrimaryTags } = nonPrimaryTags
