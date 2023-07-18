@@ -20,7 +20,7 @@
   "scripts": {
     "dev": "tsup --watch",
     "lint": "publint",
-    "release": "pnpm build && dotenv release-it"
+    "release": "tsup && dotenv release-it"
   },
   "repository": {
     "url": "https://github.com/louiss0/forastro.git",
