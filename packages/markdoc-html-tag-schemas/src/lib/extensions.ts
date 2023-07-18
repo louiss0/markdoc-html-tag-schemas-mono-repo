@@ -4,12 +4,11 @@ import * as nonPrimaryTags from 'packages/markdoc-html-tag-schemas/src/lib/schem
 import { type Config, type NodeType } from '@markdoc/markdoc';
 import { getNodes, type FilledNonPrimaryTagsSchema, type FilledTagsSchema } from 'packages/markdoc-html-tag-schemas/src/utils';
 const { a, ul, img, ...restOfTheNonPrimaryTags } = nonPrimaryTags
-
-
 type MarkdocHTMLTagSchemasViableExtension = Omit<Config, "tags" | "nodes"> & {
     tags: Record<string, FilledTagsSchema | FilledNonPrimaryTagsSchema>
     nodes: Partial<Record<NodeType, FilledTagsSchema | FilledNonPrimaryTagsSchema>>
 }
+
 
 const nodes = getNodes() as {
     heading: {

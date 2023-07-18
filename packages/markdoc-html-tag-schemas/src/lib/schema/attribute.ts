@@ -1,8 +1,6 @@
 import type { Scalar, SchemaAttribute, ValidationError, ValidationType, } from "@markdoc/markdoc";
+import { IntegerAttribute, MarkdocValidatorAttribute, SourceAttribute } from "packages/markdoc-html-tag-schemas/src/lib/custom-attributes";
 import {
-    IntegerAttribute,
-    MarkdocValidatorAttribute,
-    SourceAttribute,
     createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue,
     generateMarkdocErrorObject,
     generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserATypeIsNotRight,

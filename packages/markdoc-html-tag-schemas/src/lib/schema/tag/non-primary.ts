@@ -1,12 +1,14 @@
 import {
-    DownloadAttribute,
-    SizesAttribute,
-    SourceAttribute,
-    SrcSetAttribute,
     generateNonPrimarySchemaWithATransformThatGeneratesDataAttributes,
     getGenerateNonPrimarySchema,
 } from "packages/markdoc-html-tag-schemas/src/utils";
 
+import {
+    DownloadAttribute,
+    SizesAttribute,
+    SourceAttribute,
+    SrcSetAttribute,
+} from 'packages/markdoc-html-tag-schemas/src/lib/custom-attributes';
 
 import { MarkdocAttributeSchemas } from "packages/markdoc-html-tag-schemas/src/lib/schema/attribute";
 import { MediaAttribute } from "packages/markdoc-html-tag-schemas/src/lib/schema/tag/source";

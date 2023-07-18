@@ -4,16 +4,17 @@ import { MarkdocAttributeSchemas } from "packages/markdoc-html-tag-schemas/src/l
 const { height, width } = MarkdocAttributeSchemas
 
 import {
-    MarkdocValidatorAttribute,
-    SizesAttribute,
-    SrcSetAttribute,
     generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserATypeIsNotRight,
     generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight,
     getGenerateNonPrimarySchema
 } from "packages/markdoc-html-tag-schemas/src/utils";
 
 
-
+import {
+    MarkdocValidatorAttribute,
+    SizesAttribute,
+    SrcSetAttribute,
+} from 'packages/markdoc-html-tag-schemas/src/lib/custom-attributes';
 
 export class MediaAttribute extends MarkdocValidatorAttribute {
     private readonly deviceOperatorAndOrientationRegex =

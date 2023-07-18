@@ -1,10 +1,7 @@
 import type { ValidationError } from "@markdoc/markdoc"
+import { DownloadAttribute, HttpURLAttribute, MarkdocValidatorAttribute, PathAttribute } from "packages/markdoc-html-tag-schemas/src/lib/custom-attributes";
 import { MarkdocAttributeSchemas } from "packages/markdoc-html-tag-schemas/src/lib/schema/attribute";
 import {
-    DownloadAttribute,
-    HttpURLAttribute,
-    MarkdocValidatorAttribute,
-    PathAttribute,
     generateMarkdocErrorObject,
     getGenerateNonPrimarySchema,
 } from "packages/markdoc-html-tag-schemas/src/utils"

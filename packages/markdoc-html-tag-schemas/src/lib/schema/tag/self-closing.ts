@@ -1,6 +1,6 @@
 
-import { MarkdocValidatorAttribute, generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserATypeIsNotRight, generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight, generateSelfClosingTagSchema } from "packages/markdoc-html-tag-schemas/src/utils";
-
+import { generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserATypeIsNotRight, generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight, generateSelfClosingTagSchema } from "packages/markdoc-html-tag-schemas/src/utils";
+import { MarkdocValidatorAttribute, } from 'packages/markdoc-html-tag-schemas/src/lib/custom-attributes';
 export { abbr } from "packages/markdoc-html-tag-schemas/src/lib/schema/tag/abbreviation"
 import { MarkdocAttributeSchemas, type ProperSchemaMatches, type RequiredSchemaAttribute } from "packages/markdoc-html-tag-schemas/src/lib/schema/attribute"
 import type { ValidationError } from "@markdoc/markdoc";
@@ -197,9 +197,6 @@ export const summary = generateSelfClosingTagSchema({
     type: String,
     description: "This is the summary for the details tag"
 }, { inline: false });
-
-
-
 
 
 
