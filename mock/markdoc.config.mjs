@@ -1,4 +1,4 @@
-import { defineMarkdocConfig, nodes } from '@astrojs/markdoc/config';
+import { defineMarkdocConfig } from '@astrojs/markdoc/config';
 
 import { markdocHTMLTagSchemas } from 'markdoc-html-tag-schemas';
 
