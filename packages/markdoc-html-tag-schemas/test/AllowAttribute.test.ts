@@ -69,7 +69,8 @@ describe("Testing AllowAttribute.returnMarkdocErrorObjectOrNothing()", () => {
                 "id": "invalid-value",
                 "level": "error",
                 "message": "
-                          Please don't use any kind of string as a value. Use the keywords src of self followed by multiple URL's. You just use the * to allow all all url's 
+                          Please don't use any kind of string as a value. Use the keywords src of self followed by multiple URL's. 
+                          You just use the * to allow all all url's 
                           ",
               }
             `)

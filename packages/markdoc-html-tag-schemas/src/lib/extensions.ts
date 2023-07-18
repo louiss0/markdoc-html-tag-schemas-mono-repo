@@ -9,7 +9,6 @@ type MarkdocHTMLTagSchemasViableExtension = Omit<Config, "tags" | "nodes"> & {
     nodes: Partial<Record<NodeType, FilledTagsSchema | FilledNonPrimaryTagsSchema>>
 }
 
-
 const nodes = getNodes() as {
     heading: {
         attributes: Record<"level", { type: NumberConstructor, render: false, required: true }>

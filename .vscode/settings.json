@@ -15,6 +15,22 @@
         "tab.activeBorder": "#1accff"
     },
     "peacock.remoteColor": "#00b3e6",
-    "testing.automaticallyOpenPeekView": "never",
-    "peacock.color": "#215732"
+    "peacock.color": "#215732",
+    "cSpell.words": [
+        "Adlm",
+        "contenteditable",
+        "controlslist",
+        "crossorigin",
+        "datetime",
+        "disableremoteplayback",
+        "fetchprority",
+        "framename",
+        "nodownload",
+        "nofollow",
+        "nofullscreen",
+        "noreferrer",
+        "noremoteplayback",
+        "playsinline",
+        "refferpolicy",
+    ]
 }
