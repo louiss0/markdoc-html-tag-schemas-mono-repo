@@ -1,4 +1,4 @@
-import { IntegerAttribute } from "packages/markdoc-html-tag-schemas/src/utils"
+import { IntegerAttribute } from "packages/markdoc-html-tag-schemas/src/lib/custom-attributes"
 
 describe("Testing IntegerAttribute.returnMarkdocErrorObjectOrNothing()", () => {
 

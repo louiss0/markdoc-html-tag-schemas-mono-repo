@@ -1,5 +1,5 @@
+import { SizesAttribute } from "packages/markdoc-html-tag-schemas/src/lib/custom-attributes"
 
-import { SizesAttribute } from "packages/markdoc-html-tag-schemas/src/utils"
 
 
 describe("Testing SizesAttribute.returnMarkdocErrorObjectOrNothing()", () => {
