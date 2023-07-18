@@ -9,3 +9,7 @@ This is the first version of this package.
 - Markdoc attributes I call them attribute schemas.
 - Schemas that are used for HTML tags suitable for writing articles.
 - A function that can be used to extend Astro's markdoc config.  
+
+## [0.0.0]
+
+Not released here.
