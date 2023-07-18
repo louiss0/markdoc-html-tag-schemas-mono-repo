@@ -16,7 +16,7 @@
       "vitest/importMeta",
       "vite/client",
       "node",
-      "./src/setup/vitest.d.ts"
+      "./setup/vitest.d.ts"
     ]
   },
   "exclude": [
