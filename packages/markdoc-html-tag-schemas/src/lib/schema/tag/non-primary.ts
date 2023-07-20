@@ -417,6 +417,23 @@ export const ul = generateNonPrimarySchemaWithATransformThatGeneratesDataAttribu
     }
 })();
 
+export const ol = generateNonPrimarySchemaWithATransformThatGeneratesDataAttributes({
+    render: "ol",
+    children: [
+        "li"
+    ],
+    attributes: {
+        ariaHidden,
+        title,
+        spellcheck,
+        lang,
+        contenteditable,
+        translate,
+        dir,
+        draggable
+    }
+})();
+
 
 
 
