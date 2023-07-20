@@ -100,7 +100,7 @@ The Markdoc Extension for Astro will do these things for you.
 - Change the image node's src,title and alt attributes to use the img schema's ones
 - It allows you to disable the use of heading's 5-6
 
-To opt out of the use of the render to null only.
+To opt out of the use of the document.render to null .
 
 ```js
 markdocHTMLTagSchemas({blankDoc:false})
