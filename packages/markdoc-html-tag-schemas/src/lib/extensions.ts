@@ -25,14 +25,10 @@ const nodes = getNodes() as {
 
 
 export const markdocHTMLTagSchemas = (
-    options: Partial<Record<"blankDoc" | "strictHeadings", boolean>>
-        = {
-            blankDoc: true,
-            strictHeadings: false
-        }
+    options?: Partial<{ blankDoc: false, strictHeadings: true }>
 ) => {
 
-    const { blankDoc, strictHeadings } = options
+    const { blankDoc = true, strictHeadings = false } = options as Record<"blankDoc" | "strictHeadings", boolean>
 
     return {
         nodes: {
@@ -73,5 +69,3 @@ export const markdocHTMLTagSchemas = (
 
     } satisfies MarkdocHTMLTagSchemasViableExtension
 };
-
-markdocHTMLTagSchemas()
