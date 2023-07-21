@@ -147,7 +147,7 @@ export namespace MarkdocAttributes {
         type: IntegerAttribute,
         description: "Specifies the allowed tabbing order",
         errorLevel: "error",
-    });
+    })();
 
 
     export const hidden = generateBooleanAttributeSchemaThatIsNotRequired();
@@ -165,6 +165,7 @@ export namespace MarkdocAttributes {
             "unsafe-url",
         ]
     })()
+
 
     export const title = getGenerateMarkdocAttributeSchema({
 
@@ -266,21 +267,6 @@ export namespace MarkdocAttributes {
     })
 
 
-    export const ariaHidden = generateBooleanAttributeSchemaThatIsNotRequired({
-        description: "Ah attribute that specifies whether or not an element is hidden",
-
-    });
-
-    export const ariaLabelledBy = generateBooleanAttributeSchemaThatIsNotRequired({
-        description: "A attribute that specifies which element is used to label the element",
-    });
-
-    export const ariaLabel = generateBooleanAttributeSchemaThatIsNotRequired({
-        description: "A attribute that specifies the label for this element",
-    });
-
-
-
     export const dir = generateProperStringAttributeSchema({
         description: "An attribute for specifying the reading direction of the words in the content",
         default: "auto",
@@ -293,12 +279,10 @@ export namespace MarkdocAttributes {
 
     export const draggable = generateBooleanAttributeSchemaThatIsNotRequired({
         description: "An attribute that allows an element to be draggable",
-        default: false,
     });
 
     export const spellcheck = generateBooleanAttributeSchemaThatIsNotRequired({
         description: "An attribute that allows an element to be spell checked",
-        default: false,
     });
 
 
