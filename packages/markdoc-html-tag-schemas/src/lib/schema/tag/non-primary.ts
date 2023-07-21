@@ -15,8 +15,6 @@ import {
 
 import { MarkdocAttributes } from "packages/markdoc-html-tag-schemas/src/lib/attributes";
 
-export { source } from "packages/markdoc-html-tag-schemas/src/lib/schema/tag/source"
-
 export { iframe } from "packages/markdoc-html-tag-schemas/src/lib/schema/tag/iframe"
 
 export { a } from "packages/markdoc-html-tag-schemas/src/lib/schema/tag/anchor"
@@ -40,133 +38,42 @@ const {
 
 // * Self Closing Tag Schemas
 
-export const video = getGenerateNonPrimarySchema({
-    render: "video",
-    children: [
-        "source",
-        "track"
-    ],
+
+export const source = getGenerateNonPrimarySchema({
+    render: "source",
+    selfClosing: true,
+    description: "This is the schema for the HTML source tag",
     attributes: {
+        src: {
+            type: SourceAttribute,
+            description: "A set of urls and image sizes that are required to use upload the picture",
+
+        },
+        srcset: {
+            type: SrcSetAttribute,
+            description: "A set of urls and image sizes that are required to use upload the picture",
+
+        },
+        sizes: {
+            type: SizesAttribute,
+            description: "The size of each image in a media query",
+            errorLevel: "warning",
+        },
+        media: {
+            type: MediaAttribute,
+            description: "The art resolution or time for an image to appear in a media query",
+            errorLevel: "warning",
+        },
         type: {
             type: String,
-            description: "The acceptable media types only for video",
-            matches: /^video\/[a-z]+$/
+            errorLevel: "warning",
+            description: "The type of image that is being used",
+            matches: /^image\/(?<image_type>jpg|jpeg|gif|tiff|webp|png)$/
         },
-        autoPlay: {
-            type: Boolean,
-            description: "A Boolean attribute: if specified, the audio will automatically begin playback as soon as it can do so"
-        },
-        controls: {
-            type: Boolean,
-            description: "A Boolean attribute: if specified, the user can control the audio of the "
-        },
-        controlslist: {
-            type: String,
-            matches: [
-                "nodownload",
-                "nofullscreen",
-                "noremoteplayback"
-            ],
-            description: "A String attribute: if specified, helps the browser select what controls to show for the audio element whenever the browser shows its own set of controls (that is, when the controls attribute is specified)."
-        },
-        crossorigin: {
-            type: String,
-            matches: [
-                "anonymous",
-                "use-credentials",
-            ],
-        },
-        refferpolicy,
-        loop: {
-            type: Boolean,
-            description: "A Boolean attribute: if specified, the audio player will automatically seek back to the start upon reaching the end of the audio."
-        },
-        muted: {
-            type: Boolean,
-            default: false,
-            description: "A Boolean attribute that indicates whether the audio will be initially silenced.Its default value is false."
-        },
-        preload: {
-            type: String,
-            description: "This enumerated attribute is intended to provide a hint to the browser about what the author thinks will lead to the best user experience.",
-            matches: [
-                "none",
-                "metadata",
-                "audio",
-            ]
-        },
-        playsinline: {
-            type: Boolean,
-            description: "A Boolean attribute indicating that the video is to be played 'inline', that is within the element's playback area. Note that the absence of this attribute does not imply that the video will always be played in fullscreen."
-        },
-        poster: {
-            type: String,
-            description: "A URL for an image to be shown while the video is downloading. If this attribute isn't specified, nothing is displayed until the first frame is available, then the first frame is shown as the poster frame."
-        }
-
-    },
-})();
-
-export const audio = getGenerateNonPrimarySchema({
-    render: "audio",
-    children: [
-        "source"
-    ],
-    attributes: {
-        type: {
-            type: String,
-            description: "The acceptable media types only for audio",
-            matches: /^audio\/[a-z]+$/
-        },
-
-        autoPlay: {
-            type: Boolean,
-            description: "A Boolean attribute: if specified, the audio will automatically begin playback as soon as it can do so"
-        },
-        controls: {
-            type: Boolean,
-            description: "A Boolean attribute: if specified, the user can control the audio of the "
-        },
-        controlsList: {
-            type: String,
-            matches: [
-                "nodownload",
-                "nofullscreen",
-                "noremoteplayback"
-            ],
-            description: "A String attribute: if specified, helps the browser select what controls to show for the audio element whenever the browser shows its own set of controls (that is, when the controls attribute is specified)."
-        },
-        crossorigin: {
-            type: String,
-            matches: [
-                "anonymous",
-                "use-credentials",
-            ],
-        },
-        disableremoteplayback: {
-            type: Boolean,
-            description: "A Boolean attribute used to disable the capability of remote playback in devices that are attached using wired and wireless technologies"
-        },
-        loop: {
-            type: Boolean,
-            description: "A Boolean attribute: if specified, the audio player will automatically seek back to the start upon reaching the end of the audio."
-        },
-        muted: {
-            type: Boolean,
-            default: false,
-            description: "A Boolean attribute that indicates whether the audio will be initially silenced.Its default value is false."
-        },
-        preload: {
-            type: String,
-            description: "This enumerated attribute is intended to provide a hint to the browser about what the author thinks will lead to the best user experience.",
-            matches: [
-                "none",
-                "metadata",
-                "audio",
-            ]
-        }
-    },
-})({});
+        width,
+        height,
+    }
+})()
 
 
 export const hr = getGenerateNonPrimarySchema({
@@ -265,6 +172,182 @@ export const img = getGenerateNonPrimarySchema(
 )();
 
 //* Children Tag Schemas
+
+
+export const video = getGenerateNonPrimarySchema({
+    render: "video",
+    children: [
+        "source",
+        "track"
+    ],
+    attributes: {
+        type: {
+            type: String,
+            description: "The acceptable media types only for video",
+            matches: /^video\/[a-z]+$/
+        },
+        autoPlay: {
+            type: Boolean,
+            description: "A Boolean attribute: if specified, the audio will automatically begin playback as soon as it can do so"
+        },
+        controls: {
+            type: Boolean,
+            description: "A Boolean attribute: if specified, the user can control the audio of the "
+        },
+        controlslist: {
+            type: String,
+            matches: [
+                "nodownload",
+                "nofullscreen",
+                "noremoteplayback"
+            ],
+            description: "A String attribute: if specified, helps the browser select what controls to show for the audio element whenever the browser shows its own set of controls (that is, when the controls attribute is specified)."
+        },
+        crossorigin: {
+            type: String,
+            matches: [
+                "anonymous",
+                "use-credentials",
+            ],
+        },
+        refferpolicy,
+        loop: {
+            type: Boolean,
+            description: "A Boolean attribute: if specified, the audio player will automatically seek back to the start upon reaching the end of the audio."
+        },
+        muted: {
+            type: Boolean,
+            default: false,
+            description: "A Boolean attribute that indicates whether the audio will be initially silenced.Its default value is false."
+        },
+        preload: {
+            type: String,
+            description: "This enumerated attribute is intended to provide a hint to the browser about what the author thinks will lead to the best user experience.",
+            matches: [
+                "none",
+                "metadata",
+                "audio",
+            ]
+        },
+        playsinline: {
+            type: Boolean,
+            description: "A Boolean attribute indicating that the video is to be played 'inline', that is within the element's playback area. Note that the absence of this attribute does not imply that the video will always be played in fullscreen."
+        },
+        poster: {
+            type: String,
+            description: "A URL for an image to be shown while the video is downloading. If this attribute isn't specified, nothing is displayed until the first frame is available, then the first frame is shown as the poster frame."
+        }
+
+    },
+})({
+    validate(node) {
+
+
+        const allChildrenWithSourceTagsHaveASrcAttribute =
+            node.children
+                .filter(child => child.tag === "source")
+                .every(child => "src" in child.attributes)
+
+
+        return createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue(
+            [
+                !allChildrenWithSourceTagsHaveASrcAttribute,
+                generateMarkdocErrorObject(
+                    "invalid-children",
+                    "error",
+                    "All children of the video tag must have a src attribute "
+                )
+            ]
+        )
+
+    }
+});
+
+export const audio = getGenerateNonPrimarySchema({
+    render: "audio",
+    children: [
+        "source"
+    ],
+    attributes: {
+        type: {
+            type: String,
+            description: "The acceptable media types only for audio",
+            matches: /^audio\/[a-z]+$/
+        },
+
+        autoPlay: {
+            type: Boolean,
+            description: "A Boolean attribute: if specified, the audio will automatically begin playback as soon as it can do so"
+        },
+        controls: {
+            type: Boolean,
+            description: "A Boolean attribute: if specified, the user can control the audio of the "
+        },
+        controlsList: {
+            type: String,
+            matches: [
+                "nodownload",
+                "nofullscreen",
+                "noremoteplayback"
+            ],
+            description: "A String attribute: if specified, helps the browser select what controls to show for the audio element whenever the browser shows its own set of controls (that is, when the controls attribute is specified)."
+        },
+        crossorigin: {
+            type: String,
+            matches: [
+                "anonymous",
+                "use-credentials",
+            ],
+        },
+        disableremoteplayback: {
+            type: Boolean,
+            description: "A Boolean attribute used to disable the capability of remote playback in devices that are attached using wired and wireless technologies"
+        },
+        loop: {
+            type: Boolean,
+            description: "A Boolean attribute: if specified, the audio player will automatically seek back to the start upon reaching the end of the audio."
+        },
+        muted: {
+            type: Boolean,
+            default: false,
+            description: "A Boolean attribute that indicates whether the audio will be initially silenced.Its default value is false."
+        },
+        preload: {
+            type: String,
+            description: "This enumerated attribute is intended to provide a hint to the browser about what the author thinks will lead to the best user experience.",
+            matches: [
+                "none",
+                "metadata",
+                "audio",
+            ]
+        }
+    },
+})({
+    validate(node) {
+
+
+        const allChildrenWithSourceTagsHaveASrcAttribute =
+            node.children
+                .filter(child => child.tag === "source")
+                .every(child => "src" in child.attributes)
+
+
+        return createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue(
+            [
+                !allChildrenWithSourceTagsHaveASrcAttribute,
+                generateMarkdocErrorObject(
+                    "invalid-children",
+                    "error",
+                    "All children of the audio tag must have a src attribute "
+                )
+            ]
+        )
+
+    }
+});
+
+
+
 
 export const address = generateNonPrimarySchemaWithATransformThatGeneratesDataAttributes({
     render: "address",
@@ -399,7 +482,8 @@ export const track = getGenerateNonPrimarySchema(
 
             return createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue(
                 [
-                    !kindIsSubtitlesAndThereIsASrcLang, generateMarkdocErrorObject(
+                    !kindIsSubtitlesAndThereIsASrcLang,
+                    generateMarkdocErrorObject(
                         "invalid-attributes",
                         "error",
                         "If the kind is equal to subtitles you must specify a srclang"
@@ -420,7 +504,6 @@ export const ul = generateNonPrimarySchemaWithATransformThatGeneratesDataAttribu
         "li"
     ],
     attributes: {
-
         title,
         spellcheck,
         lang,
@@ -483,7 +566,7 @@ export const details = generateNonPrimarySchemaWithATransformThatGeneratesDataAt
 
 
 
-export const picture = generateNonPrimarySchemaWithATransformThatGeneratesDataAttributes({
+export const picture = getGenerateNonPrimarySchema({
     render: "picture",
     attributes: {
         hidden
@@ -492,7 +575,26 @@ export const picture = generateNonPrimarySchemaWithATransformThatGeneratesDataAt
         "img",
         "source",
     ]
-})()
+})({
+    validate(node) {
+        const allChildrenWithSourceTagsHaveASrcAttribute =
+            node.children
+                .filter(child => child.tag === "source")
+                .every(child => "srcset" in child.attributes)
+
+        return createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue(
+            [
+                !allChildrenWithSourceTagsHaveASrcAttribute,
+                generateMarkdocErrorObject(
+                    "invalid-children",
+                    "error",
+                    "All children of the video tag must have a srcset attribute "
+                )
+            ]
+        )
+    }
+}
+)
 
 export const dl = getGenerateNonPrimarySchema({
     render: "dl",
