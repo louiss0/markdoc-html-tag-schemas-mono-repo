@@ -181,12 +181,10 @@ export const video = getGenerateNonPrimarySchema({
         "track"
     ],
     attributes: {
-        type: {
-            type: String,
-            description: "The acceptable media types only for video",
-            matches: /^video\/[a-z]+$/
-        },
-        autoPlay: {
+        width,
+        height,
+        refferpolicy,
+        autoplay: {
             type: Boolean,
             description: "A Boolean attribute: if specified, the audio will automatically begin playback as soon as it can do so"
         },
@@ -210,14 +208,12 @@ export const video = getGenerateNonPrimarySchema({
                 "use-credentials",
             ],
         },
-        refferpolicy,
         loop: {
             type: Boolean,
             description: "A Boolean attribute: if specified, the audio player will automatically seek back to the start upon reaching the end of the audio."
         },
         muted: {
             type: Boolean,
-            default: false,
             description: "A Boolean attribute that indicates whether the audio will be initially silenced.Its default value is false."
         },
         preload: {
@@ -269,13 +265,7 @@ export const audio = getGenerateNonPrimarySchema({
         "source"
     ],
     attributes: {
-        type: {
-            type: String,
-            description: "The acceptable media types only for audio",
-            matches: /^audio\/[a-z]+$/
-        },
-
-        autoPlay: {
+        autoplay: {
             type: Boolean,
             description: "A Boolean attribute: if specified, the audio will automatically begin playback as soon as it can do so"
         },
@@ -283,7 +273,7 @@ export const audio = getGenerateNonPrimarySchema({
             type: Boolean,
             description: "A Boolean attribute: if specified, the user can control the audio of the "
         },
-        controlsList: {
+        controlslist: {
             type: String,
             matches: [
                 "nodownload",
@@ -299,10 +289,7 @@ export const audio = getGenerateNonPrimarySchema({
                 "use-credentials",
             ],
         },
-        disableremoteplayback: {
-            type: Boolean,
-            description: "A Boolean attribute used to disable the capability of remote playback in devices that are attached using wired and wireless technologies"
-        },
+
         loop: {
             type: Boolean,
             description: "A Boolean attribute: if specified, the audio player will automatically seek back to the start upon reaching the end of the audio."
@@ -312,6 +299,7 @@ export const audio = getGenerateNonPrimarySchema({
             default: false,
             description: "A Boolean attribute that indicates whether the audio will be initially silenced.Its default value is false."
         },
+
         preload: {
             type: String,
             description: "This enumerated attribute is intended to provide a hint to the browser about what the author thinks will lead to the best user experience.",
@@ -320,7 +308,8 @@ export const audio = getGenerateNonPrimarySchema({
                 "metadata",
                 "audio",
             ]
-        }
+        },
+
     },
 })({
     validate(node) {
