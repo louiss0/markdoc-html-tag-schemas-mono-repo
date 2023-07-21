@@ -423,8 +423,8 @@ export const area = getGenerateNonPrimarySchema({
                 "tag",
             ]
         },
-        refferpolicy,
     },
+    refferpolicy,
 })();
 
 
