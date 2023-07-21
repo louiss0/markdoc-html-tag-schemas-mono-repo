@@ -5,7 +5,7 @@ import { generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserATypeIsNotRigh
 import { isObject } from "packages/markdoc-html-tag-schemas/src/utils/internal"
 
 
-const { ariaHidden, height, width } = MarkdocAttributes
+const { height, width } = MarkdocAttributes
 
 export class AllowAttribute extends MarkdocValidatorAttribute {
 
@@ -110,7 +110,6 @@ export const iframe = getGenerateNonPrimarySchema({
                 "allow-top-navigation-to-custom-protocols",
             ]
         },
-        ariaHidden,
         width,
         height,
     },

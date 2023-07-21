@@ -1,17 +1,19 @@
 import {
+    createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue,
+    generateMarkdocErrorObject,
     generateNonPrimarySchemaWithATransformThatGeneratesDataAttributes,
     getGenerateNonPrimarySchema,
 } from "packages/markdoc-html-tag-schemas/src/utils";
 
 import {
     DownloadAttribute,
+    MediaAttribute,
     SizesAttribute,
     SourceAttribute,
     SrcSetAttribute,
 } from 'packages/markdoc-html-tag-schemas/src/lib/custom-attributes';
 
 import { MarkdocAttributes } from "packages/markdoc-html-tag-schemas/src/lib/attributes";
-import { MediaAttribute } from "packages/markdoc-html-tag-schemas/src/lib/schema/tag/source";
 
 export { source } from "packages/markdoc-html-tag-schemas/src/lib/schema/tag/source"
 
@@ -27,12 +29,11 @@ const {
     translate,
     spellcheck,
     dir,
-    ariaHidden,
-    ariaLabel,
     cite,
     width,
     height,
     target,
+    hidden,
     refferpolicy,
 } = MarkdocAttributes
 
@@ -41,14 +42,11 @@ const {
 
 export const video = getGenerateNonPrimarySchema({
     render: "video",
-    selfClosing: true,
+    children: [
+        "source",
+        "track"
+    ],
     attributes: {
-        ariaHidden,
-        src: {
-            type: SourceAttribute,
-            required: true,
-            description: "This is the link to the audio file you want to use"
-        },
         type: {
             type: String,
             description: "The acceptable media types only for video",
@@ -111,20 +109,16 @@ export const video = getGenerateNonPrimarySchema({
 
 export const audio = getGenerateNonPrimarySchema({
     render: "audio",
-    selfClosing: true,
+    children: [
+        "source"
+    ],
     attributes: {
-        src: {
-            type: SourceAttribute,
-            required: true,
-            errorLevel: "warning",
-            description: "This is the link to the audio file you want to use"
-        },
         type: {
             type: String,
             description: "The acceptable media types only for audio",
             matches: /^audio\/[a-z]+$/
         },
-        ariaHidden,
+
         autoPlay: {
             type: Boolean,
             description: "A Boolean attribute: if specified, the audio will automatically begin playback as soon as it can do so"
@@ -171,15 +165,14 @@ export const audio = getGenerateNonPrimarySchema({
                 "audio",
             ]
         }
-
     },
-})();
+})({});
 
 
 export const hr = getGenerateNonPrimarySchema({
     render: "hr",
     selfClosing: true,
-    attributes: { ariaHidden }
+    attributes: { hidden }
 })();
 
 
@@ -187,7 +180,7 @@ export const hr = getGenerateNonPrimarySchema({
 export const br = getGenerateNonPrimarySchema({
     render: "br",
     selfClosing: true,
-    attributes: { ariaHidden },
+    attributes: { hidden },
 })();
 
 
@@ -276,12 +269,10 @@ export const img = getGenerateNonPrimarySchema(
 export const address = generateNonPrimarySchemaWithATransformThatGeneratesDataAttributes({
     render: "address",
     attributes: {
-        ariaHidden,
         draggable,
         translate,
         spellcheck,
         dir,
-        ariaLabel
     },
     children: ["inline", "span", "paragraph", "list"]
 })();
@@ -380,7 +371,6 @@ export const track = getGenerateNonPrimarySchema(
             },
             label: {
                 type: String,
-
             },
             srclang: lang,
             kind: {
@@ -396,7 +386,31 @@ export const track = getGenerateNonPrimarySchema(
         },
         children: ["area"]
     }
-)();
+)(
+    {
+        validate(node) {
+
+            const { attributes } = node
+
+            const kindIsSubtitlesAndThereIsASrcLang =
+                "kind" in attributes
+                && attributes["kind"] === "subtitles"
+                && "srclang" in attributes
+
+            return createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue(
+                [
+                    !kindIsSubtitlesAndThereIsASrcLang, generateMarkdocErrorObject(
+                        "invalid-attributes",
+                        "error",
+                        "If the kind is equal to subtitles you must specify a srclang"
+                    )
+                ]
+            )
+
+
+        },
+    }
+);
 
 
 
@@ -406,7 +420,7 @@ export const ul = generateNonPrimarySchemaWithATransformThatGeneratesDataAttribu
         "li"
     ],
     attributes: {
-        ariaHidden,
+
         title,
         spellcheck,
         lang,
@@ -423,7 +437,6 @@ export const ol = generateNonPrimarySchemaWithATransformThatGeneratesDataAttribu
         "li"
     ],
     attributes: {
-        ariaHidden,
         title,
         spellcheck,
         lang,
@@ -443,7 +456,8 @@ export const ol = generateNonPrimarySchemaWithATransformThatGeneratesDataAttribu
 export const blockquote = getGenerateNonPrimarySchema({
     render: "blockquote",
     attributes: {
-        cite
+        cite,
+        hidden,
     },
     children: [
         "list",
@@ -455,7 +469,6 @@ export const blockquote = getGenerateNonPrimarySchema({
 export const details = generateNonPrimarySchemaWithATransformThatGeneratesDataAttributes({
     render: "details",
     attributes: {
-        ariaHidden,
         open: {
             type: Boolean,
             required: false,
@@ -472,7 +485,9 @@ export const details = generateNonPrimarySchemaWithATransformThatGeneratesDataAt
 
 export const picture = generateNonPrimarySchemaWithATransformThatGeneratesDataAttributes({
     render: "picture",
-    attributes: { ariaHidden, },
+    attributes: {
+        hidden
+    },
     children: [
         "img",
         "source",
@@ -482,7 +497,13 @@ export const picture = generateNonPrimarySchemaWithATransformThatGeneratesDataAt
 export const dl = getGenerateNonPrimarySchema({
     render: "dl",
     attributes: {
-        ariaLabel
+        hidden,
+        title,
+        spellcheck,
+        lang,
+        contenteditable,
+        translate,
+        dir,
     },
     children: [
         "dt",
@@ -494,7 +515,9 @@ export const dl = getGenerateNonPrimarySchema({
 
 export const colgroup = getGenerateNonPrimarySchema({
     render: "colgroup",
-    attributes: { ariaHidden, },
+    attributes: {
+        hidden
+    },
     children: [
         "col",
         "text",
@@ -503,7 +526,9 @@ export const colgroup = getGenerateNonPrimarySchema({
 
 export const col = getGenerateNonPrimarySchema({
     render: "col",
-    attributes: { ariaHidden, },
+    attributes: {
+        hidden
+    },
     children: [
         "inline",
         "text",

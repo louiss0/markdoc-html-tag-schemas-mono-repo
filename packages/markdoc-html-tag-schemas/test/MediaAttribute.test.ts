@@ -1,4 +1,4 @@
-import { MediaAttribute } from "packages/markdoc-html-tag-schemas/src/lib/schema/tag/source"
+import { MediaAttribute } from "packages/markdoc-html-tag-schemas/src/lib/custom-attributes"
 
 
 describe("Testing MediaAttribute.returnMarkdocErrorObjectOrNothing()", () => {
@@ -12,7 +12,8 @@ describe("Testing MediaAttribute.returnMarkdocErrorObjectOrNothing()", () => {
             ("Returns %# a invalid-type markdoc error object", (value) => {
 
 
-                expect(mediaAttribute.returnMarkdocErrorObjectOrNothing(value))
+                expect(mediaAttribute.returnMarkdocErrorObjectOrNothing(value)
+                )
                     .toEqualMarkdocErrorObjectThatTellsTheUserThatATypeIsNotRight()
 
 
