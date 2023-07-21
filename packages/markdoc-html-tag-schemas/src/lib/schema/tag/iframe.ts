@@ -1,5 +1,5 @@
 
-import { MarkdocValidatorAttribute, SourceAttribute } from "packages/markdoc-html-tag-schemas/src/lib/custom-attributes";
+import { MarkdocValidatorAttribute, SourceAttribute, type CustomAttributeTransformContract } from "packages/markdoc-html-tag-schemas/src/lib/custom-attributes";
 import { MarkdocAttributes } from "packages/markdoc-html-tag-schemas/src/lib/attributes";
 import { generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserATypeIsNotRight, generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight, getGenerateNonPrimarySchema } from "packages/markdoc-html-tag-schemas/src/utils"
 import { isObject } from "packages/markdoc-html-tag-schemas/src/utils/internal"
@@ -7,9 +7,20 @@ import { isObject } from "packages/markdoc-html-tag-schemas/src/utils/internal"
 
 const { height, width } = MarkdocAttributes
 
-export class AllowAttribute extends MarkdocValidatorAttribute {
+export class AllowAttribute extends MarkdocValidatorAttribute implements CustomAttributeTransformContract {
 
 
+
+    transform(value: Record<string, string>) {
+
+
+        return Object.entries(value)
+            .reduce(
+                (carry, [key, value]) =>
+                    `${carry} ${key} ${value}`,
+                "")
+
+    }
 
     readonly allowedPermissionDirectives = [
         "camera",
@@ -21,14 +32,15 @@ export class AllowAttribute extends MarkdocValidatorAttribute {
         "web-share",
     ]
 
-    readonly keywordAndOriginGroupsRegex = /^(?<keywords>self|src)\s(?<origin>https?:\/\/[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6})*$/;
+    readonly keywordAndOriginGroupsRegex = /^(?<keywords>'self'|'src')\s(?<origin>https?:\/\/[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6})*$/;
 
     readonly anchoredStarRegex = /^\*$/;
 
     returnMarkdocErrorObjectOrNothing(value: unknown) {
 
 
-        if (!isObject(value)) return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserATypeIsNotRight("object")
+        if (!isObject(value))
+            return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserATypeIsNotRight("object")
 
 
         const allKeysAreOneOfTheRequiredListOfAllowedPermissionDirectives = Object.keys(value).every(
@@ -51,7 +63,8 @@ export class AllowAttribute extends MarkdocValidatorAttribute {
 
         if (keysWithValuesThatDoNotHaveAProperAllowlist.length !== 0)
             return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(`
-            Please don't use any kind of string as a value. Use the keywords src of self followed by multiple URL's. 
+            Please don't use any kind of string as a value. Use the keywords src of self followed by multiple URL's.
+            They both must be single quoted.   
             You just use the * to allow all all url's 
             `)
 
@@ -89,10 +102,7 @@ export const iframe = getGenerateNonPrimarySchema({
                 "lazy",
             ]
         },
-        credentialess: {
-            type: Boolean,
-            required: false,
-        },
+
         sandbox: {
             type: String,
             matches: [
