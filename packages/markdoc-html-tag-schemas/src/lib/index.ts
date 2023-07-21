@@ -1,4 +1,4 @@
-export * from "./schema/attribute"
+export * from "./attributes"
 export * from "./schema/tag"
 export * from "./extensions"
 

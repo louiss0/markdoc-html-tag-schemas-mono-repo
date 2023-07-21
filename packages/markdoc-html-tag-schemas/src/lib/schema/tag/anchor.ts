@@ -1,6 +1,6 @@
 import type { ValidationError } from "@markdoc/markdoc"
 import { DownloadAttribute, HttpURLAttribute, MarkdocValidatorAttribute, PathAttribute } from "packages/markdoc-html-tag-schemas/src/lib/custom-attributes";
-import { MarkdocAttributeSchemas } from "packages/markdoc-html-tag-schemas/src/lib/schema/attribute";
+import { MarkdocAttributes } from "packages/markdoc-html-tag-schemas/src/lib/attributes";
 import {
     generateMarkdocErrorObject,
     getGenerateNonPrimarySchema,
@@ -71,8 +71,8 @@ export const a = getGenerateNonPrimarySchema({
             type: HrefAttribute,
             required: true,
         },
-        title: MarkdocAttributeSchemas.title,
-        target: MarkdocAttributeSchemas.target,
+        title: MarkdocAttributes.title,
+        target: MarkdocAttributes.target,
         referrerpolicy: {
             type: String,
             default: "no-referrer",

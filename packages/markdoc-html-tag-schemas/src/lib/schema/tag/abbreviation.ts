@@ -1,7 +1,7 @@
 
 import type { ValidationError } from "@markdoc/markdoc";
 import { MarkdocValidatorAttribute } from "packages/markdoc-html-tag-schemas/src/lib/custom-attributes";
-import type { ProperSchemaMatches, RequiredSchemaAttribute } from "packages/markdoc-html-tag-schemas/src/lib/schema/attribute";
+import type { ProperSchemaMatches, RequiredSchemaAttribute } from "packages/markdoc-html-tag-schemas/src/lib/attributes";
 import { generateMarkdocErrorObject, generateSelfClosingTagSchema, } from "packages/markdoc-html-tag-schemas/src/utils";
 
 export class AbbreviationAttribute extends MarkdocValidatorAttribute {

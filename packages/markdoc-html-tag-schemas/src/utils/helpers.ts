@@ -6,7 +6,7 @@ import type {
     ProperSchemaMatches,
     MarkdocAttributeSchema,
     RequiredSchemaAttribute,
-} from 'packages/markdoc-html-tag-schemas/src/lib/schema/attribute';
+} from 'packages/markdoc-html-tag-schemas/src/lib/attributes';
 
 import {
     toLowercaseWithDashes,

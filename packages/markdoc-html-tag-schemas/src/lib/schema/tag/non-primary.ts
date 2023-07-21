@@ -10,7 +10,7 @@ import {
     SrcSetAttribute,
 } from 'packages/markdoc-html-tag-schemas/src/lib/custom-attributes';
 
-import { MarkdocAttributeSchemas } from "packages/markdoc-html-tag-schemas/src/lib/schema/attribute";
+import { MarkdocAttributes } from "packages/markdoc-html-tag-schemas/src/lib/attributes";
 import { MediaAttribute } from "packages/markdoc-html-tag-schemas/src/lib/schema/tag/source";
 
 export { source } from "packages/markdoc-html-tag-schemas/src/lib/schema/tag/source"
@@ -34,7 +34,7 @@ const {
     height,
     target,
     refferpolicy,
-} = MarkdocAttributeSchemas
+} = MarkdocAttributes
 
 
 // * Self Closing Tag Schemas

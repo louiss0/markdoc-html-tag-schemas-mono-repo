@@ -1,7 +1,6 @@
 import type { Scalar, SchemaAttribute, ValidationError, ValidationType, } from "@markdoc/markdoc";
 import { IntegerAttribute, MarkdocValidatorAttribute, SourceAttribute } from "packages/markdoc-html-tag-schemas/src/lib/custom-attributes";
 import {
-    createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue,
     generateMarkdocErrorObject,
     generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserATypeIsNotRight,
     generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight
@@ -50,7 +49,7 @@ export type MarkdocAttributeSchema<T extends ProperSchemaMatches, U extends Requ
     ? TypeIsAStringOrNumberReturnTheValuesIfRegexReturnStringElseNever<T>
     : ReturnTypeBasedOnConstructor<U>
     matches?: T
-} & Omit<SchemaAttribute, "matches" | "default" | "type">
+} & Omit<SchemaAttribute, "matches" | "default" | "type" | "validate">
 
 
 export type PrimaryMarkdocAttributeSchema<T extends ProperSchemaMatches, U extends RequiredSchemaAttribute> =
@@ -98,10 +97,11 @@ const generateBooleanAttributeSchemaThatIsNotRequired = getGenerateMarkdocAttrib
 
 
 
-export namespace MarkdocAttributeSchemas {
+export namespace MarkdocAttributes {
 
 
     export const style = getGenerateMarkdocAttributeSchema({
+
         type: class extends MarkdocValidatorAttribute {
 
 
@@ -114,7 +114,7 @@ export namespace MarkdocAttributeSchemas {
             }
 
 
-            override returnMarkdocErrorObjectOrNothing(value: unknown): void | ValidationError {
+            returnMarkdocErrorObjectOrNothing(value: unknown): void | ValidationError {
 
                 if (isAnObjectWithStringKeysAndValuesThatAreStringsOrNumbers(value))
                     return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(
@@ -166,24 +166,31 @@ export namespace MarkdocAttributeSchemas {
         ]
     })()
 
-    export const title = generateProperStringAttributeSchema({
-        description: "This expression is used to match string that are written using proper punctuation",
-        validate(value: string,) {
+    export const title = getGenerateMarkdocAttributeSchema({
 
-            return createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue(
-                [
-                    !/\b\w+ (?: [\w.,!?':;-]+)*\b/.test(value),
-                    generateMarkdocErrorObject(
+        type: class extends MarkdocValidatorAttribute {
+
+
+            returnMarkdocErrorObjectOrNothing(value: unknown) {
+
+
+
+                if (typeof value !== "string")
+                    return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserATypeIsNotRight("string")
+
+                if (!/\b\w+ (?: [\w.,!?':;-]+)*\b/.test(value))
+
+                    return generateMarkdocErrorObject(
                         "invalid-attribute",
                         "error",
                         "THe title must contain A sentence with proper punctuation"
-                    )
-                ]
-            )
+                    );
 
+
+            }
         },
-
-    });
+        description: "This expression is used to match string that are written using proper punctuation",
+    })();
 
     export const width = getGenerateMarkdocAttributeSchema({
         type: IntegerAttribute,
@@ -299,7 +306,6 @@ export namespace MarkdocAttributeSchemas {
     export const contenteditable = generateBooleanAttributeSchemaThatIsNotRequired({
         description: "An attribute that allows an element's content to be editable",
     });
-
 
 
 

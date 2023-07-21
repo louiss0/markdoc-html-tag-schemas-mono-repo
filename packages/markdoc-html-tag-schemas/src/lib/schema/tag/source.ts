@@ -1,7 +1,7 @@
 import type { ValidationError } from "@markdoc/markdoc";
-import { MarkdocAttributeSchemas } from "packages/markdoc-html-tag-schemas/src/lib/schema/attribute";
+import { MarkdocAttributes } from "packages/markdoc-html-tag-schemas/src/lib/attributes";
 
-const { height, width } = MarkdocAttributeSchemas
+const { height, width } = MarkdocAttributes
 
 import {
     generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserATypeIsNotRight,

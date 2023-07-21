@@ -2,7 +2,7 @@
 import { generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserATypeIsNotRight, generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight, generateSelfClosingTagSchema } from "packages/markdoc-html-tag-schemas/src/utils";
 import { MarkdocValidatorAttribute, } from 'packages/markdoc-html-tag-schemas/src/lib/custom-attributes';
 export { abbr } from "packages/markdoc-html-tag-schemas/src/lib/schema/tag/abbreviation"
-import { MarkdocAttributeSchemas, type ProperSchemaMatches, type RequiredSchemaAttribute } from "packages/markdoc-html-tag-schemas/src/lib/schema/attribute"
+import { MarkdocAttributes, type ProperSchemaMatches, type RequiredSchemaAttribute } from "packages/markdoc-html-tag-schemas/src/lib/attributes"
 import type { ValidationError } from "@markdoc/markdoc";
 
 
@@ -41,8 +41,8 @@ export const del = generateSelfClosingTagSchema<ProperSchemaMatches, RequiredSch
     description: "A schema for creating a sup element"
 }, {
     attributes: {
-        cite: MarkdocAttributeSchemas.cite,
-        datetime: MarkdocAttributeSchemas.datetime
+        cite: MarkdocAttributes.cite,
+        datetime: MarkdocAttributes.datetime
     }
 });
 
@@ -52,8 +52,8 @@ export const ins = generateSelfClosingTagSchema<ProperSchemaMatches, RequiredSch
     description: "A schema for creating a sup element"
 }, {
     attributes: {
-        cite: MarkdocAttributeSchemas.cite,
-        datetime: MarkdocAttributeSchemas.datetime
+        cite: MarkdocAttributes.cite,
+        datetime: MarkdocAttributes.datetime
 
     }
 });
@@ -165,7 +165,7 @@ export const time = generateSelfClosingTagSchema<ProperSchemaMatches, RequiredSc
     description: "A schema for creating a time element"
 }, {
     attributes: {
-        datetime: MarkdocAttributeSchemas.datetime
+        datetime: MarkdocAttributes.datetime
     },
     inline: false,
     transform(node, config, createTag) {
