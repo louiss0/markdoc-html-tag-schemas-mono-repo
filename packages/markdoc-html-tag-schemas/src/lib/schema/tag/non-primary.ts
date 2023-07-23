@@ -30,7 +30,7 @@ const {
     cite,
     width,
     height,
-    target,
+
     hidden,
     refferpolicy,
 } = MarkdocAttributes
@@ -68,10 +68,8 @@ export const source = getGenerateNonPrimarySchema({
             type: String,
             errorLevel: "warning",
             description: "The type of image that is being used",
-            matches: /^image\/(?<image_type>jpg|jpeg|gif|tiff|webp|png)$/
         },
-        width,
-        height,
+
     }
 })()
 
@@ -97,6 +95,10 @@ export const img = getGenerateNonPrimarySchema(
         render: "img",
         selfClosing: true,
         attributes: {
+            width,
+            height,
+            title,
+            refferpolicy,
             src: {
                 type: SourceAttribute,
                 required: true,
@@ -139,10 +141,6 @@ export const img = getGenerateNonPrimarySchema(
                     "auto",
                 ]
             },
-            width,
-            height,
-            title,
-            refferpolicy,
             fetchprority: {
                 type: String,
                 matches: [
@@ -164,6 +162,7 @@ export const img = getGenerateNonPrimarySchema(
 
 //* Children Tag Schemas
 
+const videoTypeRegex = /^video\/\b\w+/
 
 export const video = getGenerateNonPrimarySchema({
     render: "video",
@@ -230,11 +229,17 @@ export const video = getGenerateNonPrimarySchema({
     validate(node) {
 
 
+        const sourceTags = node.children
+            .filter(child => child.tag === "source");
         const allChildrenWithSourceTagsHaveASrcAttribute =
-            node.children
-                .filter(child => child.tag === "source")
+            sourceTags
                 .every(child => "src" in child.attributes)
 
+        const anySourceTagWithATypeAttributeIsInvalid =
+            sourceTags
+                .some((node) => "type" in node.attributes
+                    && !videoTypeRegex.test(node.attributes["type"])
+                )
 
         return createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue(
             [
@@ -244,12 +249,23 @@ export const video = getGenerateNonPrimarySchema({
                     "error",
                     "All children of the video tag must have a src attribute "
                 )
+            ],
+            [anySourceTagWithATypeAttributeIsInvalid,
+                generateMarkdocErrorObject(
+                    "invalid-children",
+                    "error",
+                    `All children of the picture tag that is a src attribute must have a type attribute with a string
+                    that starts with video/ and ends with a word.
+                    `
+                )
+
             ]
         )
 
     }
 });
 
+const audioTypeRegex = /^audio\/\b\w+/
 export const audio = getGenerateNonPrimarySchema({
     render: "audio",
     children: [
@@ -306,11 +322,18 @@ export const audio = getGenerateNonPrimarySchema({
     validate(node) {
 
 
+        const sourceTags = node.children
+            .filter(child => child.tag === "source");
+
         const allChildrenWithSourceTagsHaveASrcAttribute =
-            node.children
-                .filter(child => child.tag === "source")
+            sourceTags
                 .every(child => "src" in child.attributes)
 
+        const anySourceTagWithATypeAttributeIsInvalid =
+            sourceTags
+                .some((node) => "type" in node.attributes
+                    && !audioTypeRegex.test(node.attributes["type"])
+                )
 
         return createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue(
             [
@@ -320,6 +343,22 @@ export const audio = getGenerateNonPrimarySchema({
                     "error",
                     "All children of the audio tag must have a src attribute "
                 )
+            ],
+            [anySourceTagWithATypeAttributeIsInvalid,
+                generateMarkdocErrorObject(
+                    "invalid-children",
+                    "error",
+                    `All children of the picture tag that is a src attribute must have a type attribute  with a a string that is one of the following values.
+                    
+                        image/jpg
+                        image/jpeg
+                        image/gif
+                        image/tiff
+                        image/webp
+                        image/png
+                    `
+                )
+
             ]
         )
 
@@ -469,6 +508,8 @@ export const details = generateNonPrimarySchemaWithATransformThatGeneratesDataAt
 
 
 
+const imageTypeRegex = /^image\/(?<image_type>jpg|jpeg|gif|tiff|webp|png)$/;
+
 export const picture = getGenerateNonPrimarySchema({
     render: "picture",
     attributes: {
@@ -480,10 +521,18 @@ export const picture = getGenerateNonPrimarySchema({
     ]
 })({
     validate(node) {
+        const sourceTags = node.children
+            .filter(child => child.tag === "source");
+
         const allChildrenWithSourceTagsHaveASrcAttribute =
-            node.children
-                .filter(child => child.tag === "source")
+            sourceTags
                 .every(child => "srcset" in child.attributes)
+
+        const anySourceTagWithATypeAttributeIsInvalid =
+            sourceTags
+                .some((node) => "type" in node.attributes
+                    && !imageTypeRegex.test(node.attributes["type"])
+                )
 
         return createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue(
             [
@@ -491,9 +540,26 @@ export const picture = getGenerateNonPrimarySchema({
                 generateMarkdocErrorObject(
                     "invalid-children",
                     "error",
-                    "All children of the video tag must have a srcset attribute "
+                    "All children of the picture tag that is a src attribute must have a srcset attribute "
                 )
+            ],
+            [anySourceTagWithATypeAttributeIsInvalid,
+                generateMarkdocErrorObject(
+                    "invalid-children",
+                    "error",
+                    `All children of the picture tag that is a src attribute must have a type attribute  with a a string that is one of the following values.
+                    
+                        image/jpg
+                        image/jpeg
+                        image/gif
+                        image/tiff
+                        image/webp
+                        image/png
+                    `
+                )
+
             ]
+
         )
     }
 }
