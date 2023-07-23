@@ -20,17 +20,22 @@
         "Adlm",
         "contenteditable",
         "controlslist",
+        "credentialless",
         "crossorigin",
         "datetime",
         "disableremoteplayback",
         "fetchprority",
         "framename",
+        "ismap",
         "nodownload",
         "nofollow",
         "nofullscreen",
+        "noopener",
         "noreferrer",
         "noremoteplayback",
         "playsinline",
+        "reffererpolicy",
         "refferpolicy",
+        "srcset"
     ]
 }
