@@ -34,8 +34,7 @@
         "noreferrer",
         "noremoteplayback",
         "playsinline",
-        "reffererpolicy",
-        "refferpolicy",
+        "referrerpolicy",
         "srcset"
     ]
 }

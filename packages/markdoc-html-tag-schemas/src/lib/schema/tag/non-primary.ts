@@ -29,9 +29,8 @@ const {
     cite,
     width,
     height,
-
     hidden,
-    refferpolicy,
+    referrerpolicy,
 } = MarkdocAttributes
 
 
@@ -153,7 +152,7 @@ export const img = getGenerateNonPrimarySchema(
             width,
             height,
             title,
-            refferpolicy,
+            referrerpolicy,
             src: {
                 type: SourceAttribute,
                 required: true,
@@ -228,7 +227,6 @@ export const video = getGenerateNonPrimarySchema({
     attributes: {
         width,
         height,
-        refferpolicy,
         autoplay: {
             type: Boolean,
             description: "A Boolean attribute: if specified, the audio will automatically begin playback as soon as it can do so"
