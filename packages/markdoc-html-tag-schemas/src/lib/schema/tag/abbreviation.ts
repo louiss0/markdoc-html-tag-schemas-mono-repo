@@ -1,61 +1,83 @@
 
-import type { ValidationError } from "@markdoc/markdoc";
-import { MarkdocValidatorAttribute } from "packages/markdoc-html-tag-schemas/src/lib/custom-attributes";
 import type { ProperSchemaMatches, RequiredSchemaAttribute } from "packages/markdoc-html-tag-schemas/src/lib/attributes";
-import { generateMarkdocErrorObject, generateSelfClosingTagSchema, } from "packages/markdoc-html-tag-schemas/src/utils";
-
-export class AbbreviationAttribute extends MarkdocValidatorAttribute {
-
-    returnMarkdocErrorObjectOrNothing(value: string,): ValidationError | void {
+import { createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue, generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight, generateSelfClosingTagSchema } from "packages/markdoc-html-tag-schemas/src/utils";
 
 
-
-
-        const matchCapitalisedWordCaptureOtherCapitalizedWordsOnOneLineRegex =
-            /^[A-Z][a-z]*(\s[A-Z][a-z]*)*$/;
-
-        const thePrimaryAttributeIsNotASetOfWordsThatAreCapitalizedAndSpaced =
-            !matchCapitalisedWordCaptureOtherCapitalizedWordsOnOneLineRegex.test(value);
-
-
-        if (thePrimaryAttributeIsNotASetOfWordsThatAreCapitalizedAndSpaced)
-            return generateMarkdocErrorObject(
-                "invalid-attribute",
-                "critical",
-                `You are supposed to supply only words that are capitalised with Spaces.
-                This word ${value} doesn't meet that condition.
-          `
-            )
-
-    }
-}
-
-
-
+const matchCapitalisedWordCaptureOtherCapitalizedWordsOnOneLineRegex =
+    /^[A-Z][a-z]*(\s[A-Z][a-z]*)*$/;
+// const isAnUppercasedWord = /^[A-Z]+/
 export const abbr = generateSelfClosingTagSchema<ProperSchemaMatches, RequiredSchemaAttribute, "abbr">(
     {
         render: "abbr",
-        type: AbbreviationAttribute,
+        type: String,
         description: "A tag that automatically creates an abbreviation of a capitalised word"
     },
     {
         attributes: {
-            label: {
+            title: {
                 type: String,
                 required: false,
                 errorLevel: "error",
-                matches: /[A-Z]/
+                matches: matchCapitalisedWordCaptureOtherCapitalizedWordsOnOneLineRegex
             }
         },
+
+        validate(node, config) {
+
+            const { primary, title } = node.transformAttributes(config)
+
+
+            const thePrimaryAttributeIsNotASetOfWordsThatAreCapitalizedAndSpaced =
+                !matchCapitalisedWordCaptureOtherCapitalizedWordsOnOneLineRegex.test(primary);
+
+            const thePrimaryAttributeIsNotTheAbbreviationOfTheTitle =
+                typeof title === "string"
+                && typeof primary === "string"
+                && !title
+                    .match(/[A-Z]/)
+                    ?.some((value) => primary.includes(value))
+
+            return createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue(
+                [
+                    thePrimaryAttributeIsNotASetOfWordsThatAreCapitalizedAndSpaced && !title,
+                    generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(
+                        `You are supposed to supply only words that are capitalised with spaces
+                         when using the primary attribute.
+                         If you want to write an abbreviation in the primary attribute
+                         use the title attribute along with it and put the 
+                         capitalised word there.
+                         Please make sure to place the abbreviation as the primary attribute
+                         if you do. 
+                         This word ${primary} doesn't meet that condition.
+                        `
+                    )
+                ],
+                [
+                    thePrimaryAttributeIsNotTheAbbreviationOfTheTitle,
+                    generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(
+                        `If you are going to supply both title and primary attribute
+                        the primary attribute ${primary} must be the same as the title ${title}.
+                        `
+                    )
+                ]
+            )
+
+
+        },
+
         transform(node, config, createTag) {
 
 
-            const { primary, label } = node.transformAttributes(config);
+            const { primary, title } =
+                node.transformAttributes(config);
 
-            return createTag("abbr",
-                label ? [label] : primary.match(/[A-Z]/g),
+            return createTag(
+                "abbr",
+                title && primary
+                    ? [primary]
+                    : primary.match(/[A-Z]/g),
                 {
-                    title: primary
+                    title: title ?? primary
                 },
             )
         }
