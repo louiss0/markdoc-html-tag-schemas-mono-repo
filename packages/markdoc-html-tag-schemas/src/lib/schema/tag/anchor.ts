@@ -19,6 +19,8 @@ export class HrefAttribute extends MarkdocValidatorAttribute {
 
     readonly telRegex = /^tel:[\d-]+$/
 
+    readonly routePathRegex = /(?<init_path>\/)(?<folder_path>[a-z0-9\-_]+\/)*(?<destination>[a-z0-9\-_])?/
+
     readonly wordThatStartsWithAHashRegex = /^#(?<word>\b\w+)?$/
 
     override returnMarkdocErrorObjectOrNothing(value: string): ValidationError | void {
@@ -28,6 +30,7 @@ export class HrefAttribute extends MarkdocValidatorAttribute {
             this.httpUrlAttribute.httpUrlRegex.test(value),
             this.pathAttribute.absolutePathRegex.test(value),
             this.pathAttribute.relativePathRegex.test(value),
+            this.routePathRegex.test(value),
             this.mailtoRegex.test(value),
             this.telRegex.test(value),
             this.wordThatStartsWithAHashRegex.test(value)
