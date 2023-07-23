@@ -26,19 +26,11 @@ export default defineConfig({
         {
           text: 'Schemas',
           items: [
-            { text: 'Anchor', link: '/schemas/anchor' },
-            { text: 'Lists', link: '/schemas/lists' },
-            { text: 'Images', link: '/schemas/images' },
-            { text: 'Iframe', link: '/schemas/iframe' },
-            { text: 'Abbreviation', link: '/schemas/abbreviation' },
-            {
-              text: 'Details and Summary',
-              link: '/schemas/details-and-summary',
-            },
             {
               text: 'External Media',
               link: '/schemas/external-media',
             },
+            { text: 'Images', link: '/schemas/images' },
           ],
         },
       ],
