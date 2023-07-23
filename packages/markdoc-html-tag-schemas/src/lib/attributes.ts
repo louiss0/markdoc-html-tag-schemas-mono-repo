@@ -44,7 +44,7 @@ export type RequiredSchemaAttribute =
     >
 
 export type MarkdocAttributeSchema<T extends ProperSchemaMatches, U extends RequiredSchemaAttribute> = {
-    type?: U
+    type: U
     default?: T extends Array<unknown> | RegExp
     ? TypeIsAStringOrNumberReturnTheValuesIfRegexReturnStringElseNever<T>
     : ReturnTypeBasedOnConstructor<U>
@@ -153,7 +153,7 @@ export namespace MarkdocAttributes {
     export const hidden = generateBooleanAttributeSchemaThatIsNotRequired();
 
 
-    export const refferpolicy = getGenerateMarkdocAttributeSchema({
+    export const referrerpolicy = getGenerateMarkdocAttributeSchema({
         type: String,
         matches: [
             "no-referrer",
