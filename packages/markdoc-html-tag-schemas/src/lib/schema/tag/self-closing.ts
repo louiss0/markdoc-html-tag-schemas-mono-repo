@@ -152,12 +152,13 @@ export const time = generateSelfClosingTagSchema<ProperSchemaMatches, RequiredSc
 
 
             const dateIsNotANumber = isNaN(Date.parse(value));
+
             if (dateIsNotANumber)
 
                 return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(
                     `This value ${value} is not a parse able date time string
-                             Please use a proper date format 
-                            `
+                    Please use a proper date format 
+                    `
                 )
 
         }
@@ -179,11 +180,12 @@ export const time = generateSelfClosingTagSchema<ProperSchemaMatches, RequiredSc
 
         const date = new Date(primary)
 
-        return createTag("time", [date.toLocaleDateString(undefined, {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-        })], {
+        return createTag("time",
+            date.toLocaleDateString(undefined, {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+            }).split(" "), {
             datetime: date.toISOString()
         })
 
