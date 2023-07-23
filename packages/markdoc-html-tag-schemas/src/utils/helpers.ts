@@ -194,7 +194,7 @@ type GenerateSelfClosingTagSchemaSecondaryConfig<
     T extends ProperSchemaMatches,
     U extends RequiredSchemaAttribute,
     R extends string
-> = Partial<Pick<NonPrimaryTagsSchema<T, U, R>, "attributes" | "inline">>
+> = Partial<Pick<NonPrimaryTagsSchema<T, U, R>, "attributes" | "inline" | "validate">>
     & ObjectWithTransformMethod<R>;
 
 export function generateSelfClosingTagSchema<
@@ -212,6 +212,7 @@ export function generateSelfClosingTagSchema<
     const {
         inline = true,
         attributes = {},
+        validate,
         transform = (node, config, createTag) => {
 
             const { primary, ...rest } = node.transformAttributes(config)
@@ -234,7 +235,8 @@ export function generateSelfClosingTagSchema<
 
     return generatePrimarySchema({
         attributes,
-        transform
+        transform,
+        validate
     });
 }
 
