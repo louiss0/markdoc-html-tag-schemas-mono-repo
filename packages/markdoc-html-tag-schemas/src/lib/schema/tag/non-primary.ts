@@ -151,15 +151,6 @@ export const img = getGenerateNonPrimarySchema(
                     "auto",
                 ]
             },
-            usemap: {
-                type: String,
-                matches: /^#\b\w+/
-
-            },
-            ismap: {
-                type: Boolean
-            },
-
             loading: {
                 type: String,
                 matches: [
@@ -349,83 +340,6 @@ export const address = generateNonPrimarySchemaWithATransformThatGeneratesDataAt
     children: ["inline", "span", "paragraph", "list"]
 })();
 
-
-export const map = getGenerateNonPrimarySchema(
-    {
-        render: 'map',
-        attributes: {
-            name: {
-                type: String,
-                required: true,
-                matches: /^#\b\w+/
-            }
-        },
-        children: ["area"]
-    }
-)();
-
-export const area = getGenerateNonPrimarySchema({
-    render: "area",
-    selfClosing: true,
-    attributes: {
-        type: {
-            type: String,
-            errorLevel: "warning",
-            description: "The type of image that is being used",
-            matches: /^image\/(?<image_type>jpg|jpeg|gif|tiff|webp|png)$/
-        },
-        media: {
-            type: MediaAttribute
-        },
-        href: {
-            type: SourceAttribute,
-            required: true
-        },
-        hreflang: lang,
-        target: {
-            ...target,
-            matches: target.matches.concat("framename")
-
-        },
-        coords: {
-            type: String,
-            matches: /^(?<first_digit>\d{1,3})(?<digit_prefix_with_comma>,d{1,3})*$/
-        },
-        alt: {
-            type: String,
-            required: true
-        },
-        download: {
-            type: DownloadAttribute
-        },
-        shape: {
-            type: String,
-            matches: [
-                "rect",
-                "circle",
-                "poly",
-            ]
-        },
-        rel: {
-            type: String,
-            matches: [
-                "alternate",
-                "author",
-                "bookmark",
-                "help",
-                "license",
-                "next",
-                "nofollow",
-                "noreferrer",
-                "prefetch",
-                "prev",
-                "search",
-                "tag",
-            ]
-        },
-    },
-    refferpolicy,
-})();
 
 
 export const track = getGenerateNonPrimarySchema(
