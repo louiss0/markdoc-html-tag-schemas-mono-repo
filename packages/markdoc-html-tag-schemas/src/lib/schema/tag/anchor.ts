@@ -15,8 +15,6 @@ export class HrefAttribute extends MarkdocValidatorAttribute {
 
     private readonly pathAttribute = new PathAttribute()
 
-    readonly routePathRegex = /(?<init_path>\/)(?<folder_path>[a-z0-9\-_]+\/)*(?<destination>[a-z0-9\-_])?/
-
     readonly mailtoRegex = /^mailto:([\w.-]+@[\w.-]+)(\?.+)?$/;
 
     readonly telRegex = /^tel:[\d-]+$/
@@ -29,9 +27,8 @@ export class HrefAttribute extends MarkdocValidatorAttribute {
         const theValueIsNotValid = ![
             this.httpUrlAttribute.httpUrlRegex.test(value),
             this.pathAttribute.absolutePathRegex.test(value),
-            this.pathAttribute.absolutePathRegex.test(value),
+            this.pathAttribute.relativePathRegex.test(value),
             this.mailtoRegex.test(value),
-            this.routePathRegex.test(value),
             this.telRegex.test(value),
             this.wordThatStartsWithAHashRegex.test(value)
         ].some(Boolean)
@@ -63,7 +60,6 @@ export class HrefAttribute extends MarkdocValidatorAttribute {
 }
 
 
-
 export const a = getGenerateNonPrimarySchema({
     render: "a",
     attributes: {
@@ -73,9 +69,31 @@ export const a = getGenerateNonPrimarySchema({
         },
         title: MarkdocAttributes.title,
         target: MarkdocAttributes.target,
-        referrerpolicy: {
+        type: {
             type: String,
-            default: "no-referrer",
+            matches: /^(application|audio|font|example|image|message|model|multipart|text|video)\/w+$/
+        },
+        rel: {
+            type: String,
+            matches: [
+                "alternate",
+                "author",
+                "bookmark",
+                "external",
+                "help",
+                "license",
+                "next",
+                "nofollow",
+                "noreferrer",
+                "noopener",
+                "prev",
+                "search",
+                "tag",
+            ]
+        },
+
+        reffererpolicy: {
+            type: String,
             matches: [
                 "no-referrer",
                 "no-referrer-when-downgrade",
@@ -100,6 +118,8 @@ export const a = getGenerateNonPrimarySchema({
         "em",
         "strong",
         "abbr",
+        "text",
+        "image",
         "img",
     ]
 })()
