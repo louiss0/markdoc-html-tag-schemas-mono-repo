@@ -3,7 +3,6 @@
 <!-- [HTTPURLAttribute]: /attributes/custom#httpurlattribute -->
 <!-- [PathAttribute]: /attributes/custom#pathattribute -->
 [SourceAttribute]: /attributes/custom#sourceattribute
-<!-- [DownloadAttribute]: /attributes/custom#downloadattribute -->
 <!-- [SizesAttribute]: /attributes/custom#sizesattribute -->
 <!-- [SrcSetAttribute]: /attributes/custom#srcsetattribute -->
 
