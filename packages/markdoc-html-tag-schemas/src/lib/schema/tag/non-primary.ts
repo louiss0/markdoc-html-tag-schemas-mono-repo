@@ -6,7 +6,6 @@ import {
 } from "packages/markdoc-html-tag-schemas/src/utils";
 
 import {
-    DownloadAttribute,
     MediaAttribute,
     SizesAttribute,
     SourceAttribute,
@@ -73,6 +72,62 @@ export const source = getGenerateNonPrimarySchema({
     }
 })()
 
+export const track = getGenerateNonPrimarySchema(
+    {
+        render: 'track',
+        selfClosing: true,
+        attributes: {
+            src: {
+                type: SourceAttribute,
+                required: true,
+                description: "The url where the file is placed"
+
+            },
+            default: {
+                type: Boolean,
+            },
+            label: {
+                type: String,
+            },
+            srclang: lang,
+            kind: {
+                type: String,
+                matches: [
+                    "captions",
+                    "chapters",
+                    "descriptions",
+                    "metadata",
+                    "subtitles",
+                ]
+            },
+        },
+    }
+)(
+    {
+        validate(node) {
+
+            const { attributes } = node
+
+            const kindIsSubtitlesAndThereIsASrcLang =
+                "kind" in attributes
+                && attributes["kind"] === "subtitles"
+                && "srclang" in attributes
+
+            return createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue(
+                [
+                    !kindIsSubtitlesAndThereIsASrcLang,
+                    generateMarkdocErrorObject(
+                        "invalid-attributes",
+                        "error",
+                        "If the kind is equal to subtitles you must specify a srclang"
+                    )
+                ]
+            )
+
+
+        },
+    }
+);
 
 export const hr = getGenerateNonPrimarySchema({
     render: "hr",
@@ -381,63 +436,6 @@ export const address = generateNonPrimarySchemaWithATransformThatGeneratesDataAt
 
 
 
-export const track = getGenerateNonPrimarySchema(
-    {
-        render: 'track',
-        attributes: {
-            src: {
-                type: SourceAttribute,
-                required: true,
-                description: "The url where the file is placed"
-
-            },
-            default: {
-                type: Boolean,
-            },
-            label: {
-                type: String,
-            },
-            srclang: lang,
-            kind: {
-                type: String,
-                matches: [
-                    "captions",
-                    "chapters",
-                    "descriptions",
-                    "metadata",
-                    "subtitles",
-                ]
-            },
-        },
-        children: ["area"]
-    }
-)(
-    {
-        validate(node) {
-
-            const { attributes } = node
-
-            const kindIsSubtitlesAndThereIsASrcLang =
-                "kind" in attributes
-                && attributes["kind"] === "subtitles"
-                && "srclang" in attributes
-
-            return createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue(
-                [
-                    !kindIsSubtitlesAndThereIsASrcLang,
-                    generateMarkdocErrorObject(
-                        "invalid-attributes",
-                        "error",
-                        "If the kind is equal to subtitles you must specify a srclang"
-                    )
-                ]
-            )
-
-
-        },
-    }
-);
-
 
 
 export const ul = generateNonPrimarySchemaWithATransformThatGeneratesDataAttributes({
@@ -452,7 +450,6 @@ export const ul = generateNonPrimarySchemaWithATransformThatGeneratesDataAttribu
         contenteditable,
         translate,
         dir,
-        draggable
     }
 })();
 
@@ -468,7 +465,6 @@ export const ol = generateNonPrimarySchemaWithATransformThatGeneratesDataAttribu
         contenteditable,
         translate,
         dir,
-        draggable
     }
 })();
 
@@ -502,7 +498,8 @@ export const details = generateNonPrimarySchemaWithATransformThatGeneratesDataAt
     },
     children: [
         "summary",
-        "text"
+        "text",
+        "paragraph"
     ]
 })();
 
