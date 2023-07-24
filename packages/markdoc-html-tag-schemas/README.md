@@ -1,3 +1,6 @@
+[Docs]: https://markdoc-html-tag-schemas-docs.onrender.com
+
+
 # Markdoc-HTML-Tag-Schemas
 
 This library is a library that was created to add essential tags that are meant to used in Markdoc.
@@ -48,6 +51,12 @@ of HTML attributes. The list of html elements that are supported as tags are.
 - span
 - time
 - dfn
+
+For further documentation go to the [Markdoc HTML Tag Schemas Docs][Docs].
+
+To look at supported schemas go [here](https://markdoc-html-tag-schemas-docs.onrender.com/schemas)
+
+To look at supported attributes go [here](https://markdoc-html-tag-schemas-docs.onrender.com/attributes)
 
 ## Installation
 
@@ -111,3 +120,4 @@ To enable strict headings you can do this.
 ```js
 markdocHTMLTagSchemas({strictHeadings:true})
 ```
+
