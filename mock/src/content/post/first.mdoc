@@ -24,7 +24,7 @@ This is  {% abbr "PHP" title="Hypertext Preproccessor" /%}
 <!-- Tested if tag is normal when datetime is passed. -->
 {% time  "12 July 2023" datetime="2023-12-6" /%}
 
-{% details  %}
+{% details  #red .bg-red-500   %}
     {% summary  "He did not finish" /%}
 
     The project that he was doing whas not finished at all.
@@ -33,6 +33,15 @@ This is  {% abbr "PHP" title="Hypertext Preproccessor" /%}
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vel blandit ex. Praesent egestas, quam ut sollicitudin eleifend, purus sapien condimentum purus, {% span "This is random text1 " /%} tempus rutrum odio turpis et purus. Pellentesque eget lorem tincidunt, luctus dolor vitae, scelerisque nisl. Donec nec leo nec erat dapibus ultricies eu facilisis metus. Pellentesque id urna erat. Maecenas eget efficitur turpis. Maecenas id mollis justo. Vivamus fringilla interdum vulputate. Proin facilisis mauris dui, quis pharetra lorem efficitur eu. Mauris auctor mattis fermentum. Maecenas auctor orci eleifend elit egestas, a ornare massa gravida. Sed sit amet vestibulum ante. Etiam ut nisl a diam ultrices luctus et in tortor. Etiam eget gravida justo, cursus vulputate quam. Nam vulputate suscipit nisi, in {% span "This is random text $item.foo 2" /%} ullamcorper risus vulputate sit amet.
 
+
+
+{% ul .boo %}
+ {% li "Clean my room" /%}
+ {% li "Turn on the lights" /%}
+ {% li "Fix my bed" /%}
+ {% li "Switch out the sheets" /%}
+ {% li "Lift some weights" /%}
+{% /ul %}
 
 
 {% dl %}

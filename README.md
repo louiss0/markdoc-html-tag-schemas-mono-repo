@@ -79,10 +79,4 @@ To lint run.
 nx run markdoc-html-tag-schemas:lint
 ```
 
-I decided to configure everything so that this package is an ESM-only package.
 
-Here's a list of the other packages.
-
-### For Astro Markdoc HTML Schemas Extension
-
-This package is a package that is designed to quickly integrate markdoc html schemas into any astro project.****

@@ -6,7 +6,11 @@
 
 ## [Unreleased]
 
-### Added
+### Fixed
+
+- Added the a and ul tags to the schemas in the extension.
+- Removed default from all attributes and from the types for attributes.
+- The class attribute for data schemas is unaffected it was an object.  
 
 ## [1.0.1] - 2023-07-24
 

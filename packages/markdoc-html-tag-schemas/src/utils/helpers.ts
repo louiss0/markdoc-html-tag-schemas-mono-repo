@@ -350,7 +350,8 @@ export const generateNonPrimarySchemaWithATransformThatGeneratesDataAttributes =
                     );
                 },
                 transform(node, config, createTag) {
-                    const { attributes } = node;
+
+                    const attributes = node.transformAttributes(config);
 
                     let newAttributes = {};
 
@@ -373,6 +374,7 @@ export const generateNonPrimarySchemaWithATransformThatGeneratesDataAttributes =
                             delete attributes['data'];
                     }
 
+                
                     return createTag(
                         render,
                         node.transformChildren(config), {

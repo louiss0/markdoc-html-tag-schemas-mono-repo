@@ -358,7 +358,7 @@ export const audio = getGenerateNonPrimarySchema({
         },
         muted: {
             type: Boolean,
-            default: false,
+
             description: "A Boolean attribute that indicates whether the audio will be initially silenced.Its default value is false."
         },
 
@@ -493,7 +493,6 @@ export const details = generateNonPrimarySchemaWithATransformThatGeneratesDataAt
         open: {
             type: Boolean,
             required: false,
-            default: false
         }
     },
     children: [

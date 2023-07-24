@@ -18,20 +18,6 @@ export type TypeIsAStringOrNumberReturnStringOrNumberConstructorElseReturnMarkdo
 
 
 
-type TypeIsAStringOrNumberReturnTheValuesIfRegexReturnStringElseNever<T> =
-    T extends ReadonlyArray<string> | ReadonlyArray<number>
-    ? T[number]
-    : T extends RegExp
-    ? string
-    : never
-
-type ReturnTypeBasedOnConstructor<T> =
-    T extends StringConstructor | "String" ? string :
-    T extends NumberConstructor | "Number" ? number :
-    T extends BooleanConstructor | "Boolean" ? boolean :
-    T extends ArrayConstructor | "Array" ? Array<string> | Array<number> | Array<Record<string, Scalar>> :
-    T extends ObjectConstructor | "Object" ? Record<string, Scalar> : never
-
 export type ProperSchemaMatches =
     Exclude<SchemaAttribute["matches"], Array<string> | undefined>
     | ReadonlyArray<number>
@@ -45,9 +31,6 @@ export type RequiredSchemaAttribute =
 
 export type MarkdocAttributeSchema<T extends ProperSchemaMatches, U extends RequiredSchemaAttribute> = {
     type: U
-    default?: T extends Array<unknown> | RegExp
-    ? TypeIsAStringOrNumberReturnTheValuesIfRegexReturnStringElseNever<T>
-    : ReturnTypeBasedOnConstructor<U>
     matches?: T
 } & Omit<SchemaAttribute, "matches" | "default" | "type" | "validate">
 
@@ -241,7 +224,6 @@ export namespace MarkdocAttributes {
 
     export const translate = generateProperStringAttributeSchema({
         description: "This attribute is for the making translations when it comes to words",
-        default: "yes",
         matches: [
             "yes",
             "no",
@@ -262,14 +244,12 @@ export namespace MarkdocAttributes {
 
     export const lang = generateProperStringAttributeSchema({
         description: "An attribute for specifying the language of an element",
-        default: "en",
         matches: SUITABLE_LANGUAGES_FOR_THE_LANG_ATTRIBUTE,
     })
 
 
     export const dir = generateProperStringAttributeSchema({
         description: "An attribute for specifying the reading direction of the words in the content",
-        default: "auto",
         matches: [
             "auto",
             "ltr",

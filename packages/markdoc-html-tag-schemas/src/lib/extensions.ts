@@ -74,6 +74,8 @@ export const markdocHTMLTagSchemas = (
         },
         tags: {
             img,
+            a,
+            ul,
             ...selfClosingTags,
             ...restOfTheNonPrimaryTags
         }
