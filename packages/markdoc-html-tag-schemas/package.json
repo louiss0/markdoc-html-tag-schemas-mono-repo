@@ -23,9 +23,7 @@
     "release": "tsup && dotenv release-it"
   },
   "repository": {
-    "url": "https://github.com/louiss0/forastro.git",
-    "type": "git",
-    "directory": "/packages/markdoc-html-tag-schemas"
+    "url": "https://github.com/louiss0/markdoc-html-tag-schemas-mono-repo.git"
   },
   "author": {
     "name": "Shelton Louis",

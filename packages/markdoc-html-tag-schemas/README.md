@@ -1,6 +1,5 @@
 [Docs]: https://markdoc-html-tag-schemas-docs.onrender.com
 
-
 # Markdoc-HTML-Tag-Schemas
 
 This library is a library that was created to add essential tags that are meant to used in Markdoc.
@@ -12,8 +11,6 @@ of HTML attributes. The list of html elements that are supported as tags are.
 - img
 - br
 - hr
-- map
-- area
 - video
 - audio
 - iframe
