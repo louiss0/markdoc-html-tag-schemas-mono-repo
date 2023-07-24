@@ -6,6 +6,7 @@ import {
 } from "packages/markdoc-html-tag-schemas/src/utils";
 
 import {
+    IntegerAttribute,
     MediaAttribute,
     SizesAttribute,
     SourceAttribute,
@@ -29,6 +30,7 @@ const {
     cite,
     width,
     height,
+    style,
     hidden,
     referrerpolicy,
 } = MarkdocAttributes
@@ -582,18 +584,25 @@ export const dl = getGenerateNonPrimarySchema({
 export const colgroup = getGenerateNonPrimarySchema({
     render: "colgroup",
     attributes: {
-        hidden
+        hidden,
+        style,
+        span: {
+            type: IntegerAttribute,
+
+        }
     },
-    children: [
-        "col",
-        "text",
-    ]
+    children: ["col",]
 })();
 
 export const col = getGenerateNonPrimarySchema({
     render: "col",
     attributes: {
-        hidden
+        hidden,
+        style,
+        span: {
+            type: IntegerAttribute,
+
+        }
     },
     children: [
         "inline",
