@@ -1,6 +1,6 @@
 # For Astro Markdoc HTML Tags
 
-## [Unreleased]
+## [1.0.0] - 2023-07-23
 
 This is the first version of this package.
 
