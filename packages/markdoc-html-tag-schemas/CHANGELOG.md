@@ -1,5 +1,12 @@
 # For Astro Markdoc HTML Tags
 
+## [Unreleased]
+
+### Fixed
+
+- The repo url leads to the mono-repo in the readme.
+- I had to remove map and area from the list of supported tags.
+
 ## [1.0.0] - 2023-07-23
 
 This is the first version of this package.
