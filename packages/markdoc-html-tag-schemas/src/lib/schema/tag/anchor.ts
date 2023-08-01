@@ -48,8 +48,8 @@ export class HrefAttribute extends MarkdocValidatorAttribute {
           It must be one of these things.
           A word with a / or a # at the beginning of the string.
           A valid HTTP URL.
-          A valid mailto string 
-          A valid tel string. 
+          A valid mailto string
+          A valid tel string.
           A relative or absolute path.
           `
             )
@@ -63,7 +63,8 @@ export class HrefAttribute extends MarkdocValidatorAttribute {
 }
 
 
-export const a = getGenerateNonPrimarySchema({
+export const a = getGenerateNonPrimarySchema()(
+  {
     render: "a",
     attributes: {
         href: {
@@ -125,4 +126,8 @@ export const a = getGenerateNonPrimarySchema({
         "image",
         "img",
     ]
-})()
+}
+)
+
+
+
