@@ -1,7 +1,7 @@
 import {
     createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue,
     generateMarkdocErrorObject,
-    generateNonPrimarySchemaWithATransformThatGeneratesDataAttributes,
+    getGenerateNonPrimarySchemaWithATransformThatGeneratesDataAttributes,
     getGenerateNonPrimarySchema,
 } from "packages/markdoc-html-tag-schemas/src/utils";
 
@@ -39,7 +39,7 @@ const {
 // * Self Closing Tag Schemas
 
 
-export const source = getGenerateNonPrimarySchema({
+export const source = getGenerateNonPrimarySchema()({
     render: "source",
     selfClosing: true,
     description: "This is the schema for the HTML source tag",
@@ -71,9 +71,9 @@ export const source = getGenerateNonPrimarySchema({
         },
 
     }
-})()
+},{})
 
-export const track = getGenerateNonPrimarySchema(
+export const track = getGenerateNonPrimarySchema()(
     {
         render: 'track',
         selfClosing: true,
@@ -102,8 +102,7 @@ export const track = getGenerateNonPrimarySchema(
                 ]
             },
         },
-    }
-)(
+    },
     {
         validate(node) {
 
@@ -130,23 +129,23 @@ export const track = getGenerateNonPrimarySchema(
     }
 );
 
-export const hr = getGenerateNonPrimarySchema({
+export const hr = getGenerateNonPrimarySchema()({
     render: "hr",
     selfClosing: true,
     attributes: { hidden }
-})();
+},{});
 
 
 
-export const br = getGenerateNonPrimarySchema({
+export const br = getGenerateNonPrimarySchema()({
     render: "br",
     selfClosing: true,
     attributes: { hidden },
-})();
+},{});
 
 
 
-export const img = getGenerateNonPrimarySchema(
+export const img = getGenerateNonPrimarySchema()(
     {
         render: "img",
         selfClosing: true,
@@ -213,14 +212,16 @@ export const img = getGenerateNonPrimarySchema(
                 ]
             },
         }
-    }
-)();
+    },{}
+);
+
+
 
 //* Children Tag Schemas
 
 const videoTypeRegex = /^video\/\b\w+/
 
-export const video = getGenerateNonPrimarySchema({
+export const video = getGenerateNonPrimarySchema()({
     render: "video",
     children: [
         "source",
@@ -279,8 +280,7 @@ export const video = getGenerateNonPrimarySchema({
             description: "A URL for an image to be shown while the video is downloading. If this attribute isn't specified, nothing is displayed until the first frame is available, then the first frame is shown as the poster frame."
         }
 
-    },
-})({
+    }},{
     validate(node) {
 
 
@@ -320,8 +320,12 @@ export const video = getGenerateNonPrimarySchema({
     }
 });
 
+
+
+
+
 const audioTypeRegex = /^audio\/\b\w+/
-export const audio = getGenerateNonPrimarySchema({
+export const audio = getGenerateNonPrimarySchema()({
     render: "audio",
     children: [
         "source"
@@ -372,8 +376,7 @@ export const audio = getGenerateNonPrimarySchema({
             ]
         },
 
-    },
-})({
+    }},{
     validate(node) {
 
 
@@ -404,7 +407,7 @@ export const audio = getGenerateNonPrimarySchema({
                     "invalid-children",
                     "error",
                     `All children of the picture tag that is a src attribute must have a type attribute  with a a string that is one of the following values.
-                    
+
                         image/jpg
                         image/jpeg
                         image/gif
@@ -423,7 +426,7 @@ export const audio = getGenerateNonPrimarySchema({
 
 
 
-export const address = generateNonPrimarySchemaWithATransformThatGeneratesDataAttributes({
+export const address = getGenerateNonPrimarySchema()({
     render: "address",
     attributes: {
         draggable,
@@ -432,13 +435,12 @@ export const address = generateNonPrimarySchemaWithATransformThatGeneratesDataAt
         dir,
     },
     children: ["inline", "span", "paragraph", "list"]
-})();
+},{});
 
 
 
 
-
-export const ul = generateNonPrimarySchemaWithATransformThatGeneratesDataAttributes({
+export const ul = getGenerateNonPrimarySchemaWithATransformThatGeneratesDataAttributes()({
     render: "ul",
     children: [
         "li"
@@ -451,9 +453,13 @@ export const ul = generateNonPrimarySchemaWithATransformThatGeneratesDataAttribu
         translate,
         dir,
     }
-})();
+},{});
 
-export const ol = generateNonPrimarySchemaWithATransformThatGeneratesDataAttributes({
+
+
+
+
+export const ol = getGenerateNonPrimarySchemaWithATransformThatGeneratesDataAttributes()({
     render: "ol",
     children: [
         "li"
@@ -466,7 +472,7 @@ export const ol = generateNonPrimarySchemaWithATransformThatGeneratesDataAttribu
         translate,
         dir,
     }
-})();
+});
 
 
 
@@ -474,7 +480,7 @@ export const ol = generateNonPrimarySchemaWithATransformThatGeneratesDataAttribu
 
 
 
-export const blockquote = getGenerateNonPrimarySchema({
+export const blockquote = getGenerateNonPrimarySchema()({
     render: "blockquote",
     attributes: {
         cite,
@@ -485,9 +491,9 @@ export const blockquote = getGenerateNonPrimarySchema({
         "paragraph",
         "img"
     ],
-})();
+});
 
-export const details = generateNonPrimarySchemaWithATransformThatGeneratesDataAttributes({
+export const details = getGenerateNonPrimarySchemaWithATransformThatGeneratesDataAttributes()({
     render: "details",
     attributes: {
         open: {
@@ -500,13 +506,13 @@ export const details = generateNonPrimarySchemaWithATransformThatGeneratesDataAt
         "text",
         "paragraph"
     ]
-})();
+},{});
 
 
 
 const imageTypeRegex = /^image\/(?<image_type>jpg|jpeg|gif|tiff|webp|png)$/;
 
-export const picture = getGenerateNonPrimarySchema({
+export const picture = getGenerateNonPrimarySchema()({
     render: "picture",
     attributes: {
         hidden
@@ -515,7 +521,7 @@ export const picture = getGenerateNonPrimarySchema({
         "img",
         "source",
     ]
-})({
+},{
     validate(node) {
         const sourceTags = node.children
             .filter(child => child.tag === "source");
@@ -544,7 +550,7 @@ export const picture = getGenerateNonPrimarySchema({
                     "invalid-children",
                     "error",
                     `All children of the picture tag that is a src attribute must have a type attribute  with a a string that is one of the following values.
-                    
+
                         image/jpg
                         image/jpeg
                         image/gif
@@ -561,7 +567,8 @@ export const picture = getGenerateNonPrimarySchema({
 }
 )
 
-export const dl = getGenerateNonPrimarySchema({
+export const dl = getGenerateNonPrimarySchema()(
+  {
     render: "dl",
     attributes: {
         hidden,
@@ -576,11 +583,10 @@ export const dl = getGenerateNonPrimarySchema({
         "dt",
         "dd",
     ]
-})()
+})
 
 
-
-export const colgroup = getGenerateNonPrimarySchema({
+export const colgroup = getGenerateNonPrimarySchema()({
     render: "colgroup",
     attributes: {
         hidden,
@@ -591,9 +597,10 @@ export const colgroup = getGenerateNonPrimarySchema({
         }
     },
     children: ["col",]
-})();
+},{});
 
-export const col = getGenerateNonPrimarySchema({
+
+export const col = getGenerateNonPrimarySchema()({
     render: "col",
     attributes: {
         hidden,
@@ -607,10 +614,10 @@ export const col = getGenerateNonPrimarySchema({
         "inline",
         "text",
     ]
-})();
+},{});
 
-/** 
- * This is an attribute that is experimental 
+/**
+ * This is an attribute that is experimental
  * const disableremoteplayback = generateAttributeSchema{
             type: Boolean,
             description: "A Boolean attribute used to disable the capability of remote playback in devices that are attached using wired and wireless technologies"
@@ -618,7 +625,7 @@ export const col = getGenerateNonPrimarySchema({
 */
 
 
-export const p = generateNonPrimarySchemaWithATransformThatGeneratesDataAttributes({
+export const p = getGenerateNonPrimarySchema()({
     render: "p",
     attributes: {
         contenteditable,
@@ -634,7 +641,7 @@ export const p = generateNonPrimarySchemaWithATransformThatGeneratesDataAttribut
         "text",
         "link",
     ]
-})();
+},{});
 
 
 
