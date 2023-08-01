@@ -13,7 +13,8 @@ export const mergeObjects = <
   u: U
 ) => {
   return { ...t, ...u } as prettify<{
-    [k in keyof T | keyof U]: k extends keyof U
+    [k in keyof T | keyof U]:
+      k extends keyof U
       ? U[k]
       : k extends keyof T
       ? T[k]
