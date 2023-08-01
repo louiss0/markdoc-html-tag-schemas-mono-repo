@@ -3,6 +3,23 @@ import type { Scalar, } from "@markdoc/markdoc";
 
 export type AllowedMarkdocTypesAsStrings = "string" | "number" | "array" | "boolean" | "object"
 
+type prettify<T extends Record<PropertyKey, unknown> > = { [k in keyof T]: T[k] } & {};
+
+export const mergeObjects = <
+  T extends Record<string, unknown>,
+  U extends Record<string, unknown>
+>(
+  t: T,
+  u: U
+) => {
+  return { ...t, ...u } as prettify<{
+    [k in keyof T | keyof U]: k extends keyof U
+      ? U[k]
+      : k extends keyof T
+      ? T[k]
+      : never;
+  }>;
+};
 
 
 const isValidPropKey = (value: unknown): value is PropertyKey =>
