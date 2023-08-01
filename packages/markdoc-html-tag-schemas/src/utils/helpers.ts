@@ -12,6 +12,7 @@ import {
     toLowercaseWithDashes,
     type AllowedMarkdocTypesAsStrings,
     isViableMarkdocValue,
+    mergeObjects,
 } from 'packages/markdoc-html-tag-schemas/src/utils/internal';
 
 const createTag = <T extends string>(
@@ -20,6 +21,7 @@ const createTag = <T extends string>(
     attributes?: Record<string, unknown>
 ) => new markdoc.Tag(name as string, attributes, children);
 
+type CreateTagFunction<T extends string> = typeof createTag<T>
 
 type MarkdocTransform = Exclude<markdoc.Schema['transform'], undefined>;
 
@@ -32,6 +34,9 @@ type ObjectWithTransformMethod<T extends string> = {
 };
 
 
+type GenericRenderProperty<T extends string> = { render: T }
+
+
 type TagsSchema<
     T extends ProperSchemaMatches,
     U extends RequiredSchemaAttribute,
@@ -39,7 +44,7 @@ type TagsSchema<
     C extends markdoc.ConfigType = markdoc.ConfigType
 > = Omit<markdoc.Schema<C, R>, 'attributes'> & {
     attributes: SchemaAttributesWithAPrimaryKey<T, U>;
-};
+} & GenericRenderProperty<R>;
 
 export type FilledTagsSchema = TagsSchema<ProperSchemaMatches, RequiredSchemaAttribute, string>
 
@@ -50,7 +55,7 @@ type SelfClosing = {
 
 type NonSelfClosing = {
     selfClosing?: never;
-    children: Exclude<markdoc.Schema['children'], undefined>;
+    children: Array<string>;
 };
 
 type NonPrimaryTagsSchema<
@@ -76,7 +81,8 @@ export const createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue =
             []
         );
 
-type GenericRenderProperty<T extends string> = { render: T }
+
+
 
 type GeneratePrimarySchemaPrimaryConfig<
     T extends ProperSchemaMatches,
@@ -105,25 +111,44 @@ export const getGeneratePrimarySchema = <
     T extends ProperSchemaMatches,
     U extends RequiredSchemaAttribute,
     R extends string,
->({ type, render, ...rest }: GeneratePrimarySchemaPrimaryConfig<T, U, R>) =>
-    <const W extends CustomTransformConfig<T, U, R>>({ transform, attributes = {}, ...rest2 }: W) =>
-        Object.freeze({
-            render,
-            attributes: {
-                primary: {
-                    type,
-                    render: true,
-                    required: true
-                },
-                ...attributes
-            },
-            ...rest,
-            transform: transform
-                ? (node: markdoc.Node, config: markdoc.Config) =>
-                    transform(node, config, createTag)
-                : transform,
-            ...rest2
-        } satisfies TagsSchema<T, U, R>)
+>() =>
+    <
+    SU extends RequiredSchemaAttribute,
+    V extends GeneratePrimarySchemaPrimaryConfig<T, U, R>,
+    W extends  CustomTransformConfig<T, SU, R>,
+    >({ type, render, ...rest }: V,{ transform, attributes, ...rest2 }: W) => {
+
+
+
+     const attributesThatWillBeMerged  =  {
+        render,
+        attributes: {
+          ...attributes,
+          primary: {
+              type,
+              render: true,
+              required: true
+          },
+        },
+
+
+
+    }
+
+
+    const schemaBasedOnIfTransformExists = transform ? mergeObjects(
+      attributesThatWillBeMerged,
+      {...rest, ...rest2, transform: (node: markdoc.Node, config: markdoc.Config) =>
+        transform(node, config, createTag)
+      }
+      ) : mergeObjects(attributesThatWillBeMerged,{...rest,...rest2})
+
+
+
+      return  Object.freeze(schemaBasedOnIfTransformExists)
+
+
+    }
 
 
 
@@ -136,6 +161,7 @@ type GenerateNonPrimarySchemaConfig<
     & Pick<NonPrimaryTagsSchema<T, U, R>, 'attributes' | 'description'>
     & GenericRenderProperty<R>;
 
+
 type GenerateNonPrimarySchemaSecondaryConfig<
     T extends ProperSchemaMatches,
     U extends RequiredSchemaAttribute,
@@ -147,98 +173,97 @@ export const getGenerateNonPrimarySchema = <
     T extends ProperSchemaMatches,
     U extends RequiredSchemaAttribute,
     R extends string,
-    const V extends GenerateNonPrimarySchemaConfig<T, U, R>
->(
-    primaryConfig: V,
-) => {
-    const generateNonPrimarySchema = <W extends GenerateNonPrimarySchemaSecondaryConfig<T, U, R>>(
-        secondaryConfig?: W
-    ) =>
-        Object.freeze(
-            secondaryConfig
-                ? Object.assign(
-                    primaryConfig,
-                    secondaryConfig,
-                    {
+   >() => <
+    const V extends GenerateNonPrimarySchemaConfig<T, U, R>,
+    const W extends GenerateNonPrimarySchemaSecondaryConfig<T, U, R>,
+   >(
+        primaryConfig: V,
+        secondaryConfig: W
+     ) => {
 
-                        transform: secondaryConfig.transform
-                            ? (node: markdoc.Node, config: markdoc.Config) =>
-                                secondaryConfig.transform?.(
-                                    node,
-                                    config,
-                                    createTag
-                                )
-                            : undefined,
+      const {transform }  = secondaryConfig
 
-                    })
-                : primaryConfig
-        ) satisfies NonPrimaryTagsSchema<T, U, R>;
+     const transformWithSecondaryConfig = Object.assign(
+        {
+          transform: (node: markdoc.Node, config: markdoc.Config) =>transform?.(node,config,createTag),
+      }, secondaryConfig)
 
-    return generateNonPrimarySchema;
-};
+
+
+      return Object.freeze(mergeObjects(primaryConfig, transformWithSecondaryConfig))
+
+
+      }
+
 
 
 type GenerateSelfClosingTagSchemaPrimaryConfig<
-    T extends ProperSchemaMatches,
     U extends RequiredSchemaAttribute,
     R extends string
 > = Required<
-    Pick<NonPrimaryTagsSchema<T, U, R>, 'description'>
+    Pick<NonPrimaryTagsSchema<null, U, R>, 'description'| "render">
     & {
-        type: MarkdocAttributeSchema<T, U>['type'];
+        type: U
     }
-> & GenericRenderProperty<R>;
+>;
 
 
 type GenerateSelfClosingTagSchemaSecondaryConfig<
     T extends ProperSchemaMatches,
     U extends RequiredSchemaAttribute,
     R extends string
-> = Partial<Pick<NonPrimaryTagsSchema<T, U, R>, "attributes" | "inline" | "validate">>
+> =  Partial<Pick<NonPrimaryTagsSchema<T, U, R>, "attributes" | "inline" | "validate">>
     & ObjectWithTransformMethod<R>;
 
-export function generateSelfClosingTagSchema<
-    T extends ProperSchemaMatches,
-    U extends RequiredSchemaAttribute,
-    R extends string,
->(
-    primaryConfig: GenerateSelfClosingTagSchemaPrimaryConfig<T, U, R>,
-    secondaryConfig: GenerateSelfClosingTagSchemaSecondaryConfig<T, U, R> = {}
-) {
+export const  getGenerateSelfClosingTagSchema = <
+T extends RequiredSchemaAttribute,
+R extends string,
+>() => <
+SU extends RequiredSchemaAttribute,
+U extends ProperSchemaMatches,
+const V extends  GenerateSelfClosingTagSchemaPrimaryConfig<T, R>,
+const W extends GenerateSelfClosingTagSchemaSecondaryConfig<U,SU,R>,
+>
+(primaryConfig:V,
+  secondaryConfig: W
+) =>{
 
-    const { render, type, description, } = primaryConfig;
+      const { render, type, description, } = primaryConfig;
 
 
-    const {
+      const {
         inline = true,
         attributes = {},
         validate,
         transform = (node, config, createTag) => {
 
-            const { primary, ...rest } = node.transformAttributes(config)
+          const { primary, ...rest } = node.transformAttributes(config)
 
-            return createTag(render, [primary], rest)
+          return createTag(render, [primary], rest)
 
         }
-    } = secondaryConfig
+      } = secondaryConfig
 
-    const generatePrimarySchema = getGeneratePrimarySchema<T, U, R>(
+
+      const generatePrimarySchema = getGeneratePrimarySchema<U,T,R>();
+
+
+      return generatePrimarySchema(
         {
-            render,
-            type,
-            description,
-            selfClosing: true,
-            inline,
-        }
-    );
+          render,
+          type,
+          description,
+          selfClosing: true,
+          inline,
+        },
+        {
+          attributes,
+          transform: (node, config)=>transform(node, config, createTag),
+          validate
+        });
 
+ }
 
-    return generatePrimarySchema({
-        attributes,
-        transform,
-        validate
-    });
-}
 
 export const generateMarkdocErrorObject = (
     id: markdoc.ValidationError['id'],
@@ -279,30 +304,21 @@ type GenerateNonSecondarySchemaConfigThatDoesNotAllowTransformConfig<
     R extends string
 > = Omit<GenerateNonPrimarySchemaSecondaryConfig<T, U, R>, 'transform' | 'validate'>;
 
-export const generateNonPrimarySchemaWithATransformThatGeneratesDataAttributes =
+export const getGenerateNonPrimarySchemaWithATransformThatGeneratesDataAttributes =
     <
         T extends ProperSchemaMatches,
         U extends RequiredSchemaAttribute,
         R extends string,
-        const V extends GenerateNonPrimarySchemaConfigThatDoesNotAllowDataConfig<T, U, R> =
-        GenerateNonPrimarySchemaConfigThatDoesNotAllowDataConfig<T, U, R>
-    >(
-        primaryConfig: V
-    ) => {
-        const { attributes, render } = primaryConfig;
+    >() => {
 
-        return <
-            const W extends GenerateNonSecondarySchemaConfigThatDoesNotAllowTransformConfig<
-                T,
-                U,
-                R
-            > = GenerateNonSecondarySchemaConfigThatDoesNotAllowTransformConfig<
-                T,
-                U,
-                R
-            >>(
-                secondaryConfig?: W
-            ) => {
+      return <
+      const V extends GenerateNonPrimarySchemaConfigThatDoesNotAllowDataConfig<T, U, R>,
+      const W extends  GenerateNonSecondarySchemaConfigThatDoesNotAllowTransformConfig<T,U,R>
+      >(
+        primaryConfig: V,
+        secondaryConfig:W
+        ) => {
+              const { attributes, render } = primaryConfig;
 
             const objectWithRenderPropertyDataAttributeFilledInAndOtherAttributesSpreadIn = {
                 render,
@@ -316,76 +332,81 @@ export const generateNonPrimarySchemaWithATransformThatGeneratesDataAttributes =
             }
 
             const primaryConfigWithDataAttributeInserted =
-                Object.assign(
-                    primaryConfig,
-                    objectWithRenderPropertyDataAttributeFilledInAndOtherAttributesSpreadIn
-                );
-            const generateNonPrimarySchema = getGenerateNonPrimarySchema(
-                primaryConfigWithDataAttributeInserted
+                    { ...primaryConfig,
+                    ...objectWithRenderPropertyDataAttributeFilledInAndOtherAttributesSpreadIn
+}
+
+            const generateNonPrimarySchema = getGenerateNonPrimarySchema<T,U,R>();
+
+
+            const transformAndValidate = {
+
+              validate(node:markdoc.Node, config: markdoc.Config) {
+                  const attrs = node.transformAttributes(config);
+
+                  if (!('data' in attrs)) return [];
+
+                  const keysWithNoNumberBooleanOrStringValues = Object.entries(
+                      attrs['data']
+                  ).reduce(
+                      (carry: Array<string>, [key, value]) => !isViableMarkdocValue(value) ? carry.concat(key) : carry,
+                      []
+                  );
+
+                  return createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue(
+                      [
+                          keysWithNoNumberBooleanOrStringValues.length !== 0,
+                          generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(
+                              `Data attribute values are only supposed to have strings numbers and booleans.
+                              HTML can't parse those anything else.
+                              Please fix the following keys ${keysWithNoNumberBooleanOrStringValues.join(',')}.
+                              `
+                          ),
+                      ]
+                  );
+              },
+
+              transform<T extends string>(node:markdoc.Node, config:markdoc.Config, createTag:CreateTagFunction<T>) {
+
+                  const attributes = node.transformAttributes(config);
+
+                  let newAttributes = {};
+
+                  if ('data' in attributes) {
+
+                      const { data } = attributes;
+
+                      const arrayTuplesWithKeysThatHaveDataAsThePrefixForEachWordAndIsCamelCased =
+                          Object.entries(data).map(([key, value]) => [
+                              `data-${toLowercaseWithDashes(key)}`,
+                              value,
+                          ]);
+
+
+                      newAttributes = Object.fromEntries(
+                          arrayTuplesWithKeysThatHaveDataAsThePrefixForEachWordAndIsCamelCased
+                      ),
+
+
+                          delete attributes['data'];
+                  }
+
+
+                  return createTag(
+                      render,
+                      node.transformChildren(config), {
+                      ...attributes,
+                      ...newAttributes,
+                  });
+              },
+
+          }
+            return generateNonPrimarySchema(
+              primaryConfigWithDataAttributeInserted,
+              {...secondaryConfig, ...transformAndValidate}
             );
-
-            return generateNonPrimarySchema({
-                validate(node, config) {
-                    const attrs = node.transformAttributes(config);
-
-                    if (!('data' in attrs)) return [];
-
-                    const keysWithNoNumberBooleanOrStringValues = Object.entries(
-                        attrs['data']
-                    ).reduce(
-                        (carry: Array<string>, [key, value]) => !isViableMarkdocValue(value) ? carry.concat(key) : carry,
-                        []
-                    );
-
-                    return createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue(
-                        [
-                            keysWithNoNumberBooleanOrStringValues.length !== 0,
-                            generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(
-                                `Data attribute values are only supposed to have strings numbers and booleans.
-                                HTML can't parse those anything else.
-                                Please fix the following keys ${keysWithNoNumberBooleanOrStringValues.join(',')}.
-                                `
-                            ),
-                        ]
-                    );
-                },
-                transform(node, config, createTag) {
-
-                    const attributes = node.transformAttributes(config);
-
-                    let newAttributes = {};
-
-                    if ('data' in attributes) {
-
-                        const { data } = attributes;
-
-                        const arrayTuplesWithKeysThatHaveDataAsThePrefixForEachWordAndIsCamelCased =
-                            Object.entries(data).map(([key, value]) => [
-                                `data-${toLowercaseWithDashes(key)}`,
-                                value,
-                            ]);
-
-
-                        newAttributes = Object.fromEntries(
-                            arrayTuplesWithKeysThatHaveDataAsThePrefixForEachWordAndIsCamelCased
-                        ),
-
-
-                            delete attributes['data'];
-                    }
-
-                
-                    return createTag(
-                        render,
-                        node.transformChildren(config), {
-                        ...attributes,
-                        ...newAttributes,
-                    });
-                },
-                ...secondaryConfig,
-            });
         };
     };
 
-//! Im doing this to avoid having to import everything again. 
-export const getNodes = () => markdoc.nodes  
+//! Im doing this to avoid having to import everything again.
+export const getNodes = () => markdoc.nodes
