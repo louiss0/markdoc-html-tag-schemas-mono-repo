@@ -1,10 +1,7 @@
 import * as markdoc from '@markdoc/markdoc';
-
 import type {
     SchemaAttributesWithAPrimaryKey,
     SchemaAttributesWithNoPrimaryKey,
-    ProperSchemaMatches,
-    MarkdocAttributeSchema,
     RequiredSchemaAttribute,
 } from 'packages/markdoc-html-tag-schemas/src/lib/attributes';
 
@@ -38,15 +35,26 @@ type GenericRenderProperty<T extends string> = { render: T }
 
 
 type TagsSchema<
-    T extends ProperSchemaMatches,
-    U extends RequiredSchemaAttribute,
-    R extends string,
-    C extends markdoc.ConfigType = markdoc.ConfigType
-> = Omit<markdoc.Schema<C, R>, 'attributes'> & {
-    attributes: SchemaAttributesWithAPrimaryKey<T, U>;
-} & GenericRenderProperty<R>;
+   T extends RequiredSchemaAttribute,
+   R extends string,
+> = Omit<markdoc.Schema<markdoc.ConfigType, R>, 'attributes'>
+  & GenericRenderProperty<R>
+  & {
+    attributes: SchemaAttributesWithAPrimaryKey<T>;
+}
 
-export type FilledTagsSchema = TagsSchema<ProperSchemaMatches, RequiredSchemaAttribute, string>
+
+type TagsSchemaWithRequiredPrimaryAttribute<
+   T extends RequiredSchemaAttribute,
+   R extends string,
+> = Omit<TagsSchema<T,R>, 'attributes'>
+  & GenericRenderProperty<R>
+  & {
+    attributes: Required<SchemaAttributesWithAPrimaryKey<T>>;
+}
+
+
+export type FilledTagsSchema = TagsSchema<RequiredSchemaAttribute, string>
 
 type SelfClosing = {
     selfClosing: true;
@@ -59,15 +67,14 @@ type NonSelfClosing = {
 };
 
 type NonPrimaryTagsSchema<
-    T extends ProperSchemaMatches,
-    U extends RequiredSchemaAttribute,
+    T extends RequiredSchemaAttribute,
     R extends string
-> = Omit<TagsSchema<T, U, R>, 'attributes'>
+> = Omit<TagsSchema<T,R>, 'attributes'>
  & {
-    attributes: SchemaAttributesWithNoPrimaryKey<T, U>
+    attributes: SchemaAttributesWithNoPrimaryKey<T>
 };
 
-export type FilledNonPrimaryTagsSchema = NonPrimaryTagsSchema<ProperSchemaMatches, RequiredSchemaAttribute, string>
+export type FilledNonPrimaryTagsSchema = NonPrimaryTagsSchema<RequiredSchemaAttribute, string>
 
 
 export const createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue =
@@ -86,124 +93,55 @@ export const createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue =
 
 
 type GeneratePrimarySchemaPrimaryConfig<
-    T extends ProperSchemaMatches,
-    U extends RequiredSchemaAttribute,
+    T extends RequiredSchemaAttribute,
     R extends string,
-> = Pick<
-    NonPrimaryTagsSchema<T, U, R>,
-    | "description" | "selfClosing" | "inline"
-> & {
-    type: MarkdocAttributeSchema<T, U>["type"]
-} & GenericRenderProperty<R>
+> = Pick<TagsSchemaWithRequiredPrimaryAttribute<T, R>, "description" | "selfClosing" | "inline"| "attributes">
+   & GenericRenderProperty<R>
 
 
 type CustomTransformConfig<
-    T extends ProperSchemaMatches,
-    U extends RequiredSchemaAttribute,
-    R extends string
-> = Pick<NonPrimaryTagsSchema<T, U, R>, "slots" | "validate" | "children"| "attributes">
+  T extends RequiredSchemaAttribute,
+  R extends string
+> = Pick<TagsSchemaWithRequiredPrimaryAttribute<T, R>, "slots" | "validate" | "children">
     & ObjectWithTransformMethod<R>
 
 
 
 export const getGeneratePrimarySchema = <
-    T extends ProperSchemaMatches,
-    U extends RequiredSchemaAttribute,
+    T extends RequiredSchemaAttribute,
     R extends string,
->() =>
-    <
-    SU extends RequiredSchemaAttribute,
-    V extends GeneratePrimarySchemaPrimaryConfig<T, U, R>,
-    W extends  CustomTransformConfig<T, SU, R>,
-    >({ type, render, ...rest }: V, secondaryConfig?: W) => {
+    >() =><
+    ST extends RequiredSchemaAttribute,
+    V extends GeneratePrimarySchemaPrimaryConfig<T, R>,
+    W extends  CustomTransformConfig<ST, R>,
+    >(primaryConfig: V, secondaryConfig?: W) =>Object.freeze(mergeObjects(primaryConfig, secondaryConfig ?? ({} as W)))
 
 
 
-
-      let attributesThatWillBeMerged
-
-
-      if(secondaryConfig) {
-
-
-        const {transform, attributes, ...rest2} = secondaryConfig
-
-
-
-        attributesThatWillBeMerged = {
-          render,
-          attributes: mergeObjects(
-            {
-            primary: {
-              type,
-              render: true,
-              required: true
-          }
-        },attributes)
-        }
-
-
-       return Object.freeze(transform
-        ? mergeObjects(
-         attributesThatWillBeMerged,
-         {
-           ...rest,
-          ...rest2,
-          transform: (node: markdoc.Node, config: markdoc.Config) =>
-            transform(node, config, createTag)
-         }
-         ) : mergeObjects(attributesThatWillBeMerged,{...rest,...rest2})
-)
-
-      }
-
-
-      attributesThatWillBeMerged = {
-        render,
-        attributes:{
-          primary: {
-            type,
-            render: true,
-            required: true
-        }
-      }
-    }
-
-
-
-
-
-      return  Object.freeze(mergeObjects(attributesThatWillBeMerged, rest))
-
-
-    }
 
 
 
 
 type GenerateNonPrimarySchemaConfig<
-    T extends ProperSchemaMatches,
-    U extends RequiredSchemaAttribute,
+    T extends RequiredSchemaAttribute,
     R extends string
 > = (NonSelfClosing | SelfClosing)
-    & Pick<NonPrimaryTagsSchema<T, U, R>, 'attributes' | 'description'>
+    & Pick<NonPrimaryTagsSchema<T, R>, 'attributes' | 'description'>
     & GenericRenderProperty<R>;
 
 
 type GenerateNonPrimarySchemaSecondaryConfig<
-    T extends ProperSchemaMatches,
-    U extends RequiredSchemaAttribute,
+    T extends RequiredSchemaAttribute,
     R extends string
-> = Pick<NonPrimaryTagsSchema<T, U, R>, 'slots' | 'validate'> &
+> = Pick<NonPrimaryTagsSchema<T, R>, 'slots' | 'validate'> &
     ObjectWithTransformMethod<R>;
 
 export const getGenerateNonPrimarySchema = <
-    T extends ProperSchemaMatches,
-    U extends RequiredSchemaAttribute,
+    T extends RequiredSchemaAttribute,
     R extends string,
    >() => <
-    const V extends GenerateNonPrimarySchemaConfig<T, U, R>,
-    const W extends GenerateNonPrimarySchemaSecondaryConfig<T, U, R>,
+    const V extends GenerateNonPrimarySchemaConfig<T, R>,
+    const W extends GenerateNonPrimarySchemaSecondaryConfig<T, R>,
    >(
         primaryConfig: V,
         secondaryConfig?: W
@@ -234,21 +172,20 @@ export const getGenerateNonPrimarySchema = <
 
 
 type GenerateSelfClosingTagSchemaPrimaryConfig<
-    U extends RequiredSchemaAttribute,
+    T extends RequiredSchemaAttribute,
     R extends string
 > =
-Required<Pick<NonPrimaryTagsSchema<null, U, R>, 'description'| "render">>
-& Pick<NonPrimaryTagsSchema<null, U, R>, "inline">
-& {
-  type: U
-};
+Required<
+Pick<TagsSchemaWithRequiredPrimaryAttribute<T, R>,  "render"| "attributes">
+>
+& Pick<TagsSchemaWithRequiredPrimaryAttribute<T, R>,  'description'|"inline">
+
 
 
 type GenerateSelfClosingTagSchemaSecondaryConfig<
-    T extends ProperSchemaMatches,
-    U extends RequiredSchemaAttribute,
+    T extends RequiredSchemaAttribute,
     R extends string
-> =  Pick<NonPrimaryTagsSchema<T, U, R>, "attributes" | "validate">
+> =  Pick<NonPrimaryTagsSchema<T,R>, | "validate">
     & ObjectWithTransformMethod<R>;
 
 export const  getGenerateSelfClosingTagSchema = <
@@ -256,60 +193,46 @@ T extends RequiredSchemaAttribute,
 R extends string,
 >() => <
 SU extends RequiredSchemaAttribute,
-U extends ProperSchemaMatches,
 const V extends  GenerateSelfClosingTagSchemaPrimaryConfig<T, R>,
-const W extends GenerateSelfClosingTagSchemaSecondaryConfig<U,SU,R>,
+const W extends GenerateSelfClosingTagSchemaSecondaryConfig<SU,R>,
 >
 (
   primaryConfig:V,
   secondaryConfig?: W
 ) =>{
 
-      const { render, type, description, inline = true,} = primaryConfig;
 
 
 
-      const generatePrimarySchema = getGeneratePrimarySchema<U,T,R>();
+      const generatePrimarySchema = getGeneratePrimarySchema<T,R>();
 
 
-      if (secondaryConfig) {
 
-        const {
-
-          attributes = {},
-          validate,
-          transform = (node, config, createTag) => {
-
-            const { primary, ...rest } = node.transformAttributes(config)
-
-            return createTag(render, [primary], rest)
-
-          }
-        } = secondaryConfig
 
 
 
 
         return generatePrimarySchema(
         {
-          render,
-          type,
-          description,
+          ...primaryConfig,
           selfClosing: true,
-          inline,
         },
-        {
-          attributes,
-          transform: (node, config)=>transform(node, config, createTag),
-          validate
-        });
+        secondaryConfig ? {
+          transform: (node, config)=>{
 
-       }
+            secondaryConfig.transform ??= (node, config, createTag) => {
 
+              const { primary, ...rest } = node.transformAttributes(config)
 
-       return generatePrimarySchema({render,inline, type, selfClosing:true, description}, )
+              return createTag(primaryConfig.render, [primary], rest)
 
+            }
 
+            return secondaryConfig.transform(node, config, createTag)
+
+          },
+          validate:secondaryConfig.validate
+        }: ({} as W));
 
 
 
@@ -339,32 +262,29 @@ export const generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNo
         generateMarkdocErrorObject('invalid-value', 'error', message);
 
 type GenerateNonPrimarySchemaConfigThatDoesNotAllowDataConfig<
-    T extends ProperSchemaMatches,
-    U extends RequiredSchemaAttribute,
+    T extends RequiredSchemaAttribute,
     R extends string
-> = GenerateNonPrimarySchemaConfig<T, U, R>
+> = GenerateNonPrimarySchemaConfig<T, R>
     & {
-        attributes: { data?: never }
-        & Partial<SchemaAttributesWithNoPrimaryKey<T, U>
-        >;
+        attributes:
+        Partial<SchemaAttributesWithNoPrimaryKey<T>> & { data?: never }
     };
 
 type GenerateNonSecondarySchemaConfigThatDoesNotAllowTransformConfig<
-    T extends ProperSchemaMatches,
-    U extends RequiredSchemaAttribute,
+    T extends RequiredSchemaAttribute,
     R extends string
-> = Omit<GenerateNonPrimarySchemaSecondaryConfig<T, U, R>, 'transform' | 'validate'>;
+> = Omit<GenerateNonPrimarySchemaSecondaryConfig<T,R>, 'transform' | 'validate'>;
+
 
 export const getGenerateNonPrimarySchemaWithATransformThatGeneratesDataAttributes =
     <
-        T extends ProperSchemaMatches,
-        U extends RequiredSchemaAttribute,
+        T extends RequiredSchemaAttribute,
         R extends string,
     >() => {
 
       return <
-      const V extends GenerateNonPrimarySchemaConfigThatDoesNotAllowDataConfig<T, U, R>,
-      const W extends  GenerateNonSecondarySchemaConfigThatDoesNotAllowTransformConfig<T,U,R>
+      const V extends GenerateNonPrimarySchemaConfigThatDoesNotAllowDataConfig<T,R>,
+      const W extends  GenerateNonSecondarySchemaConfigThatDoesNotAllowTransformConfig<T,R>
       >(
         primaryConfig: V,
         secondaryConfig?: W
@@ -387,7 +307,7 @@ export const getGenerateNonPrimarySchemaWithATransformThatGeneratesDataAttribute
                     ...objectWithRenderPropertyDataAttributeFilledInAndOtherAttributesSpreadIn
 }
 
-            const generateNonPrimarySchema = getGenerateNonPrimarySchema<T,U,R>();
+            const generateNonPrimarySchema = getGenerateNonPrimarySchema<T,R>();
 
 
             const transformAndValidate = {
