@@ -71,7 +71,7 @@ export const source = getGenerateNonPrimarySchema()({
         },
 
     }
-},{})
+})
 
 export const track = getGenerateNonPrimarySchema()(
     {
@@ -133,7 +133,7 @@ export const hr = getGenerateNonPrimarySchema()({
     render: "hr",
     selfClosing: true,
     attributes: { hidden }
-},{});
+});
 
 
 
@@ -141,7 +141,7 @@ export const br = getGenerateNonPrimarySchema()({
     render: "br",
     selfClosing: true,
     attributes: { hidden },
-},{});
+});
 
 
 
@@ -326,6 +326,7 @@ export const video = getGenerateNonPrimarySchema()({
 
 
 const audioTypeRegex = /^audio\/\b\w+/
+
 export const audio = getGenerateNonPrimarySchema()({
     render: "audio",
     children: [
@@ -455,7 +456,7 @@ export const ul = getGenerateNonPrimarySchemaWithATransformThatGeneratesDataAttr
         translate,
         dir,
     }
-},{});
+});
 
 
 
@@ -507,7 +508,7 @@ export const details = getGenerateNonPrimarySchemaWithATransformThatGeneratesDat
         "text",
         "paragraph"
     ]
-},{});
+});
 
 
 
@@ -598,7 +599,7 @@ export const colgroup = getGenerateNonPrimarySchema()({
         }
     },
     children: ["col",]
-},{});
+});
 
 
 export const col = getGenerateNonPrimarySchema()({
@@ -615,7 +616,7 @@ export const col = getGenerateNonPrimarySchema()({
         "inline",
         "text",
     ]
-},{});
+});
 
 /**
  * This is an attribute that is experimental
@@ -642,7 +643,7 @@ export const p = getGenerateNonPrimarySchema()({
         "text",
         "link",
     ]
-},{});
+});
 
 
 
