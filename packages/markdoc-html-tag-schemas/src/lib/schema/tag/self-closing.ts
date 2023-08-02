@@ -8,136 +8,242 @@ export { abbr } from "packages/markdoc-html-tag-schemas/src/lib/schema/tag/abbre
 
 //* Inline tags
 
-// const getGenerateSelfClosingTagSchema<StringConstructor, "del">() = getGenerateSelfClosingTagSchema<StringConstructor, "del">()
 
-export const sup = getGenerateSelfClosingTagSchema<StringConstructor, "sup">()({
+export const sup = getGenerateSelfClosingTagSchema()({
     render: "sup",
-    type: String,
+    attributes: {
+      primary: {
+        required:true,
+        render: true,
+        type: String,
+      }
+    },
     description: "A schema for creating a sup element",
 });
 
 
 
-export const li = getGenerateSelfClosingTagSchema<StringConstructor, "li">()({
+export const li = getGenerateSelfClosingTagSchema()({
     render: "li",
-    type: String,
+    attributes: {
+      primary: {
+        required:true,
+        render: true,
+        type: String,
+      }
+    },
     description: "A schema for creating a sup element",
     inline: false
 });
 
 
-export const small = getGenerateSelfClosingTagSchema<StringConstructor, "small">()({
+export const small = getGenerateSelfClosingTagSchema()({
     render: "small",
-    type: String,
+    attributes: {
+      primary: {
+        required:true,
+        render: true,
+        type: String,
+      }
+    },
     description: "A schema for creating a sup element",
 
 });
 
-export const wbr = getGenerateSelfClosingTagSchema<StringConstructor, "wbr">()({
+export const wbr = getGenerateSelfClosingTagSchema()({
     render: "wbr",
-    type: String,
+    attributes: {
+      primary: {
+        required:true,
+        render: true,
+        type: String,
+      }
+    },
     description: "A schema for creating a sup element"
 });
 
 
 
-export const del = getGenerateSelfClosingTagSchema<StringConstructor, "del">()({
+export const del = getGenerateSelfClosingTagSchema()({
     render: "del",
-    type: String,
-    description: "A schema for creating a sup element"
-}, {
     attributes: {
-        cite: MarkdocAttributes.cite,
-        datetime: MarkdocAttributes.datetime
-    }
+      primary: {
+        required:true,
+        render: true,
+        type: String,
+      },
+      cite: MarkdocAttributes.cite,
+      datetime: MarkdocAttributes.datetime
+    },
+    description: "A schema for creating a sup element"
 });
 
 
-export const ins = getGenerateSelfClosingTagSchema<StringConstructor, "ins">()({
+export const ins = getGenerateSelfClosingTagSchema()({
     render: "ins",
-    type: String,
-    description: "A schema for creating a sup element"
-}, {
     attributes: {
-        cite: MarkdocAttributes.cite,
-        datetime: MarkdocAttributes.datetime
+      primary: {
+        required:true,
+        render: true,
+        type: String,
+      },
+      cite: MarkdocAttributes.cite,
+      datetime: MarkdocAttributes.datetime
+    },
+    description: "A schema for creating a sup element"
+},);
 
-    }
-});
 
-
-export const sub = getGenerateSelfClosingTagSchema<StringConstructor, "sub">()({
+export const sub = getGenerateSelfClosingTagSchema()({
     render: "sub",
-    type: String,
+    attributes: {
+      primary: {
+        required:true,
+        render: true,
+        type: String,
+      }
+    },
     description: "A schema for creating a sub element"
 });
 
 
-export const cite = getGenerateSelfClosingTagSchema<StringConstructor, "cite">()({
+export const cite = getGenerateSelfClosingTagSchema()({
     render: "cite",
-    type: String,
+    attributes: {
+      primary: {
+        required:true,
+        render: true,
+        type: String,
+      }
+    },
     description: "A schema for creating a cite element"
 });
-export const code = getGenerateSelfClosingTagSchema<StringConstructor, "code">()({
+export const code = getGenerateSelfClosingTagSchema()({
     render: "code",
-    type: String,
+    attributes: {
+      primary: {
+        required:true,
+        render: true,
+        type: String,
+      }
+    },
     description: "A schema for creating a code element"
 });
-export const samp = getGenerateSelfClosingTagSchema<StringConstructor, "samp">()({
+export const samp = getGenerateSelfClosingTagSchema()({
     render: "samp",
-    type: String,
+    attributes: {
+      primary: {
+        required:true,
+        render: true,
+        type: String,
+      }
+    },
     description: "A schema for creating a samp element"
 });
 
 
-export const mark = getGenerateSelfClosingTagSchema<StringConstructor, "mark">()({
+export const mark = getGenerateSelfClosingTagSchema()({
     render: "mark",
-    type: String,
+    attributes: {
+      primary: {
+        required:true,
+        render: true,
+        type: String,
+      }
+    },
     description: "A schema for creating a mark element"
 });
-export const q = getGenerateSelfClosingTagSchema<StringConstructor, "q">()({
+export const q = getGenerateSelfClosingTagSchema()({
     render: "q",
-    type: String,
+    attributes: {
+      primary: {
+        required:true,
+        render: true,
+        type: String,
+      }
+    },
     description: "A schema for creating a mark element"
 });
-export const kbd = getGenerateSelfClosingTagSchema<StringConstructor, "kbd">()({
+export const kbd = getGenerateSelfClosingTagSchema()({
     render: "kbd",
-    type: String,
+    attributes: {
+      primary: {
+        required:true,
+        render: true,
+        type: String,
+      }
+    },
     description: "A schema for creating a sup element"
 });
-export const bdo = getGenerateSelfClosingTagSchema<StringConstructor, "bdo">()({
+export const bdo = getGenerateSelfClosingTagSchema()({
     render: "bdo",
-    type: String,
+    attributes: {
+      primary: {
+        required:true,
+        render: true,
+        type: String,
+      }
+    },
     description: "A schema for creating a bdo element"
 });
 
-export const bdi = getGenerateSelfClosingTagSchema<StringConstructor, "bdi">()({
+export const bdi = getGenerateSelfClosingTagSchema()({
     render: "bdi",
-    type: String,
+    attributes: {
+      primary: {
+        required:true,
+        render: true,
+        type: String,
+      }
+    },
     description: "A schema for creating a bdi element"
 });
 
-export const data = getGenerateSelfClosingTagSchema<StringConstructor, "data">()({
+export const data = getGenerateSelfClosingTagSchema()({
     render: "data",
-    type: String,
+    attributes: {
+      primary: {
+        required:true,
+        render: true,
+        type: String,
+      }
+    },
     description: "A schema for creating a data element"
 });
 
-export const dd = getGenerateSelfClosingTagSchema<StringConstructor, "dd">()({
+export const dd = getGenerateSelfClosingTagSchema()({
     render: "dd",
-    type: String,
+    attributes: {
+      primary: {
+        required:true,
+        render: true,
+        type: String,
+      }
+    },
     description: "A schema for creating a dd element"
 });
 
-export const dt = getGenerateSelfClosingTagSchema<StringConstructor, "dt">()({
+export const dt = getGenerateSelfClosingTagSchema()({
     render: "dt",
-    type: String,
+    attributes: {
+      primary: {
+        required:true,
+        render: true,
+        type: String,
+      }
+    },
     description: "A schema for creating a dt element",
 });
 
-export const span = getGenerateSelfClosingTagSchema<StringConstructor, "span">()({
+export const span = getGenerateSelfClosingTagSchema()({
     render: "span",
-    type: String,
+    attributes: {
+      primary: {
+        required:true,
+        render: true,
+        type: String,
+      }
+    },
     description: "A schema for creating a span element"
 });
 
@@ -169,15 +275,19 @@ class TimeAttribute extends MarkdocValidatorAttribute {
 }
 
 
-export const time = getGenerateSelfClosingTagSchema<typeof TimeAttribute, "time">()({
+export const time = getGenerateSelfClosingTagSchema()({
     render: "time",
-    type: TimeAttribute,
+    attributes: {
+      primary: {
+        required:true,
+        render: true,
+        type: TimeAttribute,
+      },
+      datetime: MarkdocAttributes.datetime
+    },
     description: "A schema for creating a time element",
     inline: false,
 }, {
-    attributes: {
-        datetime: MarkdocAttributes.datetime
-    },
     transform(node, config, createTag) {
 
         const { primary, datetime } = node.transformAttributes(config) as {
@@ -203,20 +313,32 @@ export const time = getGenerateSelfClosingTagSchema<typeof TimeAttribute, "time"
     }
 });
 
-// time.attributes
 
-export const summary = getGenerateSelfClosingTagSchema<StringConstructor, "summary">()({
+
+export const summary = getGenerateSelfClosingTagSchema()({
     render: "summary",
-    type: String,
+    attributes: {
+      primary: {
+        required:true,
+        render: true,
+        type: String,
+      }
+    },
     description: "This is the summary for the details tag",
     inline: false
 });
 
 
 
-export const dfn = getGenerateSelfClosingTagSchema<StringConstructor, "dfn">()({
+export const dfn = getGenerateSelfClosingTagSchema()({
     render: "dfn",
-    type: String,
+    attributes: {
+      primary: {
+        required:true,
+        render: true,
+        type: String,
+      }
+    },
     description: "A schema for creating a dfn element",
     inline: false,
 }, );
