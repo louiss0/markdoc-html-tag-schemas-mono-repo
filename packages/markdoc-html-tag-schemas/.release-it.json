@@ -12,7 +12,8 @@
     },
     "github": {
         "release": true,
-        "releaseName": "Release ${npm.name} ${version}"
+        "releaseName": "Release ${npm.name} ${version}",
+        "assets": ["dist/*.js"]
     },
     "plugins": {
         "@release-it/keep-a-changelog": true
