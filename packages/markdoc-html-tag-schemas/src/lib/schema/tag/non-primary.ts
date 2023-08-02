@@ -324,6 +324,7 @@ export const video = getGenerateNonPrimarySchema()({
 
 
 
+
 const audioTypeRegex = /^audio\/\b\w+/
 export const audio = getGenerateNonPrimarySchema()({
     render: "audio",
@@ -426,6 +427,7 @@ export const audio = getGenerateNonPrimarySchema()({
 
 
 
+
 export const address = getGenerateNonPrimarySchema()({
     render: "address",
     attributes: {
@@ -435,7 +437,7 @@ export const address = getGenerateNonPrimarySchema()({
         dir,
     },
     children: ["inline", "span", "paragraph", "list"]
-},{});
+});
 
 
 
@@ -498,7 +500,6 @@ export const details = getGenerateNonPrimarySchemaWithATransformThatGeneratesDat
     attributes: {
         open: {
             type: Boolean,
-            required: false,
         }
     },
     children: [
