@@ -8,18 +8,22 @@ const matchCapitalisedWordCaptureOtherCapitalizedWordsOnOneLineRegex =
 export const abbr = getGenerateSelfClosingTagSchema()(
     {
         render: "abbr",
-        type: String,
+        attributes: {
+          primary: {
+            required:true,
+            render: true,
+            type: String,
+          },
+          title: {
+              type: String,
+              errorLevel: "error",
+              matches: matchCapitalisedWordCaptureOtherCapitalizedWordsOnOneLineRegex
+          }
+      },
         description: "A tag that automatically creates an abbreviation of a capitalised word"
     },
     {
-        attributes: {
-            title: {
-                type: String,
-                required: false,
-                errorLevel: "error",
-                matches: matchCapitalisedWordCaptureOtherCapitalizedWordsOnOneLineRegex
-            }
-        },
+
 
         validate(node, config) {
 
