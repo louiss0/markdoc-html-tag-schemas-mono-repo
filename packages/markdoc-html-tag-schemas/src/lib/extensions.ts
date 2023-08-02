@@ -1,24 +1,10 @@
 
 import * as selfClosingTags from 'packages/markdoc-html-tag-schemas/src/lib/schema/tag/self-closing';
 import * as nonPrimaryTags from 'packages/markdoc-html-tag-schemas/src/lib/schema/tag/non-primary';
-import { type Config, type NodeType, type SchemaAttribute } from '@markdoc/markdoc';
-import { getNodes, type FilledNonPrimaryTagsSchema, type FilledTagsSchema } from 'packages/markdoc-html-tag-schemas/src/utils';
+import { getNodes } from 'packages/markdoc-html-tag-schemas/src/utils';
 const { a, ul, img, ...restOfTheNonPrimaryTags } = nonPrimaryTags
 
 
-type MarkdocHTMLTagSchemasViableExtension = Omit<Config, "tags" | "nodes"> & {
-    tags: Record<string,
-        FilledTagsSchema
-        | FilledNonPrimaryTagsSchema
-    >
-    nodes: Partial<Record<NodeType, Omit<(FilledTagsSchema | FilledNonPrimaryTagsSchema), "attributes"> & {
-        attributes: Record<string, Omit<SchemaAttribute, "matches"> & {
-            matches?: SchemaAttribute["matches"]
-            | ReadonlyArray<number>
-            | ReadonlyArray<string>
-        }>
-    }>>
-}
 
 const nodes = getNodes() as {
     heading: {
@@ -80,5 +66,5 @@ export const markdocHTMLTagSchemas = (
             ...restOfTheNonPrimaryTags
         }
 
-    } satisfies MarkdocHTMLTagSchemasViableExtension
+    }
 };

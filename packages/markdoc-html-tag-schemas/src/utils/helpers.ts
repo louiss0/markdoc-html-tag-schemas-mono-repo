@@ -54,7 +54,6 @@ type TagsSchemaWithRequiredPrimaryAttribute<
 }
 
 
-export type FilledTagsSchema = TagsSchema<RequiredSchemaAttribute, string>
 
 type SelfClosing = {
     selfClosing: true;
@@ -74,7 +73,6 @@ type NonPrimaryTagsSchema<
     attributes: SchemaAttributesWithNoPrimaryKey<T>
 };
 
-export type FilledNonPrimaryTagsSchema = NonPrimaryTagsSchema<RequiredSchemaAttribute, string>
 
 
 export const createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue =
