@@ -64,8 +64,8 @@ export class AllowAttribute extends MarkdocValidatorAttribute implements CustomA
         if (keysWithValuesThatDoNotHaveAProperAllowlist.length !== 0)
             return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(`
             Please don't use any kind of string as a value. Use the keywords src of self followed by multiple URL's.
-            They both must be single quoted.   
-            You just use the * to allow all all url's 
+            They both must be single quoted.
+            You just use the * to allow all all url's
             `)
 
 
@@ -75,7 +75,7 @@ export class AllowAttribute extends MarkdocValidatorAttribute implements CustomA
 
 
 
-export const iframe = getGenerateNonPrimarySchema({
+export const iframe = getGenerateNonPrimarySchema()({
     render: "iframe",
     selfClosing: true,
     attributes: {
@@ -86,7 +86,7 @@ export const iframe = getGenerateNonPrimarySchema({
         },
         allow: {
             type: AllowAttribute,
-            description: `An attribute that makes sure that the user creates an object. 
+            description: `An attribute that makes sure that the user creates an object.
             The allowed allowedPermissionDirectives as keys.
             The values for them as values.
             `
@@ -123,4 +123,4 @@ export const iframe = getGenerateNonPrimarySchema({
         width,
         height,
     },
-})();
+});
