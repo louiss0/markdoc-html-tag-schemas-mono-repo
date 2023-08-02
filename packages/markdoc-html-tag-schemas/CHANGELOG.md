@@ -1,10 +1,26 @@
 # For Astro Markdoc HTML Tags
 
-<!-- ## [1.0.2] - 2023-07-24
 
-### Added -->
 
 ## [Unreleased]
+
+
+### Fixed
+
+- Schemas from created by `getGenerateSelfClosingTag()`'s call are have the options that are
+passed shown in it's result
+
+### Added
+
+- Types that make sure that attributes are typed properly.
+### Changed 
+
+- Schema helper functions are functions that must be called before passing in options
+  - `generateSelfClosingTagSchema()` is now `getGenerateSelfClosingTagSchema()` 
+  - `generatePrimarySchema()` is now `getGeneratePrimarySchema()` 
+  - `generateNonPrimarySchema()` is now `getGenerateNonPrimarySchema()` 
+
+## [1.0.2] - 2023-07-24
 
 ### Fixed
 
