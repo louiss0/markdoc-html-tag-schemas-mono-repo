@@ -1,6 +1,6 @@
 # For Astro Markdoc HTML Tags
 
-## [Unreleased]
+## [1.1.1] - 2023-08-04
 
 ### Fixed
 
