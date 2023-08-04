@@ -1,15 +1,13 @@
 # For Astro Markdoc HTML Tags
 
-
 ## [Unreleased]
 
-### Added
-
 ### Fixed
-### Changed
+
+- The the transform function is put back into the `getGeneratePrimarySchema()` and `getGenerateNonPrimarySchema()`.
+- The data attribute is now known when using a data schema.
 
 ## [1.1.0] - 2023-08-02
-
 
 ### Fixed
 
@@ -19,12 +17,13 @@ passed shown in it's result
 ### Added
 
 - Types that make sure that attributes are typed properly.
-### Changed 
+
+### Changed
 
 - Schema helper functions are functions that must be called before passing in options
-  - `generateSelfClosingTagSchema()` is now `getGenerateSelfClosingTagSchema()` 
-  - `generatePrimarySchema()` is now `getGeneratePrimarySchema()` 
-  - `generateNonPrimarySchema()` is now `getGenerateNonPrimarySchema()` 
+  - `generateSelfClosingTagSchema()` is now `getGenerateSelfClosingTagSchema()`
+  - `generatePrimarySchema()` is now `getGeneratePrimarySchema()`
+  - `generateNonPrimarySchema()` is now `getGenerateNonPrimarySchema()`
 
 ## [1.0.2] - 2023-07-24
 
