@@ -10,241 +10,242 @@ export { abbr } from "packages/markdoc-html-tag-schemas/src/lib/schema/tag/abbre
 
 
 export const sup = getGenerateSelfClosingTagSchema()({
-    render: "sup",
-    attributes: {
-      primary: {
-        required:true,
-        render: true,
-        type: String,
-      }
-    },
-    description: "A schema for creating a sup element",
+  render: "sup",
+  attributes: {
+    primary: {
+      required: true,
+      render: true,
+      type: String,
+    }
+  },
+  description: "A schema for creating a sup element",
 });
 
 
 
 export const li = getGenerateSelfClosingTagSchema()({
-    render: "li",
-    attributes: {
-      primary: {
-        required:true,
-        render: true,
-        type: String,
-      }
-    },
-    description: "A schema for creating a sup element",
-    inline: false
+  render: "li",
+  attributes: {
+    primary: {
+      required: true,
+      render: true,
+      type: String,
+    }
+  },
+  description: "A schema for creating a sup element",
+  inline: false
 });
 
 
+
 export const small = getGenerateSelfClosingTagSchema()({
-    render: "small",
-    attributes: {
-      primary: {
-        required:true,
-        render: true,
-        type: String,
-      }
-    },
-    description: "A schema for creating a sup element",
+  render: "small",
+  attributes: {
+    primary: {
+      required: true,
+      render: true,
+      type: String,
+    }
+  },
+  description: "A schema for creating a sup element",
 
 });
 
 export const wbr = getGenerateSelfClosingTagSchema()({
-    render: "wbr",
-    attributes: {
-      primary: {
-        required:true,
-        render: true,
-        type: String,
-      }
-    },
-    description: "A schema for creating a sup element"
+  render: "wbr",
+  attributes: {
+    primary: {
+      required: true,
+      render: true,
+      type: String,
+    }
+  },
+  description: "A schema for creating a sup element"
 });
 
 
 
 export const del = getGenerateSelfClosingTagSchema()({
-    render: "del",
-    attributes: {
-      primary: {
-        required:true,
-        render: true,
-        type: String,
-      },
-      cite: MarkdocAttributes.cite,
-      datetime: MarkdocAttributes.datetime
+  render: "del",
+  attributes: {
+    primary: {
+      required: true,
+      render: true,
+      type: String,
     },
-    description: "A schema for creating a sup element"
+    cite: MarkdocAttributes.cite,
+    datetime: MarkdocAttributes.datetime
+  },
+  description: "A schema for creating a sup element"
 });
 
 
 export const ins = getGenerateSelfClosingTagSchema()({
-    render: "ins",
-    attributes: {
-      primary: {
-        required:true,
-        render: true,
-        type: String,
-      },
-      cite: MarkdocAttributes.cite,
-      datetime: MarkdocAttributes.datetime
+  render: "ins",
+  attributes: {
+    primary: {
+      required: true,
+      render: true,
+      type: String,
     },
-    description: "A schema for creating a sup element"
+    cite: MarkdocAttributes.cite,
+    datetime: MarkdocAttributes.datetime
+  },
+  description: "A schema for creating a sup element"
 },);
 
 
 export const sub = getGenerateSelfClosingTagSchema()({
-    render: "sub",
-    attributes: {
-      primary: {
-        required:true,
-        render: true,
-        type: String,
-      }
-    },
-    description: "A schema for creating a sub element"
+  render: "sub",
+  attributes: {
+    primary: {
+      required: true,
+      render: true,
+      type: String,
+    }
+  },
+  description: "A schema for creating a sub element"
 });
 
 
 export const cite = getGenerateSelfClosingTagSchema()({
-    render: "cite",
-    attributes: {
-      primary: {
-        required:true,
-        render: true,
-        type: String,
-      }
-    },
-    description: "A schema for creating a cite element"
+  render: "cite",
+  attributes: {
+    primary: {
+      required: true,
+      render: true,
+      type: String,
+    }
+  },
+  description: "A schema for creating a cite element"
 });
 export const code = getGenerateSelfClosingTagSchema()({
-    render: "code",
-    attributes: {
-      primary: {
-        required:true,
-        render: true,
-        type: String,
-      }
-    },
-    description: "A schema for creating a code element"
+  render: "code",
+  attributes: {
+    primary: {
+      required: true,
+      render: true,
+      type: String,
+    }
+  },
+  description: "A schema for creating a code element"
 });
 export const samp = getGenerateSelfClosingTagSchema()({
-    render: "samp",
-    attributes: {
-      primary: {
-        required:true,
-        render: true,
-        type: String,
-      }
-    },
-    description: "A schema for creating a samp element"
+  render: "samp",
+  attributes: {
+    primary: {
+      required: true,
+      render: true,
+      type: String,
+    }
+  },
+  description: "A schema for creating a samp element"
 });
 
 
 export const mark = getGenerateSelfClosingTagSchema()({
-    render: "mark",
-    attributes: {
-      primary: {
-        required:true,
-        render: true,
-        type: String,
-      }
-    },
-    description: "A schema for creating a mark element"
+  render: "mark",
+  attributes: {
+    primary: {
+      required: true,
+      render: true,
+      type: String,
+    }
+  },
+  description: "A schema for creating a mark element"
 });
 export const q = getGenerateSelfClosingTagSchema()({
-    render: "q",
-    attributes: {
-      primary: {
-        required:true,
-        render: true,
-        type: String,
-      }
-    },
-    description: "A schema for creating a mark element"
+  render: "q",
+  attributes: {
+    primary: {
+      required: true,
+      render: true,
+      type: String,
+    }
+  },
+  description: "A schema for creating a mark element"
 });
 export const kbd = getGenerateSelfClosingTagSchema()({
-    render: "kbd",
-    attributes: {
-      primary: {
-        required:true,
-        render: true,
-        type: String,
-      }
-    },
-    description: "A schema for creating a sup element"
+  render: "kbd",
+  attributes: {
+    primary: {
+      required: true,
+      render: true,
+      type: String,
+    }
+  },
+  description: "A schema for creating a sup element"
 });
 export const bdo = getGenerateSelfClosingTagSchema()({
-    render: "bdo",
-    attributes: {
-      primary: {
-        required:true,
-        render: true,
-        type: String,
-      }
-    },
-    description: "A schema for creating a bdo element"
+  render: "bdo",
+  attributes: {
+    primary: {
+      required: true,
+      render: true,
+      type: String,
+    }
+  },
+  description: "A schema for creating a bdo element"
 });
 
 export const bdi = getGenerateSelfClosingTagSchema()({
-    render: "bdi",
-    attributes: {
-      primary: {
-        required:true,
-        render: true,
-        type: String,
-      }
-    },
-    description: "A schema for creating a bdi element"
+  render: "bdi",
+  attributes: {
+    primary: {
+      required: true,
+      render: true,
+      type: String,
+    }
+  },
+  description: "A schema for creating a bdi element"
 });
 
 export const data = getGenerateSelfClosingTagSchema()({
-    render: "data",
-    attributes: {
-      primary: {
-        required:true,
-        render: true,
-        type: String,
-      }
-    },
-    description: "A schema for creating a data element"
+  render: "data",
+  attributes: {
+    primary: {
+      required: true,
+      render: true,
+      type: String,
+    }
+  },
+  description: "A schema for creating a data element"
 });
 
 export const dd = getGenerateSelfClosingTagSchema()({
-    render: "dd",
-    attributes: {
-      primary: {
-        required:true,
-        render: true,
-        type: String,
-      }
-    },
-    description: "A schema for creating a dd element"
+  render: "dd",
+  attributes: {
+    primary: {
+      required: true,
+      render: true,
+      type: String,
+    }
+  },
+  description: "A schema for creating a dd element"
 });
 
 export const dt = getGenerateSelfClosingTagSchema()({
-    render: "dt",
-    attributes: {
-      primary: {
-        required:true,
-        render: true,
-        type: String,
-      }
-    },
-    description: "A schema for creating a dt element",
+  render: "dt",
+  attributes: {
+    primary: {
+      required: true,
+      render: true,
+      type: String,
+    }
+  },
+  description: "A schema for creating a dt element",
 });
 
 export const span = getGenerateSelfClosingTagSchema()({
-    render: "span",
-    attributes: {
-      primary: {
-        required:true,
-        render: true,
-        type: String,
-      }
-    },
-    description: "A schema for creating a span element"
+  render: "span",
+  attributes: {
+    primary: {
+      required: true,
+      render: true,
+      type: String,
+    }
+  },
+  description: "A schema for creating a span element"
 });
 
 
@@ -253,93 +254,93 @@ export const span = getGenerateSelfClosingTagSchema()({
 class TimeAttribute extends MarkdocValidatorAttribute {
   returnMarkdocErrorObjectOrNothing(value: unknown): void | ValidationError {
 
-      const isNotAString = typeof value !== "string";
+    const isNotAString = typeof value !== "string";
 
-      if (isNotAString) {
+    if (isNotAString) {
 
-          return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserATypeIsNotRight("string")
-      }
+      return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserATypeIsNotRight("string")
+    }
 
 
-      const dateIsNotANumber = isNaN(Date.parse(value));
+    const dateIsNotANumber = isNaN(Date.parse(value));
 
-      if (dateIsNotANumber)
+    if (dateIsNotANumber)
 
-          return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(
-              `This value ${value} is not a parse able date time string
+      return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(
+        `This value ${value} is not a parse able date time string
               Please use a proper date format
               `
-          )
+      )
 
   }
 }
 
 
 export const time = getGenerateSelfClosingTagSchema()({
-    render: "time",
-    attributes: {
-      primary: {
-        required:true,
-        render: true,
-        type: TimeAttribute,
-      },
-      datetime: MarkdocAttributes.datetime
+  render: "time",
+  attributes: {
+    primary: {
+      required: true,
+      render: true,
+      type: TimeAttribute,
     },
-    description: "A schema for creating a time element",
-    inline: false,
+    datetime: MarkdocAttributes.datetime
+  },
+  description: "A schema for creating a time element",
+  inline: false,
 }, {
-    transform(node, config, createTag) {
+  transform(node, config, createTag) {
 
-        const { primary, datetime } = node.transformAttributes(config) as {
-            primary: string;
-            datetime?: string
-        }
-
-        if (datetime) return createTag("time", [primary], { datetime })
-
-        const date = new Date(primary)
-
-        return createTag("time",
-            date.toLocaleDateString(undefined, {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric',
-            }).split(" "), {
-            datetime: date.toISOString()
-        })
-
-
-
+    const { primary, datetime } = node.transformAttributes(config) as {
+      primary: string;
+      datetime?: string
     }
+
+    if (datetime) return createTag("time", [primary], { datetime })
+
+    const date = new Date(primary)
+
+    return createTag("time",
+      date.toLocaleDateString(undefined, {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+      }).split(" "), {
+      datetime: date.toISOString()
+    })
+
+
+
+  }
 });
 
 
 
 export const summary = getGenerateSelfClosingTagSchema()({
-    render: "summary",
-    attributes: {
-      primary: {
-        required:true,
-        render: true,
-        type: String,
-      }
-    },
-    description: "This is the summary for the details tag",
-    inline: false
+  render: "summary",
+  attributes: {
+    primary: {
+      required: true,
+      render: true,
+      type: String,
+    }
+  },
+  description: "This is the summary for the details tag",
+  inline: false
 });
 
 
 
 export const dfn = getGenerateSelfClosingTagSchema()({
-    render: "dfn",
-    attributes: {
-      primary: {
-        required:true,
-        render: true,
-        type: String,
-      }
-    },
-    description: "A schema for creating a dfn element",
-    inline: false,
-}, );
+  render: "dfn",
+  attributes: {
+    primary: {
+      required: true,
+      render: true,
+      type: String,
+    }
+  },
+  description: "A schema for creating a dfn element",
+  inline: false,
+},);
 

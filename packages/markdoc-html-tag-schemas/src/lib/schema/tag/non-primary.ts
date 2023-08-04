@@ -212,8 +212,10 @@ export const img = getGenerateNonPrimarySchema()(
                 ]
             },
         }
-    },{}
+    }
 );
+
+
 
 
 
@@ -280,7 +282,8 @@ export const video = getGenerateNonPrimarySchema()({
             description: "A URL for an image to be shown while the video is downloading. If this attribute isn't specified, nothing is displayed until the first frame is available, then the first frame is shown as the poster frame."
         }
 
-    }},{
+    }
+}, {
     validate(node) {
 
 
@@ -378,7 +381,8 @@ export const audio = getGenerateNonPrimarySchema()({
             ]
         },
 
-    }},{
+    }
+}, {
     validate(node) {
 
 
@@ -428,7 +432,6 @@ export const audio = getGenerateNonPrimarySchema()({
 
 
 
-
 export const address = getGenerateNonPrimarySchema()({
     render: "address",
     attributes: {
@@ -445,10 +448,11 @@ export const address = getGenerateNonPrimarySchema()({
 
 export const ul = getGenerateNonPrimarySchemaWithATransformThatGeneratesDataAttributes()({
     render: "ul",
-    children: [
-        "li"
-    ],
+    children: ["li"],
     attributes: {
+        data: {
+            type: Object
+        },
         title,
         spellcheck,
         lang,
@@ -462,12 +466,14 @@ export const ul = getGenerateNonPrimarySchemaWithATransformThatGeneratesDataAttr
 
 
 
+
 export const ol = getGenerateNonPrimarySchemaWithATransformThatGeneratesDataAttributes()({
     render: "ol",
-    children: [
-        "li"
-    ],
+    children: ["li"],
     attributes: {
+        data: {
+            type: Object
+        },
         title,
         spellcheck,
         lang,
@@ -496,9 +502,13 @@ export const blockquote = getGenerateNonPrimarySchema()({
     ],
 });
 
+
 export const details = getGenerateNonPrimarySchemaWithATransformThatGeneratesDataAttributes()({
     render: "details",
     attributes: {
+        data: {
+            type: Object
+        },
         open: {
             type: Boolean,
         }
@@ -523,7 +533,7 @@ export const picture = getGenerateNonPrimarySchema()({
         "img",
         "source",
     ]
-},{
+}, {
     validate(node) {
         const sourceTags = node.children
             .filter(child => child.tag === "source");
@@ -570,22 +580,23 @@ export const picture = getGenerateNonPrimarySchema()({
 )
 
 export const dl = getGenerateNonPrimarySchema()(
-  {
-    render: "dl",
-    attributes: {
-        hidden,
-        title,
-        spellcheck,
-        lang,
-        contenteditable,
-        translate,
-        dir,
-    },
-    children: [
-        "dt",
-        "dd",
-    ]
-})
+    {
+        render: "dl",
+        attributes: {
+            hidden,
+            title,
+            spellcheck,
+            lang,
+            contenteditable,
+            translate,
+            dir,
+        },
+        children: [
+            "dt",
+            "dd",
+        ]
+    })
+
 
 
 export const colgroup = getGenerateNonPrimarySchema()({
