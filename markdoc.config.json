@@ -1,0 +1,15 @@
+[
+  {
+    "id": "my-site",
+    "path": "/mock/src/content",
+    "schema": {
+      "path": "/mock/markdoc.config.mjs",
+      "type": "esm",
+      "property": "default",
+      "watch": true
+    },
+    "routing": {
+      "frontmatter": "route"
+    }
+  }
+]
