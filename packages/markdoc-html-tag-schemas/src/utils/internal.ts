@@ -3,25 +3,81 @@ import type { Scalar, } from "@markdoc/markdoc";
 
 export type AllowedMarkdocTypesAsStrings = "string" | "number" | "array" | "boolean" | "object"
 
-type prettify<T extends Record<PropertyKey, unknown> > = { [k in keyof T]: T[k] } & {};
+type prettify<T extends Record<PropertyKey, unknown>> = { [k in keyof T]: T[k] } & {};
 
 export const mergeObjects = <
-  T extends Record<string, unknown>,
-  U extends Record<string, unknown>
+    T extends Record<string, unknown>,
+    U extends Record<string, unknown>
 >(
-  t: T,
-  u: U
+    t: T,
+    u: U
 ) => {
-  return { ...t, ...u } as prettify<{
-    [k in keyof T | keyof U]:
-      k extends keyof U
-      ? U[k]
-      : k extends keyof T
-      ? T[k]
-      : never;
-  }>;
+    return { ...t, ...u } as prettify<{
+        [k in keyof T | keyof U]:
+        k extends keyof U
+        ? U[k]
+        : k extends keyof T
+        ? T[k]
+        : never;
+    }>;
 };
 
+
+
+export class AllowedMarkdocNodesContainer {
+
+
+    private readonly allowedMarkdocNodes = new Map([
+        ["PARAGRAPH", "paragraph"],
+        ["HR", "hr"],
+        ["IMAGE", "image"],
+        ["FENCE", "fence"],
+        ["LIST", "list"],
+        ["TAG", "tag"],
+        ["INLINE", "inline"],
+        ["STRONG", "strong"],
+        ["EM", "em"],
+        ["S", "s"],
+        ["LINK", "link"],
+        ["CODE", "code"],
+        ["TEXT", "text"],
+    ] as const
+    )
+
+
+    get cases() {
+
+        return [...this.allowedMarkdocNodes.entries()]
+
+    }
+
+    get values() {
+
+        return [...this.allowedMarkdocNodes.values()]
+
+    }
+
+    get keys() {
+
+        return [...this.allowedMarkdocNodes.keys()]
+
+    }
+
+    getValue(key: typeof this.keys[number]) {
+
+        return this.allowedMarkdocNodes.get(key)!
+
+    }
+
+    getTagAndValue(key: typeof this.keys[number]) {
+
+
+        return Object.freeze(["tag", this.getValue(key)] as const)
+
+
+    }
+
+}
 
 const isValidPropKey = (value: unknown): value is PropertyKey =>
     typeof value === "string"
