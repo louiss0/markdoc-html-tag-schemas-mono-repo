@@ -393,5 +393,10 @@ export const getGenerateNonPrimarySchemaWithATransformThatGeneratesDataAttribute
         };
     };
 
+
+export const generateInvalidChildrenMarkdocErrorObject = (message: string) =>
+    generateMarkdocErrorObject("invalid-children", "critical", message);
+
+
 //! Im doing this to avoid having to import everything again.
 export const getNodes = () => markdoc.nodes
