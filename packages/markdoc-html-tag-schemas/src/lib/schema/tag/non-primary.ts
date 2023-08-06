@@ -423,28 +423,10 @@ export const audio = getGenerateNonPrimarySchema()({
 
 
 
-export const address = getGenerateNonPrimarySchema()({
-    render: "address",
-    attributes: {
-        draggable,
-        translate,
-        spellcheck,
-        dir,
-    },
-    children: [
-        AllowedMarkdocNodes.TAG,
-        AllowedMarkdocNodes.PARAGRAPH
-    ]
-
-});
-
-
-
-
 
 export const ul = getGenerateNonPrimarySchemaWithATransformThatGeneratesDataAttributes()({
     render: "ul",
-    children: [AllowedMarkdocNodes.TAG],
+    children: [AllowedMarkdocNodes.TAG, AllowedMarkdocNodes.LIST],
     attributes: {
         data: {
             type: Object
@@ -456,6 +438,20 @@ export const ul = getGenerateNonPrimarySchemaWithATransformThatGeneratesDataAttr
         translate,
         dir,
     }
+
+}, {
+    validate(node) {
+
+        const allowedTagNames = ["ul", "ol", "li"]
+
+        const hasInvalidChildTag = !!node.children.find((node) => node.tag && !allowedTagNames.includes(node.tag))
+
+        return createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue([
+            hasInvalidChildTag,
+            generateInvalidChildrenMarkdocErrorObject(`All children of a ul tag must be a ${allowedTagNames.join(",")}`)
+        ])
+
+    },
 });
 
 
@@ -465,7 +461,7 @@ export const ul = getGenerateNonPrimarySchemaWithATransformThatGeneratesDataAttr
 
 export const ol = getGenerateNonPrimarySchemaWithATransformThatGeneratesDataAttributes()({
     render: "ol",
-    children: [AllowedMarkdocNodes.TAG],
+    children: [AllowedMarkdocNodes.TAG, AllowedMarkdocNodes.LIST],
     attributes: {
         data: {
             type: Object
@@ -477,6 +473,19 @@ export const ol = getGenerateNonPrimarySchemaWithATransformThatGeneratesDataAttr
         translate,
         dir,
     }
+}, {
+    validate(node) {
+
+        const allowedTagNames = ["ul", "ol", "li"]
+
+        const hasInvalidChildTag = !!node.children.find((node) => node.tag && !allowedTagNames.includes(node.tag))
+
+        return createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue([
+            hasInvalidChildTag,
+            generateInvalidChildrenMarkdocErrorObject(`All children of a ul tag must be a ${allowedTagNames.join(",")}`)
+        ])
+
+    },
 });
 
 
@@ -496,7 +505,21 @@ export const blockquote = getGenerateNonPrimarySchema()({
         AllowedMarkdocNodes.LIST,
         AllowedMarkdocNodes.IMAGE,
         AllowedMarkdocNodes.INLINE,
+        AllowedMarkdocNodes.PARAGRAPH
     ],
+}, {
+    validate(node) {
+
+        const allowedTagNames = ["p", "ul", "ol"]
+
+        const hasInvalidChildTag = !!node.children.find((node) => node.tag && !allowedTagNames.includes(node.tag))
+
+        return createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue([
+            hasInvalidChildTag,
+            generateInvalidChildrenMarkdocErrorObject(`All children of a this tag must be a ${allowedTagNames.join(",")}`)
+        ])
+
+    },
 });
 
 
@@ -517,6 +540,19 @@ export const details = getGenerateNonPrimarySchemaWithATransformThatGeneratesDat
         AllowedMarkdocNodes.IMAGE,
         AllowedMarkdocNodes.LIST,
     ],
+}, {
+    validate(node) {
+
+        const allowedTagNames = ["p", "summary", "ul", "ol"]
+
+        const hasInvalidChildTag = !!node.children.find((node) => node.tag && !allowedTagNames.includes(node.tag))
+
+        return createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue([
+            hasInvalidChildTag,
+            generateInvalidChildrenMarkdocErrorObject(`All children of a this tag must be a ${allowedTagNames.join(",")}`)
+        ])
+
+    },
 });
 
 
@@ -672,9 +708,9 @@ export const p = getGenerateNonPrimarySchema()({
         translate,
     },
     children: [
-        "INLINE"),
-"TEXT"),
-"LINK"),
+        AllowedMarkdocNodes.INLINE,
+        AllowedMarkdocNodes.TEXT,
+        AllowedMarkdocNodes.LINK,
     ]
 });
 
