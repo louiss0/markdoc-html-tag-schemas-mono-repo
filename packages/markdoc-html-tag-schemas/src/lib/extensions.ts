@@ -34,7 +34,7 @@ export const markdocHTMLTagSchemas = (
                 render: blankDoc ? undefined : nodes?.document.render,
                 children: nodes?.document.children,
                 attributes: {
-                    ...nodes.document.attributes
+                    ...nodes?.document.attributes
                 }
             },
             heading: {
