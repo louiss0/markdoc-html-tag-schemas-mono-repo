@@ -27,11 +27,15 @@ export const markdocHTMLTagSchemas = (
 
     const { blankDoc = true, strictHeadings = false } = options as Record<"blankDoc" | "strictHeadings", boolean>
 
+
     return {
         nodes: {
             document: {
-                ...nodes?.document,
-                render: blankDoc ? undefined : nodes?.document?.render
+                render: blankDoc ? undefined : nodes?.document.render,
+                children: nodes?.document.children,
+                attributes: {
+                    ...nodes.document.attributes
+                }
             },
             heading: {
                 ...nodes?.heading,
