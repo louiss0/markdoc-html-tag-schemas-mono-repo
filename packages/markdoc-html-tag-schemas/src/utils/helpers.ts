@@ -286,6 +286,10 @@ export const generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNo
     (message: string) =>
         generateMarkdocErrorObject('invalid-value', 'error', message);
 
+export const generateInvalidChildrenMarkdocErrorObject = (message: string) =>
+    generateMarkdocErrorObject("invalid-children", "critical", message);
+
+
 type GenerateNonPrimarySchemaConfigThatDoesNotAllowDataConfig<
     T extends RequiredSchemaAttribute,
     R extends string
@@ -302,7 +306,7 @@ type GenerateNonPrimarySchemaConfigThatDoesNotAllowDataConfig<
 type GenerateNonSecondarySchemaConfigThatDoesNotAllowTransformConfig<
     T extends RequiredSchemaAttribute,
     R extends string
-> = Omit<GenerateNonPrimarySchemaSecondaryConfig<T, R>, 'transform' | 'validate'>;
+> = Pick<GenerateNonPrimarySchemaSecondaryConfig<T, R>, "slots" | "validate">;
 
 
 export const getGenerateNonPrimarySchemaWithATransformThatGeneratesDataAttributes =
@@ -336,7 +340,10 @@ export const getGenerateNonPrimarySchemaWithATransformThatGeneratesDataAttribute
                         []
                     );
 
-                    return createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue(
+                    const validationErrorsFromConfig = secondaryConfig?.validate?.(node, config)
+
+
+                    const internalValidationErrors = createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue(
                         [
                             keysWithNoNumberBooleanOrStringValues.length !== 0,
                             generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(
@@ -346,10 +353,15 @@ export const getGenerateNonPrimarySchemaWithATransformThatGeneratesDataAttribute
                               `
                             ),
                         ]
-                    );
+                    )
+
+                    return Array.isArray(validationErrorsFromConfig)
+                        ? internalValidationErrors.concat(validationErrorsFromConfig)
+                        : internalValidationErrors
+
                 },
 
-                transform<T extends string>(node: markdoc.Node, config: markdoc.Config, createTag: CreateTagFunction<T>) {
+                transform(node: markdoc.Node, config: markdoc.Config, createTag: CreateTagFunction<R>) {
 
                     const attributes = node.transformAttributes(config);
 
@@ -375,6 +387,8 @@ export const getGenerateNonPrimarySchemaWithATransformThatGeneratesDataAttribute
                     }
 
 
+
+
                     return createTag(
                         primaryConfig.render,
                         node.transformChildren(config), {
@@ -386,6 +400,9 @@ export const getGenerateNonPrimarySchemaWithATransformThatGeneratesDataAttribute
             }
 
 
+
+
+
             return generateNonPrimarySchema(
                 primaryConfig,
                 mergeObjects(secondaryConfig ?? {}, transformAndValidate)
@@ -394,8 +411,6 @@ export const getGenerateNonPrimarySchemaWithATransformThatGeneratesDataAttribute
     };
 
 
-export const generateInvalidChildrenMarkdocErrorObject = (message: string) =>
-    generateMarkdocErrorObject("invalid-children", "critical", message);
 
 
 //! Im doing this to avoid having to import everything again.
