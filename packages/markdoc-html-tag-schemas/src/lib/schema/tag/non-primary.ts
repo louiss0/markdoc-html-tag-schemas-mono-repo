@@ -14,6 +14,7 @@ import {
 } from 'packages/markdoc-html-tag-schemas/src/lib/custom-attributes';
 
 import { MarkdocAttributes } from "packages/markdoc-html-tag-schemas/src/lib/attributes";
+import { AllowedMarkdocNodesSingleton } from "packages/markdoc-html-tag-schemas/src/utils/internal";
 
 export { iframe } from "packages/markdoc-html-tag-schemas/src/lib/schema/tag/iframe"
 
@@ -225,10 +226,7 @@ const videoTypeRegex = /^video\/\b\w+/
 
 export const video = getGenerateNonPrimarySchema()({
     render: "video",
-    children: [
-        "source",
-        "track"
-    ],
+    children: [AllowedMarkdocNodesSingleton.getInstance().getValue("TAG")],
     attributes: {
         width,
         height,
@@ -333,7 +331,7 @@ const audioTypeRegex = /^audio\/\b\w+/
 export const audio = getGenerateNonPrimarySchema()({
     render: "audio",
     children: [
-        "source"
+        AllowedMarkdocNodesSingleton.getInstance().getValue("TAG")
     ],
     attributes: {
         autoplay: {
@@ -440,7 +438,8 @@ export const address = getGenerateNonPrimarySchema()({
         spellcheck,
         dir,
     },
-    children: ["inline", "span", "paragraph", "list"]
+    children: AllowedMarkdocNodesSingleton.getInstance().getTagAndValue("PARAGRAPH")
+
 });
 
 
@@ -448,7 +447,7 @@ export const address = getGenerateNonPrimarySchema()({
 
 export const ul = getGenerateNonPrimarySchemaWithATransformThatGeneratesDataAttributes()({
     render: "ul",
-    children: ["li"],
+    children: [AllowedMarkdocNodesSingleton.getInstance().getValue("TAG")],
     attributes: {
         data: {
             type: Object
@@ -469,7 +468,7 @@ export const ul = getGenerateNonPrimarySchemaWithATransformThatGeneratesDataAttr
 
 export const ol = getGenerateNonPrimarySchemaWithATransformThatGeneratesDataAttributes()({
     render: "ol",
-    children: ["li"],
+    children: [AllowedMarkdocNodesSingleton.getInstance().getValue("TAG")],
     attributes: {
         data: {
             type: Object
@@ -496,9 +495,10 @@ export const blockquote = getGenerateNonPrimarySchema()({
         hidden,
     },
     children: [
-        "list",
-        "paragraph",
-        "img"
+        AllowedMarkdocNodesSingleton.getInstance().getValue("FENCE"),
+        AllowedMarkdocNodesSingleton.getInstance().getValue("LIST"),
+        AllowedMarkdocNodesSingleton.getInstance().getValue("IMAGE"),
+        AllowedMarkdocNodesSingleton.getInstance().getValue("INLINE"),
     ],
 });
 
@@ -514,10 +514,12 @@ export const details = getGenerateNonPrimarySchemaWithATransformThatGeneratesDat
         }
     },
     children: [
-        "summary",
-        "text",
-        "paragraph"
-    ]
+        AllowedMarkdocNodesSingleton.getInstance().getValue("TAG"),
+        AllowedMarkdocNodesSingleton.getInstance().getValue("PARAGRAPH"),
+        AllowedMarkdocNodesSingleton.getInstance().getValue("FENCE"),
+        AllowedMarkdocNodesSingleton.getInstance().getValue("IMAGE"),
+        AllowedMarkdocNodesSingleton.getInstance().getValue("LIST"),
+    ],
 });
 
 
@@ -530,8 +532,7 @@ export const picture = getGenerateNonPrimarySchema()({
         hidden
     },
     children: [
-        "img",
-        "source",
+        AllowedMarkdocNodesSingleton.getInstance().getValue("TAG"),
     ]
 }, {
     validate(node) {
@@ -609,7 +610,9 @@ export const colgroup = getGenerateNonPrimarySchema()({
 
         }
     },
-    children: ["col",]
+    children: [
+        AllowedMarkdocNodesSingleton.getInstance().getValue("TAG"),
+    ]
 });
 
 
@@ -624,8 +627,8 @@ export const col = getGenerateNonPrimarySchema()({
         }
     },
     children: [
-        "inline",
-        "text",
+        AllowedMarkdocNodesSingleton.getInstance().getValue("INLINE"),
+        AllowedMarkdocNodesSingleton.getInstance().getValue("TEXT"),
     ]
 });
 
@@ -650,9 +653,9 @@ export const p = getGenerateNonPrimarySchema()({
         translate,
     },
     children: [
-        "inline",
-        "text",
-        "link",
+        AllowedMarkdocNodesSingleton.getInstance().getValue("INLINE"),
+        AllowedMarkdocNodesSingleton.getInstance().getValue("TEXT"),
+        AllowedMarkdocNodesSingleton.getInstance().getValue("LINK"),
     ]
 });
 

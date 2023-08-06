@@ -24,8 +24,21 @@ export const mergeObjects = <
 
 
 
-export class AllowedMarkdocNodesContainer {
+export class AllowedMarkdocNodesSingleton {
 
+
+
+
+    private static instance = new AllowedMarkdocNodesSingleton()
+
+    private constructor () { }
+
+    static getInstance() {
+
+
+        return this.instance
+
+    }
 
     private readonly allowedMarkdocNodes = new Map([
         ["PARAGRAPH", "paragraph"],

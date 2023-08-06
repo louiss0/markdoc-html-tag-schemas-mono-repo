@@ -62,7 +62,7 @@ type SelfClosing = {
 
 type NonSelfClosing = {
     selfClosing?: never;
-    children: Array<string>;
+    children: ReadonlyArray<string>;
 };
 
 type NonPrimaryTagsSchema<
