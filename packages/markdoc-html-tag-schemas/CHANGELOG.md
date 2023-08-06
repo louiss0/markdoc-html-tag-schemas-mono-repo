@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [2.0.0] - 2023-08-06
+
 ### Added
 
 - ul, ol, p col, colgroup,dl and a schemas have proper validations for children.
