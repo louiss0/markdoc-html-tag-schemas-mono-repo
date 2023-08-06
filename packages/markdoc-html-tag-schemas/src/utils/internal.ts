@@ -24,73 +24,23 @@ export const mergeObjects = <
 
 
 
-export class AllowedMarkdocNodesSingleton {
+export const AllowedMarkdocNodes = Object.freeze({
 
+    PARAGRAPH: "paragraph",
+    HR: "hr",
+    IMAGE: "image",
+    FENCE: "fence",
+    LIST: "list",
+    TAG: "tag",
+    INLINE: "inline",
+    STRONG: "strong",
+    EM: "em",
+    S: "s",
+    LINK: "link",
+    CODE: "code",
+    TEXT: "text",
 
-
-
-    private static instance = new AllowedMarkdocNodesSingleton()
-
-    private constructor () { }
-
-    static getInstance() {
-
-
-        return this.instance
-
-    }
-
-    private readonly allowedMarkdocNodes = new Map([
-        ["PARAGRAPH", "paragraph"],
-        ["HR", "hr"],
-        ["IMAGE", "image"],
-        ["FENCE", "fence"],
-        ["LIST", "list"],
-        ["TAG", "tag"],
-        ["INLINE", "inline"],
-        ["STRONG", "strong"],
-        ["EM", "em"],
-        ["S", "s"],
-        ["LINK", "link"],
-        ["CODE", "code"],
-        ["TEXT", "text"],
-    ] as const
-    )
-
-
-    get cases() {
-
-        return [...this.allowedMarkdocNodes.entries()]
-
-    }
-
-    get values() {
-
-        return [...this.allowedMarkdocNodes.values()]
-
-    }
-
-    get keys() {
-
-        return [...this.allowedMarkdocNodes.keys()]
-
-    }
-
-    getValue(key: typeof this.keys[number]) {
-
-        return this.allowedMarkdocNodes.get(key)!
-
-    }
-
-    getTagAndValue(key: typeof this.keys[number]) {
-
-
-        return Object.freeze(["tag", this.getValue(key)] as const)
-
-
-    }
-
-}
+})
 
 const isValidPropKey = (value: unknown): value is PropertyKey =>
     typeof value === "string"

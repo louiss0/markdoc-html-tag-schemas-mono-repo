@@ -3,6 +3,7 @@ import {
     generateMarkdocErrorObject,
     getGenerateNonPrimarySchemaWithATransformThatGeneratesDataAttributes,
     getGenerateNonPrimarySchema,
+    generateInvalidChildrenMarkdocErrorObject,
 } from "packages/markdoc-html-tag-schemas/src/utils";
 
 import {
@@ -14,7 +15,7 @@ import {
 } from 'packages/markdoc-html-tag-schemas/src/lib/custom-attributes';
 
 import { MarkdocAttributes } from "packages/markdoc-html-tag-schemas/src/lib/attributes";
-import { AllowedMarkdocNodesSingleton } from "packages/markdoc-html-tag-schemas/src/utils/internal";
+import { AllowedMarkdocNodes } from "packages/markdoc-html-tag-schemas/src/utils/internal";
 
 export { iframe } from "packages/markdoc-html-tag-schemas/src/lib/schema/tag/iframe"
 
@@ -219,14 +220,12 @@ export const img = getGenerateNonPrimarySchema()(
 
 
 
-
 //* Children Tag Schemas
 
-const videoTypeRegex = /^video\/\b\w+/
 
 export const video = getGenerateNonPrimarySchema()({
     render: "video",
-    children: [AllowedMarkdocNodesSingleton.getInstance().getValue("TAG")],
+    children: [AllowedMarkdocNodes.TAG],
     attributes: {
         width,
         height,
@@ -284,6 +283,8 @@ export const video = getGenerateNonPrimarySchema()({
 }, {
     validate(node) {
 
+        const videoTypeRegex = /^video\/\b\w+/
+
 
         const sourceTags = node.children
             .filter(child => child.tag === "source");
@@ -300,16 +301,12 @@ export const video = getGenerateNonPrimarySchema()({
         return createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue(
             [
                 !allChildrenWithSourceTagsHaveASrcAttribute,
-                generateMarkdocErrorObject(
-                    "invalid-children",
-                    "error",
+                generateInvalidChildrenMarkdocErrorObject(
                     "All children of the video tag must have a src attribute "
                 )
             ],
             [anySourceTagWithATypeAttributeIsInvalid,
-                generateMarkdocErrorObject(
-                    "invalid-children",
-                    "error",
+                generateInvalidChildrenMarkdocErrorObject(
                     `All children of the picture tag that is a src attribute must have a type attribute with a string
                     that starts with video/ and ends with a word.
                     `
@@ -331,7 +328,7 @@ const audioTypeRegex = /^audio\/\b\w+/
 export const audio = getGenerateNonPrimarySchema()({
     render: "audio",
     children: [
-        AllowedMarkdocNodesSingleton.getInstance().getValue("TAG")
+        AllowedMarkdocNodes.TAG
     ],
     attributes: {
         autoplay: {
@@ -400,16 +397,12 @@ export const audio = getGenerateNonPrimarySchema()({
         return createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue(
             [
                 !allChildrenWithSourceTagsHaveASrcAttribute,
-                generateMarkdocErrorObject(
-                    "invalid-children",
-                    "error",
+                generateInvalidChildrenMarkdocErrorObject(
                     "All children of the audio tag must have a src attribute "
                 )
             ],
             [anySourceTagWithATypeAttributeIsInvalid,
-                generateMarkdocErrorObject(
-                    "invalid-children",
-                    "error",
+                generateInvalidChildrenMarkdocErrorObject(
                     `All children of the picture tag that is a src attribute must have a type attribute  with a a string that is one of the following values.
 
                         image/jpg
@@ -438,16 +431,20 @@ export const address = getGenerateNonPrimarySchema()({
         spellcheck,
         dir,
     },
-    children: AllowedMarkdocNodesSingleton.getInstance().getTagAndValue("PARAGRAPH")
+    children: [
+        AllowedMarkdocNodes.TAG,
+        AllowedMarkdocNodes.PARAGRAPH
+    ]
 
 });
 
 
 
 
+
 export const ul = getGenerateNonPrimarySchemaWithATransformThatGeneratesDataAttributes()({
     render: "ul",
-    children: [AllowedMarkdocNodesSingleton.getInstance().getValue("TAG")],
+    children: [AllowedMarkdocNodes.TAG],
     attributes: {
         data: {
             type: Object
@@ -468,7 +465,7 @@ export const ul = getGenerateNonPrimarySchemaWithATransformThatGeneratesDataAttr
 
 export const ol = getGenerateNonPrimarySchemaWithATransformThatGeneratesDataAttributes()({
     render: "ol",
-    children: [AllowedMarkdocNodesSingleton.getInstance().getValue("TAG")],
+    children: [AllowedMarkdocNodes.TAG],
     attributes: {
         data: {
             type: Object
@@ -495,10 +492,10 @@ export const blockquote = getGenerateNonPrimarySchema()({
         hidden,
     },
     children: [
-        AllowedMarkdocNodesSingleton.getInstance().getValue("FENCE"),
-        AllowedMarkdocNodesSingleton.getInstance().getValue("LIST"),
-        AllowedMarkdocNodesSingleton.getInstance().getValue("IMAGE"),
-        AllowedMarkdocNodesSingleton.getInstance().getValue("INLINE"),
+        AllowedMarkdocNodes.FENCE,
+        AllowedMarkdocNodes.LIST,
+        AllowedMarkdocNodes.IMAGE,
+        AllowedMarkdocNodes.INLINE,
     ],
 });
 
@@ -514,17 +511,16 @@ export const details = getGenerateNonPrimarySchemaWithATransformThatGeneratesDat
         }
     },
     children: [
-        AllowedMarkdocNodesSingleton.getInstance().getValue("TAG"),
-        AllowedMarkdocNodesSingleton.getInstance().getValue("PARAGRAPH"),
-        AllowedMarkdocNodesSingleton.getInstance().getValue("FENCE"),
-        AllowedMarkdocNodesSingleton.getInstance().getValue("IMAGE"),
-        AllowedMarkdocNodesSingleton.getInstance().getValue("LIST"),
+        AllowedMarkdocNodes.TAG,
+        AllowedMarkdocNodes.PARAGRAPH,
+        AllowedMarkdocNodes.FENCE,
+        AllowedMarkdocNodes.IMAGE,
+        AllowedMarkdocNodes.LIST,
     ],
 });
 
 
 
-const imageTypeRegex = /^image\/(?<image_type>jpg|jpeg|gif|tiff|webp|png)$/;
 
 export const picture = getGenerateNonPrimarySchema()({
     render: "picture",
@@ -532,7 +528,7 @@ export const picture = getGenerateNonPrimarySchema()({
         hidden
     },
     children: [
-        AllowedMarkdocNodesSingleton.getInstance().getValue("TAG"),
+        AllowedMarkdocNodes.TAG,
     ]
 }, {
     validate(node) {
@@ -542,6 +538,7 @@ export const picture = getGenerateNonPrimarySchema()({
         const allChildrenWithSourceTagsHaveASrcAttribute =
             sourceTags
                 .every(child => "srcset" in child.attributes)
+        const imageTypeRegex = /^image\/(?<image_type>jpg|jpeg|gif|tiff|webp|png)$/;
 
         const anySourceTagWithATypeAttributeIsInvalid =
             sourceTags
@@ -552,16 +549,12 @@ export const picture = getGenerateNonPrimarySchema()({
         return createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue(
             [
                 !allChildrenWithSourceTagsHaveASrcAttribute,
-                generateMarkdocErrorObject(
-                    "invalid-children",
-                    "error",
+                generateInvalidChildrenMarkdocErrorObject(
                     "All children of the picture tag that is a src attribute must have a srcset attribute "
                 )
             ],
             [anySourceTagWithATypeAttributeIsInvalid,
-                generateMarkdocErrorObject(
-                    "invalid-children",
-                    "error",
+                generateInvalidChildrenMarkdocErrorObject(
                     `All children of the picture tag that is a src attribute must have a type attribute  with a a string that is one of the following values.
 
                         image/jpg
@@ -593,10 +586,24 @@ export const dl = getGenerateNonPrimarySchema()(
             dir,
         },
         children: [
-            "dt",
-            "dd",
+            AllowedMarkdocNodes.TAG
+
         ]
-    })
+    },
+
+    {
+        validate(node) {
+
+            const hasInvalidChildTag = !!node.children.find((node) => node.tag && !["dd", "dt"].includes(node.tag))
+
+            return createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue([
+                hasInvalidChildTag,
+                generateInvalidChildrenMarkdocErrorObject(`All children of a dl tag must be a dd or dt `)
+            ])
+
+        },
+    }
+)
 
 
 
@@ -611,9 +618,21 @@ export const colgroup = getGenerateNonPrimarySchema()({
         }
     },
     children: [
-        AllowedMarkdocNodesSingleton.getInstance().getValue("TAG"),
+        AllowedMarkdocNodes.TAG
     ]
-});
+},
+    {
+        validate(node) {
+
+            const hasInvalidChildTag = !!node.children.find((node) => node.tag && !"col".includes(node.tag))
+
+            return createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue([
+                hasInvalidChildTag,
+                generateInvalidChildrenMarkdocErrorObject(`All children of a colgroup tag must be a col `)
+            ])
+
+        },
+    });
 
 
 export const col = getGenerateNonPrimarySchema()({
@@ -627,8 +646,8 @@ export const col = getGenerateNonPrimarySchema()({
         }
     },
     children: [
-        AllowedMarkdocNodesSingleton.getInstance().getValue("INLINE"),
-        AllowedMarkdocNodesSingleton.getInstance().getValue("TEXT"),
+        AllowedMarkdocNodes.TEXT,
+        AllowedMarkdocNodes.INLINE,
     ]
 });
 
@@ -653,9 +672,9 @@ export const p = getGenerateNonPrimarySchema()({
         translate,
     },
     children: [
-        AllowedMarkdocNodesSingleton.getInstance().getValue("INLINE"),
-        AllowedMarkdocNodesSingleton.getInstance().getValue("TEXT"),
-        AllowedMarkdocNodesSingleton.getInstance().getValue("LINK"),
+        "INLINE"),
+"TEXT"),
+"LINK"),
     ]
 });
 
