@@ -1,5 +1,39 @@
 # For Astro Markdoc HTML Tags
 
+## [Unreleased]
+
+### Added
+
+- ul, ol, p col, colgroup,dl and a schemas have proper validations for children.
+
+- ul and ol tags now only check for themselves as children along with li and their opposing versions.
+
+### Changed
+
+- details schema now allows
+  - paragraphs code fences and list as nodes.
+  - It also checks for p and summary tags.
+
+- blockquote tag now only supports.
+  - fence,list,image and paragraph nodes
+  - p,ul,ol, and img tags.
+
+- a schema only supports
+  - text,strong,em,image,paragraph as nodes.
+  - span img,mark,and small as tags.
+
+- colgroup tag only supports col as children
+- col is now a self-closing primary schema
+- p tag only supports text and link as children
+
+### Fixed
+
+- The shape of schemas with children in them are typed properly.
+
+### Removed
+  
+- address schema
+
 ## [1.1.1] - 2023-08-04
 
 ### Fixed
