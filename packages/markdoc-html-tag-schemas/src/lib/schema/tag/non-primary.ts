@@ -504,13 +504,12 @@ export const blockquote = getGenerateNonPrimarySchema()({
         AllowedMarkdocNodes.FENCE,
         AllowedMarkdocNodes.LIST,
         AllowedMarkdocNodes.IMAGE,
-        AllowedMarkdocNodes.INLINE,
         AllowedMarkdocNodes.PARAGRAPH
     ],
 }, {
     validate(node) {
 
-        const allowedTagNames = ["p", "ul", "ol"]
+        const allowedTagNames = ["p", "ul", "ol", "img"]
 
         const hasInvalidChildTag = !!node.children.find((node) => node.tag && !allowedTagNames.includes(node.tag))
 
@@ -681,10 +680,7 @@ export const col = getGenerateNonPrimarySchema()({
 
         }
     },
-    children: [
-        AllowedMarkdocNodes.TEXT,
-        AllowedMarkdocNodes.INLINE,
-    ]
+    selfClosing: true
 });
 
 /**
@@ -708,7 +704,6 @@ export const p = getGenerateNonPrimarySchema()({
         translate,
     },
     children: [
-        AllowedMarkdocNodes.INLINE,
         AllowedMarkdocNodes.TEXT,
         AllowedMarkdocNodes.LINK,
     ]
