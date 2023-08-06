@@ -323,7 +323,6 @@ export const video = getGenerateNonPrimarySchema()({
 
 
 
-const audioTypeRegex = /^audio\/\b\w+/
 
 export const audio = getGenerateNonPrimarySchema()({
     render: "audio",
@@ -387,6 +386,7 @@ export const audio = getGenerateNonPrimarySchema()({
         const allChildrenWithSourceTagsHaveASrcAttribute =
             sourceTags
                 .every(child => "src" in child.attributes)
+        const audioTypeRegex = /^audio\/\b\w+/
 
         const anySourceTagWithATypeAttributeIsInvalid =
             sourceTags
