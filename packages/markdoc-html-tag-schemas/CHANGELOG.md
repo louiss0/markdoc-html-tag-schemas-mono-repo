@@ -18,6 +18,8 @@ This library does follow semver.
 
 ## [Unreleased]
 
+## [2.1.0] - 2023-08-07
+
 ## Added
 
 - Added validation to make sure that dd and dt tags are siblings of each other.
