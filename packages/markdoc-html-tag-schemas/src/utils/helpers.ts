@@ -413,5 +413,3 @@ export const getGenerateNonPrimarySchemaWithATransformThatGeneratesDataAttribute
 
 
 
-//! Im doing this to avoid having to import everything again.
-export const getNodes = () => markdoc.nodes
