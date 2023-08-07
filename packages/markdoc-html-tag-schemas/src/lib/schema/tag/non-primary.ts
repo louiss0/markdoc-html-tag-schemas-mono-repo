@@ -629,12 +629,39 @@ export const dl = getGenerateNonPrimarySchema()(
     {
         validate(node) {
 
-            const hasInvalidChildTag = !!node.children.find((node) => node.tag && !["dd", "dt"].includes(node.tag))
+            
+            const validTagNames = ["dd", "dt"];
+            const hasInvalidChildTag = !!node.children.find((node) => node.tag && !validTagNames.includes(node.tag))
 
-            return createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue([
+            const allDefinitionTermAndDefinitionTagsAreSiblings =
+                node.children.every((node, index, nodeList) => {
+                
+                    
+                    const siblingNode = nodeList.at(++index)
+
+                    return index > 0 && index % 1 === 0
+                        && siblingNode && node.tag === "dd"
+                        && siblingNode.tag === "dt"
+                        || index % 2 === 0
+                        && siblingNode && node.tag === "dt"
+                        && siblingNode.tag === "dd"
+                    
+
+                },)
+            
+            
+
+            return createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue(
+                [
                 hasInvalidChildTag,
                 generateInvalidChildrenMarkdocErrorObject(`All children of a dl tag must be a dd or dt `)
-            ])
+                ],
+                [
+                !allDefinitionTermAndDefinitionTagsAreSiblings,
+                generateInvalidChildrenMarkdocErrorObject(`All dt and dt tags must be siblings of each other`)
+                ]
+                
+            )
 
         },
     }
@@ -706,6 +733,7 @@ export const p = getGenerateNonPrimarySchema()({
     children: [
         AllowedMarkdocNodes.TEXT,
         AllowedMarkdocNodes.LINK,
+        AllowedMarkdocNodes.SOFTBREAK,
     ]
 });
 
