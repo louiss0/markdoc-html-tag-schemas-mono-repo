@@ -221,6 +221,7 @@ export const dd = getGenerateSelfClosingTagSchema()({
       type: String,
     }
   },
+  inline:false,
   description: "A schema for creating a dd element"
 });
 
@@ -233,6 +234,7 @@ export const dt = getGenerateSelfClosingTagSchema()({
       type: String,
     }
   },
+  inline:false,
   description: "A schema for creating a dt element",
 });
 
