@@ -629,22 +629,22 @@ export const dl = getGenerateNonPrimarySchema()(
     {
         validate(node) {
 
-            
+
             const validTagNames = ["dd", "dt"];
 
 
             const hasInvalidChildTag = !!node.children.find((node) => node.tag && !validTagNames.includes(node.tag))
 
 
-            
+
             const allDefinitionTermAndDefinitionTagsAreSiblings =
                 node.children.every((node, index, nodeList) => {
-                
-                    
 
-                    
+
+
+
                     if (index === nodeList.length - 1) return true
-                    
+
 
                     const siblingNode = nodeList.at(index + 1)
 
@@ -654,35 +654,35 @@ export const dl = getGenerateNonPrimarySchema()(
                         return siblingNode
                             && node.tag === "dd"
                             && siblingNode.tag === "dt";
-                        
+
                     }
-            
+
                     if (index % 2 === 0) {
 
-                        
+
                         return siblingNode
-                        && node.tag === "dt"
-                        && siblingNode.tag === "dd";
-                        
+                            && node.tag === "dt"
+                            && siblingNode.tag === "dd";
+
                     }
-                    
-                    
+
+
 
                 },)
-            
-            
-            
+
+
+
 
             return createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue(
                 [
-                hasInvalidChildTag,
-                generateInvalidChildrenMarkdocErrorObject(`All children of a dl tag must be a dd or dt `)
+                    hasInvalidChildTag,
+                    generateInvalidChildrenMarkdocErrorObject(`All children of a dl tag must be a dd or dt `)
                 ],
                 [
-                !allDefinitionTermAndDefinitionTagsAreSiblings,
-                generateInvalidChildrenMarkdocErrorObject(`All dt and dd tags must be siblings of each other`)
+                    !allDefinitionTermAndDefinitionTagsAreSiblings,
+                    generateInvalidChildrenMarkdocErrorObject(`All dt and dd tags must be siblings of each other`)
                 ]
-                
+
             )
 
         },
