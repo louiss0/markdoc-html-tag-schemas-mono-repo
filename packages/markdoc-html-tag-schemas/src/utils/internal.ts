@@ -39,7 +39,8 @@ export const AllowedMarkdocNodes = Object.freeze({
     LINK: "link",
     CODE: "code",
     TEXT: "text",
-
+    SOFTBREAK: "softbreak",
+    HARDBREAK: "hardbreak"
 })
 
 const isValidPropKey = (value: unknown): value is PropertyKey =>
