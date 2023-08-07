@@ -1,5 +1,4 @@
-# For Astro Markdoc HTML Tags
-
+<!-- markdownlint-disable-file MD024 -->  
 <!-- 
 
 Types of changes
@@ -13,11 +12,21 @@ Types of changes
 
 -->
 
+# For Astro Markdoc HTML Tags
+
+This library does follow semver.
+
 ## [Unreleased]
 
 ## Added
 
+- Added validation to make sure that dd and dt tags are siblings of each other.
+
 ## Fixed
+
+- The frontmatter attribute is written properly.
+- The heading node is also written properly.
+- Changed dt and dl to block schemas.
 
 ## [2.0.0] - 2023-08-06
 
