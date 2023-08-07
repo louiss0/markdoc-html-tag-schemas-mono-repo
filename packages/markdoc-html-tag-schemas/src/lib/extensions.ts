@@ -1,51 +1,27 @@
 
 import * as selfClosingTags from 'packages/markdoc-html-tag-schemas/src/lib/schema/tag/self-closing';
 import * as nonPrimaryTags from 'packages/markdoc-html-tag-schemas/src/lib/schema/tag/non-primary';
-import { getNodes } from 'packages/markdoc-html-tag-schemas/src/utils';
+import { getDocSchema, getHeadingSchema } from 'packages/markdoc-html-tag-schemas/src/utils';
 const { a, ul, img, ...restOfTheNonPrimaryTags } = nonPrimaryTags
 
 
 
-const nodes = getNodes() as {
-    heading: {
-        attributes: Record<"level", { type: NumberConstructor, render: false, required: true }>
-        children: Array<string>
-        render: `h${1 | 2 | 3 | 4 | 5 | 6}`
 
-    }
-    document: {
-        render: "article"
-        children: Array<string>
-        attributes: Record<"frontmatter", Record<"render", false>>
-    }
-}
+
 
 
 export const markdocHTMLTagSchemas = (
     options: Partial<{ blankDoc: false, strictHeadings: true }> = {}
 ) => {
 
+
     const { blankDoc = true, strictHeadings = false } = options as Record<"blankDoc" | "strictHeadings", boolean>
 
 
     return {
         nodes: {
-            document: {
-                render: blankDoc ? undefined : nodes?.document.render,
-                children: nodes?.document.children,
-                attributes: {
-                    ...nodes?.document.attributes
-                }
-            },
-            heading: {
-                ...nodes?.heading,
-                attributes: {
-                    level: {
-                        ...nodes?.heading.attributes["level"],
-                        matches: strictHeadings ? [1, 2, 3, 4] : undefined
-                    }
-                }
-            },
+            document: getDocSchema(blankDoc),
+            heading: getHeadingSchema(strictHeadings),
             image: {
                 render: img.render,
                 attributes: {
@@ -72,3 +48,4 @@ export const markdocHTMLTagSchemas = (
 
     }
 };
+
