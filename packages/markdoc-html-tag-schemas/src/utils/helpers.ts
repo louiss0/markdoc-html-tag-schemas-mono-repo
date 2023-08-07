@@ -1,4 +1,5 @@
 import * as markdoc from '@markdoc/markdoc';
+import { boolean } from 'astro/zod';
 import type {
     SchemaAttributesWithAPrimaryKey,
     SchemaAttributesWithNoPrimaryKey,
@@ -412,4 +413,44 @@ export const getGenerateNonPrimarySchemaWithATransformThatGeneratesDataAttribute
 
 
 
+
+export const getHeadingSchema = (strictHeadings: boolean) => ({
+    children: ['inline'],
+    attributes: {
+        level: {
+            type: Number, render: false, required: true,
+            matches: strictHeadings ? [1, 2, 3, 4] : null
+        },
+    },
+    transform(node: markdoc.Node, config: markdoc.Config) {
+        return createTag(
+            `h${node.attributes['level']}`,
+            node.transformChildren(config),
+            node.transformAttributes(config),
+        );
+    },
+
+}
+)
+
+export const getDocSchema = (doNotRenderArticle: boolean) => (
+    {
+        render: doNotRenderArticle ? null : "article",
+        children: [
+            'heading',
+            'paragraph',
+            'image',
+            'table',
+            'tag',
+            'fence',
+            'blockquote',
+            'comment',
+            'list',
+            'hr',
+        ],
+        attributes: {
+            frontmatter: { render: false },
+        },
+    }
+)
 
