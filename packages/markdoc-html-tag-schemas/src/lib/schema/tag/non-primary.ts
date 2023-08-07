@@ -631,23 +631,45 @@ export const dl = getGenerateNonPrimarySchema()(
 
             
             const validTagNames = ["dd", "dt"];
+
+
             const hasInvalidChildTag = !!node.children.find((node) => node.tag && !validTagNames.includes(node.tag))
 
+
+            
             const allDefinitionTermAndDefinitionTagsAreSiblings =
                 node.children.every((node, index, nodeList) => {
                 
                     
-                    const siblingNode = nodeList.at(++index)
 
-                    return index > 0 && index % 1 === 0
-                        && siblingNode && node.tag === "dd"
-                        && siblingNode.tag === "dt"
-                        || index % 2 === 0
-                        && siblingNode && node.tag === "dt"
-                        && siblingNode.tag === "dd"
+                    
+                    if (index === nodeList.length - 1) return true
+                    
+
+                    const siblingNode = nodeList.at(index + 1)
+
+
+                    if (index > 0 && index % 2 !== 0) {
+
+                        return siblingNode
+                            && node.tag === "dd"
+                            && siblingNode.tag === "dt";
+                        
+                    }
+            
+                    if (index % 2 === 0) {
+
+                        
+                        return siblingNode
+                        && node.tag === "dt"
+                        && siblingNode.tag === "dd";
+                        
+                    }
+                    
                     
 
                 },)
+            
             
             
 
@@ -658,7 +680,7 @@ export const dl = getGenerateNonPrimarySchema()(
                 ],
                 [
                 !allDefinitionTermAndDefinitionTagsAreSiblings,
-                generateInvalidChildrenMarkdocErrorObject(`All dt and dt tags must be siblings of each other`)
+                generateInvalidChildrenMarkdocErrorObject(`All dt and dd tags must be siblings of each other`)
                 ]
                 
             )
