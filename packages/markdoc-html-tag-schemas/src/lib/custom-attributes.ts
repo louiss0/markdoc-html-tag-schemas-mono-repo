@@ -5,7 +5,7 @@ import { generateMarkdocErrorObject, generateMarkdocErrorObjectThatHasAMessageTh
 
 
 export interface CustomAttributeTransformContract {
-    transform(value: any, config: MarkdocConfig): Scalar
+    transform(value: NonNullable<unknown>, config: MarkdocConfig): Scalar
 }
 
 export interface CustomAttributeValidationContract {
