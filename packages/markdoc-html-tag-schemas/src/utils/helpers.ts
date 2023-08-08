@@ -291,6 +291,13 @@ export const generateInvalidChildrenMarkdocErrorObject = (message: string) =>
     generateMarkdocErrorObject("invalid-children", "critical", message);
 
 
+export const generateEmptyChildrenMarkdocErrorObject = (...tagNames: Array<string>) =>
+    generateInvalidChildrenMarkdocErrorObject(
+        `This tag requires children. 
+        ${tagNames.length > 0 ? `Please add the following tagNames ${tagNames.join(",")} ` : ""}  
+   `);
+
+
 type GenerateNonPrimarySchemaConfigThatDoesNotAllowDataConfig<
     T extends RequiredSchemaAttribute,
     R extends string
