@@ -81,10 +81,10 @@ export class MediaAttribute extends MarkdocValidatorAttribute {
 
         if (!valueIsAValidMediaQuery) {
 
-            return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(`
-                You need to supply the correct media query.
+            return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(
+                `You need to supply the correct media query.
                 Remember not to put any spaces when writing code in the parenthesises of a media query.
-                You must write a media query like this 
+                You must write a media query like this. 
                 
                 <device_choice> operator <media_query>
                 
@@ -92,8 +92,9 @@ export class MediaAttribute extends MarkdocValidatorAttribute {
                 
                 operators are: and|not|,
 
-                media_query's are: grid|scan|color|color-index|resolution|width|height|aspect-ratio|orientation 
-
+                media_query's are: grid|scan|color|color-index|resolution|width|height|aspect-ratio|orientation
+                
+                When using the width and height you can prefix them with min- and max-.
             `)
         }
 
@@ -121,21 +122,21 @@ export class PathAttribute extends MarkdocValidatorAttribute implements CustomAt
 
         if (!oneOfTheseIsTrue) return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(
             `This is not the right string. 
-                A relative path must have:
+             A relative path must have:
                 
-                1 or more ( ../ ) which is a relative path
+             1 or more ( ../ ) which is a relative path
 
-                0 or more ( word/ )  which is a path file that uses a folder name at the start. 
+             0 or more ( word/ )  which is a path file that uses a folder name at the start. 
 
-                A file name and an extension which is a dot (.) followed by a word with 2-6 letters.  
+             A file name and an extension which is a dot (.) followed by a word with 2-6 letters.  
                 
-                A absolute path must have:
+             A absolute path must have:
 
-                1 or more ( word/ )  which is a path file that uses a folder name at the start. 
+             1 or more ( word/ )  which is a path file that uses a folder name at the start. 
                 
-                0 or more ( ../ ) which is a relative path
+             0 or more ( ../ ) which is a relative path
 
-                A file name and an extension which is a dot (.) followed by a word with 2-6 letters.
+             A file name and an extension which is a dot (.) followed by a word with 2-6 letters.
             `
         )
 
@@ -251,9 +252,9 @@ export class DownloadAttribute extends MarkdocValidatorAttribute {
         }
 
         if (typeof value !== "boolean" && typeof value !== "string")
-            return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(`
-            This is not a string or a boolean please type one of those.
-            `)
+            return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(
+                "This is not a string or a boolean please type one of those."
+            )
 
 
 
