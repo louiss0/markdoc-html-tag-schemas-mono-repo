@@ -1,5 +1,4 @@
 import * as markdoc from '@markdoc/markdoc';
-import { boolean } from 'astro/zod';
 import type {
     SchemaAttributesWithAPrimaryKey,
     SchemaAttributesWithNoPrimaryKey,
