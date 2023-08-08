@@ -78,7 +78,7 @@ type NonPrimaryTagsSchema<
 export const createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue =
     (
         ...conditionalErrors: Array<
-            [condition: boolean, error: ReturnType<typeof generateMarkdocErrorObject>]
+            readonly [condition: boolean, error: ReturnType<typeof generateMarkdocErrorObject>]
         >
     ) =>
         conditionalErrors.reduce(
