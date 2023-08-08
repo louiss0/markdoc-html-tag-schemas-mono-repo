@@ -338,7 +338,10 @@ export const getGenerateNonPrimarySchemaWithATransformThatGeneratesDataAttribute
                 validate(node: markdoc.Node, config: markdoc.Config) {
                     const attrs = node.transformAttributes(config);
 
-                    if (!('data' in attrs)) return [];
+                    const validationErrorsFromConfig = secondaryConfig?.validate?.(node, config)
+
+
+                    if (!('data' in attrs)) return validationErrorsFromConfig ?? [];
 
                     const keysWithNoNumberBooleanOrStringValues = Object.entries(
                         attrs['data']
@@ -347,7 +350,6 @@ export const getGenerateNonPrimarySchemaWithATransformThatGeneratesDataAttribute
                         []
                     );
 
-                    const validationErrorsFromConfig = secondaryConfig?.validate?.(node, config)
 
 
                     const internalValidationErrors = createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue(
@@ -361,6 +363,7 @@ export const getGenerateNonPrimarySchemaWithATransformThatGeneratesDataAttribute
                             ),
                         ]
                     )
+
 
                     return Array.isArray(validationErrorsFromConfig)
                         ? internalValidationErrors.concat(validationErrorsFromConfig)
