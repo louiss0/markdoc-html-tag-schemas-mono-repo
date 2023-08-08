@@ -18,6 +18,10 @@ const createTag = <T extends string>(
     attributes?: Record<string, unknown>
 ) => new markdoc.Tag(name as string, attributes, children);
 
+
+export const createNode = () => markdoc;
+
+
 type CreateTagFunction<T extends string> = typeof createTag<T>
 
 type MarkdocTransform = Exclude<markdoc.Schema['transform'], undefined>;
@@ -178,11 +182,14 @@ export const getGenerateNonPrimarySchema = <
         if (secondaryConfig) {
 
 
-            const { transform, ...rest } = secondaryConfig
+            const {
+                transform = (node, config, createTag) => createTag(primaryConfig.render, node.transformChildren(config), node.transformAttributes(config))
+                , ...rest
+            } = secondaryConfig
 
             const transformWithSecondaryConfig = {
                 transform: (node: markdoc.Node, config: markdoc.Config) =>
-                    transform?.(node, config, createTag),
+                    transform(node, config, createTag),
                 ...rest
             }
 
