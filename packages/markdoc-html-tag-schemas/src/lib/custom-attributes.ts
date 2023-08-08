@@ -103,7 +103,7 @@ export class MediaAttribute extends MarkdocValidatorAttribute {
 
 export class PathAttribute extends MarkdocValidatorAttribute implements CustomAttributeTransformContract {
     readonly relativePathRegex =
-        /^(?<init_path>\.\.\/)+(?<folder_path>[a-z0-9\-_]+\/)*(?<filename>(?:\w+(?:\s?\w+)+)|[a-zA-Z0-9\-_]+)(?<extension>\.[a-z0-9]{2,6})?$/
+        /^(?<init_path>\.?\.\/)+(?<folder_path>[a-z0-9\-_]+\/)*(?<filename>(?:\w+(?:\s?\w+)+)|[a-zA-Z0-9\-_]+)(?<extension>\.[a-z0-9]{2,6})?$/
 
     readonly absolutePathRegex = /^\/(?<folder_path>[a-z0-9\-_]+\/)*(?<filename>(?:\w+(?:\s?\w+)+)|[a-zA-Z0-9\-_]+)(?<extension>\.[a-z0-9]{2,6})?$/
 
@@ -125,15 +125,15 @@ export class PathAttribute extends MarkdocValidatorAttribute implements CustomAt
                 
                 1 or more ( ../ ) which is a relative path
 
-                0 or more ( word/ )  which is a file path. 
+                0 or more ( word/ )  which is a path file that uses a folder name at the start. 
 
                 A file name and an extension which is a dot (.) followed by a word with 2-6 letters.  
                 
                 A absolute path must have:
 
-                1 or more ( ../ ) which is a relative path
-
-                0 or more ( word/ )  which is a file path. 
+                1 or more ( word/ )  which is a path file that uses a folder name at the start. 
+                
+                0 or more ( ../ ) which is a relative path
 
                 A file name and an extension which is a dot (.) followed by a word with 2-6 letters.
             `
@@ -156,7 +156,7 @@ export class HttpURLAttribute extends MarkdocValidatorAttribute {
 
 
     readonly httpUrlRegex =
-        /^(https?:\/\/)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/
+        /^(https?:\/\/)[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)$/
 
 
 
@@ -276,10 +276,10 @@ export class SrcSetAttribute extends MarkdocValidatorAttribute implements Custom
 
 
     protected readonly relativePathAndEitherViewportWidthOrWidthSizeRegex =
-        /^(?<init_path>\.\.\/)+(?<folder_path>[a-z0-9\-_]+\/)*(?<filename>(?:\w+(?:\s?\w+)+)|[a-zA-Z0-9\-_]+)(?<extension>\.[a-z]{2,6})\s(?<width_or_viewport_width>\d{1,4}v?w)$/
+        /^(?<init_path>\.?\.\/)+(?<folder_path>[a-z0-9\-_]+\/)*(?<filename>(?:\w+(?:\s?\w+)+)|[a-zA-Z0-9\-_]+)(?<extension>\.[a-z]{2,6})\s(?<width_or_viewport_width>\d{1,4}v?w)$/
 
     protected readonly relativePathAndPixelDensityRegex =
-        /^(?<init_path>\.\.\/)+(?<folder_path>[a-z0-9\-_]+\/)*(?<filename>(?:\w+(?:\s?\w+)+)|[a-zA-Z0-9\-_]+)(?<extension>\.[a-z]{2,6})\s(?<pixel_density>\d{1,3}(?:\.\d)?x)$/
+        /^(?<init_path>\.?\.\/)+(?<folder_path>[a-z0-9\-_]+\/)*(?<filename>(?:\w+(?:\s?\w+)+)|[a-zA-Z0-9\-_]+)(?<extension>\.[a-z]{2,6})\s(?<pixel_density>\d{1,3}(?:\.\d)?x)$/
 
     protected readonly absolutePathAndEitherViewportWidthOrWidthSizeRegex =
         /^(?<folder_path>[a-z0-9\-_]+\/)+(?<filename>(?:\w+(?:\s?\w+)+)|[a-zA-Z0-9\-_]+)(?<extension>\.[a-z]{2,6})\s(?<width_or_viewport_width>\d{1,4}v?w)$/
@@ -326,9 +326,9 @@ export class SrcSetAttribute extends MarkdocValidatorAttribute implements Custom
                     `This value is ${value} not valid.
                         You must specify a srcset value that has a valid absolute or relative path. 
                         
-                        You can either have a valid width or a valid pixel density.
+                        You can either have a valid width or a valid pixel density at the end.
                         
-                        If you do use a space for each of them. 
+                        If you do use a space after each URL. 
                         
                         Ex: /path/to/image.jpg 
     
@@ -338,10 +338,11 @@ export class SrcSetAttribute extends MarkdocValidatorAttribute implements Custom
                         
                         Ex: /path/to/image.jpg 30w /path/to/image-2.jpeg 40w
                         
-                        Ex: /path/to/image.jpg  /path/to/image-2.jpeg 440w
+                        Ex: ./path/to/image.jpg  ../path/to/image-2.jpeg 440w
                         
-                        If you are trying to use a url please use one that is http 
+                        If you are trying to use a url please use one that is http
                         
+                        Ex: 
                         `) : undefined
 
 
@@ -365,24 +366,22 @@ export class SrcSetAttribute extends MarkdocValidatorAttribute implements Custom
                 )
 
             if (!everyValueIsAStringWithARelativeOrAbsolutePathsAndEitherAWidthSizeOrPixelDensity)
+
                 return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(
                     `If you are using an array please use a string that specifies,
                      a relative or absolute path and either a width viewport width or a pixel density at the end.
-                    
-                    Please use a space before writing the number.                          
-
-        `)
+                    Please use a space before writing the number.
+                    `)
 
 
         }
 
-        return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(`
-                    You must return an array or a string when using this attribute.
-                    Please write the string as a valid URL or a path to a file.
-                    You can also specify a pixel density, a width or a viewport width.
-                    When writing a array you must specify more than one value and specify,
-                    a pixel density, a width or a viewport width.  
-                `)
+        return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(
+            `You must return an array or a string when using this attribute.
+            Please write the string as a valid URL or a path to a file.
+            You can also specify a pixel density, a width or a viewport width.
+            When writing a array you must specify more than one value and specify, a pixel density, a width or a viewport width.  
+            `)
 
     }
 
