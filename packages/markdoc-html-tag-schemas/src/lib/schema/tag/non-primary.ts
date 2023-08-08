@@ -4,6 +4,7 @@ import {
     getGenerateNonPrimarySchemaWithATransformThatGeneratesDataAttributes,
     getGenerateNonPrimarySchema,
     generateInvalidChildrenMarkdocErrorObject,
+    generateEmptyChildrenMarkdocErrorObject,
 } from "packages/markdoc-html-tag-schemas/src/utils";
 
 import {
@@ -16,6 +17,7 @@ import {
 
 import { MarkdocAttributes } from "packages/markdoc-html-tag-schemas/src/lib/attributes";
 import { AllowedMarkdocNodes } from "packages/markdoc-html-tag-schemas/src/utils/internal";
+import type { Node } from "@markdoc/markdoc";
 
 export { iframe } from "packages/markdoc-html-tag-schemas/src/lib/schema/tag/iframe"
 
@@ -223,6 +225,19 @@ export const img = getGenerateNonPrimarySchema()(
 //* Children Tag Schemas
 
 
+const checkIfNodeHasNoChildren = (node: Node) => node.children.length === 0
+
+
+const checkIfNodeHasTheRightChildrenTags = (node: Node, childTags: Array<string>) => {
+
+    return node.children.find((node) => node.tag && childTags.includes(node.tag))
+
+}
+
+const getResultOfHasNoChildrenCheckAndTheEmptyChildrenMarkdocErrorObject = (node: Node, tagNames: Array<string> = []) =>
+    [checkIfNodeHasNoChildren(node), generateEmptyChildrenMarkdocErrorObject(...tagNames)] as const
+
+
 export const video = getGenerateNonPrimarySchema()({
     render: "video",
     children: [AllowedMarkdocNodes.TAG],
@@ -299,6 +314,7 @@ export const video = getGenerateNonPrimarySchema()({
                 )
 
         return createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue(
+            getResultOfHasNoChildrenCheckAndTheEmptyChildrenMarkdocErrorObject(node, ["source"]),
             [
                 !allChildrenWithSourceTagsHaveASrcAttribute,
                 generateInvalidChildrenMarkdocErrorObject(
@@ -444,7 +460,7 @@ export const ul = getGenerateNonPrimarySchemaWithATransformThatGeneratesDataAttr
 
         const allowedTagNames = ["ul", "ol", "li"]
 
-        const hasInvalidChildTag = !!node.children.find((node) => node.tag && !allowedTagNames.includes(node.tag))
+        const hasInvalidChildTag = !!checkIfNodeHasTheRightChildrenTags(node, allowedTagNames)
 
         return createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue([
             hasInvalidChildTag,
@@ -708,6 +724,7 @@ export const colgroup = getGenerateNonPrimarySchema()({
     {
         validate(node) {
 
+            const nodeHasNoChildren = node.children.length === 0
             const hasInvalidChildTag = !!node.children.find((node) => node.tag && !"col".includes(node.tag))
 
             return createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue([
