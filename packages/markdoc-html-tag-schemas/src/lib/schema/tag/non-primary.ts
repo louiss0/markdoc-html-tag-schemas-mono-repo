@@ -228,14 +228,32 @@ export const img = getGenerateNonPrimarySchema()(
 const checkIfNodeHasNoChildren = (node: Node) => node.children.length === 0
 
 
-const checkIfNodeHasTheRightChildrenTags = (node: Node, childTags: Array<string>) => {
+const checkIfNodeHasAWrongChildTag = (node: Node, childTags: Array<string>) =>
+    !!node.children.find((node) => node.tag && !childTags.includes(node.tag))
 
-    return node.children.find((node) => node.tag && childTags.includes(node.tag))
 
-}
+
+const checkIfNotEveryNodeChildrenIsATagThatHasOneOfTheseChildTags = (node: Node, childTags: Array<string>) =>
+    !node.children.every((node) => node.type === "tag" && node.tag && childTags.includes(node.tag))
+
+
 
 const getResultOfHasNoChildrenCheckAndTheEmptyChildrenMarkdocErrorObject = (node: Node, tagNames: Array<string> = []) =>
     [checkIfNodeHasNoChildren(node), generateEmptyChildrenMarkdocErrorObject(...tagNames)] as const
+
+const getResultOfNodeHasTheWrongChildTagCheckAndTheInvalidChildrenMarkdocErrorObject = (node: Node, tagNames: Array<string> = []) =>
+    [
+        checkIfNodeHasAWrongChildTag(node, tagNames),
+        generateInvalidChildrenMarkdocErrorObject(`This ${node.tag ?? ""} can only have one of these tags as children ${tagNames.join(",")}`)
+    ] as const
+
+
+const getResultOfNotEveryNodeChildrenIsATagThatHasOneOfTheseChildTagsCheckAndTHeInvalidChildrenMarkdocErrorObject = (node: Node, tagNames: Array<string> = []) =>
+    [
+        checkIfNotEveryNodeChildrenIsATagThatHasOneOfTheseChildTags(node, tagNames),
+        generateInvalidChildrenMarkdocErrorObject(`This ${node.tag ?? ""} must have one of these tags as children ${tagNames.join(",")}`)
+    ] as const
+
 
 
 export const video = getGenerateNonPrimarySchema()({
@@ -313,15 +331,17 @@ export const video = getGenerateNonPrimarySchema()({
                     && !videoTypeRegex.test(node.attributes["type"])
                 )
 
+        const validTagNames = ["source"];
+
         return createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue(
-            getResultOfHasNoChildrenCheckAndTheEmptyChildrenMarkdocErrorObject(node, ["source"]),
+            getResultOfHasNoChildrenCheckAndTheEmptyChildrenMarkdocErrorObject(node, validTagNames),
+            getResultOfNotEveryNodeChildrenIsATagThatHasOneOfTheseChildTagsCheckAndTHeInvalidChildrenMarkdocErrorObject(node, validTagNames),
             [
                 !allChildrenWithSourceTagsHaveASrcAttribute,
-                generateInvalidChildrenMarkdocErrorObject(
-                    "All children of the video tag must have a src attribute "
-                )
+                generateInvalidChildrenMarkdocErrorObject("All children of the video tag must have a src attribute.")
             ],
-            [anySourceTagWithATypeAttributeIsInvalid,
+            [
+                anySourceTagWithATypeAttributeIsInvalid,
                 generateInvalidChildrenMarkdocErrorObject(
                     `All children of the picture tag that is a src attribute must have a type attribute with a string
                     that starts with video/ and ends with a word.
@@ -396,12 +416,15 @@ export const audio = getGenerateNonPrimarySchema()({
     validate(node) {
 
 
+        const validTagNames = ["source"]
+
         const sourceTags = node.children
-            .filter(child => child.tag === "source");
+            .filter(child => child.tag && validTagNames.includes(child.tag));
 
         const allChildrenWithSourceTagsHaveASrcAttribute =
             sourceTags
                 .every(child => "src" in child.attributes)
+
         const audioTypeRegex = /^audio\/\b\w+/
 
         const anySourceTagWithATypeAttributeIsInvalid =
@@ -411,13 +434,16 @@ export const audio = getGenerateNonPrimarySchema()({
                 )
 
         return createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue(
+            getResultOfHasNoChildrenCheckAndTheEmptyChildrenMarkdocErrorObject(node, validTagNames),
+            getResultOfNotEveryNodeChildrenIsATagThatHasOneOfTheseChildTagsCheckAndTHeInvalidChildrenMarkdocErrorObject(node, validTagNames),
             [
                 !allChildrenWithSourceTagsHaveASrcAttribute,
                 generateInvalidChildrenMarkdocErrorObject(
                     "All children of the audio tag must have a src attribute "
                 )
             ],
-            [anySourceTagWithATypeAttributeIsInvalid,
+            [
+                anySourceTagWithATypeAttributeIsInvalid,
                 generateInvalidChildrenMarkdocErrorObject(
                     `All children of the picture tag that is a src attribute must have a type attribute  with a a string that is one of the following values.
 
@@ -460,12 +486,10 @@ export const ul = getGenerateNonPrimarySchemaWithATransformThatGeneratesDataAttr
 
         const allowedTagNames = ["ul", "ol", "li"]
 
-        const hasInvalidChildTag = !!checkIfNodeHasTheRightChildrenTags(node, allowedTagNames)
-
-        return createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue([
-            hasInvalidChildTag,
-            generateInvalidChildrenMarkdocErrorObject(`All children of a ul tag must be a ${allowedTagNames.join(",")}`)
-        ])
+        return createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue(
+            getResultOfHasNoChildrenCheckAndTheEmptyChildrenMarkdocErrorObject(node, allowedTagNames),
+            getResultOfNodeHasTheWrongChildTagCheckAndTheInvalidChildrenMarkdocErrorObject(node, allowedTagNames),
+        )
 
     },
 });
@@ -494,12 +518,11 @@ export const ol = getGenerateNonPrimarySchemaWithATransformThatGeneratesDataAttr
 
         const allowedTagNames = ["ul", "ol", "li"]
 
-        const hasInvalidChildTag = !!node.children.find((node) => node.tag && !allowedTagNames.includes(node.tag))
+        return createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue(
+            getResultOfHasNoChildrenCheckAndTheEmptyChildrenMarkdocErrorObject(node, allowedTagNames),
+            getResultOfNodeHasTheWrongChildTagCheckAndTheInvalidChildrenMarkdocErrorObject(node, allowedTagNames),
+        )
 
-        return createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue([
-            hasInvalidChildTag,
-            generateInvalidChildrenMarkdocErrorObject(`All children of a ul tag must be a ${allowedTagNames.join(",")}`)
-        ])
 
     },
 });
@@ -527,12 +550,10 @@ export const blockquote = getGenerateNonPrimarySchema()({
 
         const allowedTagNames = ["p", "ul", "ol", "img"]
 
-        const hasInvalidChildTag = !!node.children.find((node) => node.tag && !allowedTagNames.includes(node.tag))
-
-        return createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue([
-            hasInvalidChildTag,
-            generateInvalidChildrenMarkdocErrorObject(`All children of a this tag must be a ${allowedTagNames.join(",")}`)
-        ])
+        return createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue(
+            getResultOfHasNoChildrenCheckAndTheEmptyChildrenMarkdocErrorObject(node, allowedTagNames),
+            getResultOfNodeHasTheWrongChildTagCheckAndTheInvalidChildrenMarkdocErrorObject(node, allowedTagNames),
+        )
 
     },
 });
@@ -560,12 +581,10 @@ export const details = getGenerateNonPrimarySchemaWithATransformThatGeneratesDat
 
         const allowedTagNames = ["p", "summary", "ul", "ol"]
 
-        const hasInvalidChildTag = !!node.children.find((node) => node.tag && !allowedTagNames.includes(node.tag))
-
-        return createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue([
-            hasInvalidChildTag,
-            generateInvalidChildrenMarkdocErrorObject(`All children of a this tag must be a ${allowedTagNames.join(",")}`)
-        ])
+        return createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue(
+            getResultOfHasNoChildrenCheckAndTheEmptyChildrenMarkdocErrorObject(node, allowedTagNames),
+            getResultOfNodeHasTheWrongChildTagCheckAndTheInvalidChildrenMarkdocErrorObject(node, allowedTagNames),
+        )
 
     },
 });
@@ -583,6 +602,9 @@ export const picture = getGenerateNonPrimarySchema()({
     ]
 }, {
     validate(node) {
+
+        const allowedTagNames = ["source", "img"]
+
         const sourceTags = node.children
             .filter(child => child.tag === "source");
 
@@ -598,13 +620,16 @@ export const picture = getGenerateNonPrimarySchema()({
                 )
 
         return createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue(
+            getResultOfHasNoChildrenCheckAndTheEmptyChildrenMarkdocErrorObject(node, allowedTagNames),
+            getResultOfNotEveryNodeChildrenIsATagThatHasOneOfTheseChildTagsCheckAndTHeInvalidChildrenMarkdocErrorObject(node, allowedTagNames),
             [
                 !allChildrenWithSourceTagsHaveASrcAttribute,
                 generateInvalidChildrenMarkdocErrorObject(
                     "All children of the picture tag that is a src attribute must have a srcset attribute "
                 )
             ],
-            [anySourceTagWithATypeAttributeIsInvalid,
+            [
+                anySourceTagWithATypeAttributeIsInvalid,
                 generateInvalidChildrenMarkdocErrorObject(
                     `All children of the picture tag that is a src attribute must have a type attribute  with a a string that is one of the following values.
 
@@ -649,10 +674,6 @@ export const dl = getGenerateNonPrimarySchema()(
             const validTagNames = ["dd", "dt"];
 
 
-            const hasInvalidChildTag = !!node.children.find((node) => node.tag && !validTagNames.includes(node.tag))
-
-
-
             const allDefinitionTermAndDefinitionTagsAreSiblings =
                 node.children.every((node, index, nodeList) => {
 
@@ -690,10 +711,8 @@ export const dl = getGenerateNonPrimarySchema()(
 
 
             return createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue(
-                [
-                    hasInvalidChildTag,
-                    generateInvalidChildrenMarkdocErrorObject(`All children of a dl tag must be a dd or dt `)
-                ],
+                getResultOfHasNoChildrenCheckAndTheEmptyChildrenMarkdocErrorObject(node, validTagNames),
+                getResultOfNotEveryNodeChildrenIsATagThatHasOneOfTheseChildTagsCheckAndTHeInvalidChildrenMarkdocErrorObject(node, validTagNames),
                 [
                     !allDefinitionTermAndDefinitionTagsAreSiblings,
                     generateInvalidChildrenMarkdocErrorObject(`All dt and dd tags must be siblings of each other`)
@@ -724,13 +743,16 @@ export const colgroup = getGenerateNonPrimarySchema()({
     {
         validate(node) {
 
-            const nodeHasNoChildren = node.children.length === 0
-            const hasInvalidChildTag = !!node.children.find((node) => node.tag && !"col".includes(node.tag))
 
-            return createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue([
-                hasInvalidChildTag,
-                generateInvalidChildrenMarkdocErrorObject(`All children of a colgroup tag must be a col `)
-            ])
+            const allowedTagNames = ["col"]
+
+            return createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue(
+                getResultOfHasNoChildrenCheckAndTheEmptyChildrenMarkdocErrorObject(node, allowedTagNames),
+                getResultOfNodeHasTheWrongChildTagCheckAndTheInvalidChildrenMarkdocErrorObject(node, allowedTagNames),
+
+            )
+
+
 
         },
     });
@@ -749,13 +771,6 @@ export const col = getGenerateNonPrimarySchema()({
     selfClosing: true
 });
 
-/**
- * This is an attribute that is experimental
- * const disableremoteplayback = generateAttributeSchema{
-            type: Boolean,
-            description: "A Boolean attribute used to disable the capability of remote playback in devices that are attached using wired and wireless technologies"
-    }),
-*/
 
 
 export const p = getGenerateNonPrimarySchema()({
@@ -774,7 +789,7 @@ export const p = getGenerateNonPrimarySchema()({
         AllowedMarkdocNodes.LINK,
         AllowedMarkdocNodes.SOFTBREAK,
     ]
-});
+},);
 
 
 
