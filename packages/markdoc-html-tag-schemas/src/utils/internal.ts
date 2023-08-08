@@ -3,7 +3,7 @@ import type { Scalar, } from "@markdoc/markdoc";
 
 export type AllowedMarkdocTypesAsStrings = "string" | "number" | "array" | "boolean" | "object"
 
-type prettify<T extends Record<PropertyKey, unknown>> = { [k in keyof T]: T[k] } & {};
+type prettify<T extends Record<PropertyKey, unknown>> = { [k in keyof T]: T[k] } & NonNullable<unknown>;
 
 export const mergeObjects = <
     T extends Record<string, unknown>,
