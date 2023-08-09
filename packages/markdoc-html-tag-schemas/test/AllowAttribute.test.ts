@@ -70,8 +70,8 @@ describe("Testing AllowAttribute.returnMarkdocErrorObjectOrNothing()", () => {
                 "level": "error",
                 "message": "
                           Please don't use any kind of string as a value. Use the keywords src of self followed by multiple URL's.
-                          They both must be single quoted.   
-                          You just use the * to allow all all url's 
+                          They both must be single quoted.
+                          You just use the * to allow all all url's
                           ",
               }
             `)

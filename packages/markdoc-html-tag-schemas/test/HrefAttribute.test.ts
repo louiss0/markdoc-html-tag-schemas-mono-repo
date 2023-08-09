@@ -41,8 +41,8 @@ describe("Make sure the AnchorAttribute's returnMarkdocErrorObjectOrNull ", () =
                     It must be one of these things.
                     A word with a / or a # at the beginning of the string.
                     A valid HTTP URL.
-                    A valid mailto string 
-                    A valid tel string. 
+                    A valid mailto string
+                    A valid tel string.
                     A relative or absolute path.
                     ",
           }
