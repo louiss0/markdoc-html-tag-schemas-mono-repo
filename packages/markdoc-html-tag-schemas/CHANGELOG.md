@@ -18,6 +18,15 @@ This library does follow semver.
 
 ## [Unreleased]
 
+## Fixed
+
+- audio, video and tags only allow source tags as children.
+- picture tags only allow source and img as children.
+- The p tag will allow other ones but will transform them into inline text
+- The SrcSetAttribute requires the use of a "/" when using absolute paths.
+- blockquote and details validation was refactored to find specific tags then specify which tags are allowed.
+- All schemas that need children are not allowed to have no children.
+
 ## [2.1.0] - 2023-08-07
 
 ## Added
