@@ -3,54 +3,27 @@ title: first post
 description: THis is the first post from me
 ---
 
-{% video controls=true %}
+## Test heading
+
+{% video autoplay=true %}
 {% source src="/ocean-crash.mp4" /%}
 {% /video %}
 
-[Back](/)
+{% picture %}
+{% source srcset=["./first.mdoc 50w", "./first.mdoc 4.0x"] /%}
+{% /picture %}
 
-{% img
-   src="https://images.unsplash.com/photo-1687023956422-117d5c47029d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1032&q=80"
-   alt="This is a giant rubber duck surrounded people taking a picture of it" /%}
+{% abbr "Cascading Style Sheets" /%}
 
-{% abbr "Hyper Text Markup Language" /%}
-
-<!-- Tested if tag is normal when title is passed. -->
-
-{% abbr "PHP" title="Hypertext Preproccessor" /%}
-
-{% time "2023-Jul-12" /%}
-
-{% time "2023-12-6" /%}
-
-<!-- Tested if tag is normal when datetime is passed. -->
-
-{% time "12 July 2023" datetime="2023-12-6" /%}
-
-{% time "12 July 2023" datetime="2023-12-7" /%}
+{% blockquote %}
+This is a block quote.
+{% /blockquote %}
 
 {% details %}
-l
+{% summary "Click here" /%}
+
+THis is deatils
 {% /details %}
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-Pellentesque vel blandit ex.
-Praesent egestas, quam ut sollicitudin eleifend, purus sapien condimentum purus, {% span "This is random text1 " /%} tempus rutrum odio turpis et purus.
-Pellentesque eget lorem tincidunt, luctus dolor vitae, scelerisque nisl. Donec nec leo nec erat dapibus ultricies eu facilisis metus. Pellentesque id urna erat.
-Maecenas eget efficitur turpis. Maecenas id mollis justo. Vivamus fringilla interdum vulputate. Proin facilisis mauris dui, quis pharetra lorem efficitur eu. Mauris auctor mattis fermentum. Maecenas auctor orci eleifend elit egestas, a ornare massa gravida. Sed sit amet vestibulum ante. Etiam ut nisl a diam ultrices luctus et in tortor. Etiam eget gravida justo, cursus vulputate quam.
-Nam vulputate suscipit nisi, in {% span "This is random text $item.foo 2" /%} ullamcorper risus vulputate sit amet.
-
-<!--  -->
-
-{% ul .boo %}
-{% li "l" /%}
-{% /ul %}
-
-{% p %}Ullamco id mollit cillum Lorem irure.
-Qui nisi magna cillum pariatur aliqua duis voluptate eiusmod.
-Tempor cupidatat duis minim et excepteur ullamco.
-Laborum esse aliqua eu nisi aute cillum exercitation cillum id non reprehenderit eu non.
-Officia aliqua nostrud sunt occaecat labore laborum cupidatat.{% /p %}
 
 {% dl %}
 {% dt "name" /%}
@@ -62,3 +35,15 @@ Officia aliqua nostrud sunt occaecat labore laborum cupidatat.{% /p %}
 
 {% dd "a reactive primitive desgined for precise updates" /%}
 {% /dl %}
+
+{% ul %}
+{% li "Fix this lib" /%}
+{% /ul %}
+
+{% p %}
+THis is nice ok [Back](/)
+
+Did I just fix this problem. \
+Omgx \
+What is going on here
+{% /p %}
