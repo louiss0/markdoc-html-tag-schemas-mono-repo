@@ -41,7 +41,7 @@ describe("Testing SizesAttribute.returnMarkdocErrorObjectOrNothing()", () => {
 
 
         it.each([
-            "../foo/image.jpg 200w",
+            "./foo/image.jpg 200w",
             "../foo/image.jpg 200w",
             "foo/image.jpg 200vw",
             "foo/image.jpg 200vw",
@@ -85,8 +85,27 @@ describe("Testing SizesAttribute.returnMarkdocErrorObjectOrNothing()", () => {
 
 
 
+
+
+
     describe("Returns a Error Object based on array shape", () => {
 
+
+
+        it("does not return an error if the array has all viable strings", () => {
+
+
+            const res = srcSetAttribute
+                .returnMarkdocErrorObjectOrNothing([
+                    "./notes/foo.jpg 200vw",
+                    "../assets/ocean-floor.tiff 300w",
+                    "/assets/ocean-floor.tiff 1.0x",
+                    "/assets/ocean-floor.tiff 2x",
+                ])
+
+            expect(res).toBeUndefined()
+
+        })
 
         it("returns an error object when the length of an array passed is less than two", () => {
 
@@ -131,10 +150,8 @@ describe("Testing SizesAttribute.returnMarkdocErrorObjectOrNothing()", () => {
                 "level": "error",
                 "message": "If you are using an array please use a string that specifies,
                                    a relative or absolute path and either a width viewport width or a pixel density at the end.
-                                  
-                                  Please use a space before writing the number.                          
-
-                      ",
+                                   Please use a space before writing the number.
+                                   ",
               }
             `)
 
