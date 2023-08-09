@@ -283,10 +283,10 @@ export class SrcSetAttribute extends MarkdocValidatorAttribute implements Custom
         /^(?<init_path>\.?\.\/)+(?<folder_path>[a-z0-9\-_]+\/)*(?<filename>(?:\w+(?:\s?\w+)+)|[a-zA-Z0-9\-_]+)(?<extension>\.[a-z]{2,6})\s(?<pixel_density>\d{1,3}(?:\.\d)?x)$/
 
     protected readonly absolutePathAndEitherViewportWidthOrWidthSizeRegex =
-        /^(?<folder_path>[a-z0-9\-_]+\/)+(?<filename>(?:\w+(?:\s?\w+)+)|[a-zA-Z0-9\-_]+)(?<extension>\.[a-z]{2,6})\s(?<width_or_viewport_width>\d{1,4}v?w)$/
+        /^\/(?<folder_path>[a-z0-9\-_]+\/)*(?<filename>(?:\w+(?:\s?\w+)+)|[a-zA-Z0-9\-_]+)(?<extension>\.[a-z]{2,6})\s(?<width_or_viewport_width>\d{1,4}v?w)$/
 
     protected readonly absolutePathAndPixelDensityRegex =
-        /^(?<folder_path>[a-z0-9\-_]+\/)+(?<filename>(?:\w+(?:\s?\w+)+)|[a-zA-Z0-9\-_]+)(?<extension>\.[a-z]{2,6})\s(?<pixel_density>\d{1,3}(?:\.\d)?x)$/
+        /^\/(?<folder_path>[a-z0-9\-_]+\/)*(?<filename>(?:\w+(?:\s?\w+)+)|[a-zA-Z0-9\-_]+)(?<extension>\.[a-z]{2,6})\s(?<pixel_density>\d{1,3}(?:\.\d)?x)$/
 
 
     transform(value: unknown): Scalar {
@@ -318,6 +318,7 @@ export class SrcSetAttribute extends MarkdocValidatorAttribute implements Custom
 
 
 
+
         if (typeof value === "string") {
 
 
@@ -325,26 +326,13 @@ export class SrcSetAttribute extends MarkdocValidatorAttribute implements Custom
             return !this.checkIfStringIsValid(value)
                 ? generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(
                     `This value is ${value} not valid.
-                        You must specify a srcset value that has a valid absolute or relative path. 
-                        
-                        You can either have a valid width or a valid pixel density at the end.
-                        
-                        If you do use a space after each URL. 
-                        
-                        Ex: /path/to/image.jpg 
-    
-                        If you specify more then one path you must specify a width or a pixel density.
-                        You must use a comma, space , then specify the next path if you want to specify
-                        more paths.
-                        
-                        Ex: /path/to/image.jpg 30w /path/to/image-2.jpeg 40w
-                        
-                        Ex: ./path/to/image.jpg  ../path/to/image-2.jpeg 440w
-                        
-                        If you are trying to use a url please use one that is http
-                        
-                        Ex: 
-                        `) : undefined
+                     You must first specify a relative or absolute path spaced with a pixel_density or valid width. 
+                    
+                     The extension must not have a number in it. 
+
+                     A pixel_density is written like this 1x.
+                    A valid with is written like one of these 1w , 1vw.
+                    `) : undefined
 
 
         }
@@ -354,26 +342,33 @@ export class SrcSetAttribute extends MarkdocValidatorAttribute implements Custom
         if (Array.isArray(value)) {
 
 
-            if (value.length < 2)
+            if (value.length < 2) {
+
                 return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(
                     `If you want to use an array you should use more than one value. 
                     A string is better in that situation
                     `)
 
+            }
 
             const everyValueIsAStringWithARelativeOrAbsolutePathsAndEitherAWidthSizeOrPixelDensity =
                 value.every(
-                    value => value === "string" && this.checkIfStringIsValid(value)
+                    (data) => typeof data === "string" && this.checkIfStringIsValid(data),
                 )
 
-            if (!everyValueIsAStringWithARelativeOrAbsolutePathsAndEitherAWidthSizeOrPixelDensity)
+
+            if (!everyValueIsAStringWithARelativeOrAbsolutePathsAndEitherAWidthSizeOrPixelDensity) {
+
 
                 return generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserAValueIsNotRight(
                     `If you are using an array please use a string that specifies,
                      a relative or absolute path and either a width viewport width or a pixel density at the end.
-                    Please use a space before writing the number.
-                    `)
+                     Please use a space before writing the number.
+                     `)
 
+            }
+
+            return
 
         }
 
