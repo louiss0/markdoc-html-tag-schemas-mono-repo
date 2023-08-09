@@ -4,22 +4,22 @@ import { createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue, gener
 
 const matchCapitalisedWordCaptureOtherCapitalizedWordsOnOneLineRegex =
     /^[A-Z][a-z]*(\s[A-Z][a-z]*)*$/;
-// const isAnUppercasedWord = /^[A-Z]+/
+
 export const abbr = getGenerateSelfClosingTagSchema()(
     {
         render: "abbr",
         attributes: {
-          primary: {
-            required:true,
-            render: true,
-            type: String,
-          },
-          title: {
-              type: String,
-              errorLevel: "error",
-              matches: matchCapitalisedWordCaptureOtherCapitalizedWordsOnOneLineRegex
-          }
-      },
+            primary: {
+                required: true,
+                render: true,
+                type: String,
+            },
+            title: {
+                type: String,
+                errorLevel: "error",
+                matches: matchCapitalisedWordCaptureOtherCapitalizedWordsOnOneLineRegex
+            }
+        },
         description: "A tag that automatically creates an abbreviation of a capitalised word"
     },
     {
