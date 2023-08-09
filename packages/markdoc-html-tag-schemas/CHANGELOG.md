@@ -18,6 +18,8 @@ This library does follow semver.
 
 ## [Unreleased]
 
+## [2.1.1] - 2023-08-08
+
 ## Fixed
 
 - audio, video and tags only allow source tags as children.
