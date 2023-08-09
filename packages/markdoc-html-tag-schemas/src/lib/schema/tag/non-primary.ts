@@ -786,10 +786,23 @@ export const p = getGenerateNonPrimarySchema()({
     },
     children: [
         AllowedMarkdocNodes.TEXT,
+        AllowedMarkdocNodes.PARAGRAPH,
         AllowedMarkdocNodes.LINK,
         AllowedMarkdocNodes.SOFTBREAK,
     ]
-},);
+},
+    {
+        transform(node, config, createTagFt) {
+
+
+            node.children.forEach(child => child.type === "paragraph" && (child.type = "inline"))
+
+            return createTagFt("p", node.transformChildren(config), node.transformAttributes(config))
+
+        },
+    }
+);
+
 
 
 
