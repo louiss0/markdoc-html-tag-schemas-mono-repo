@@ -6,6 +6,10 @@
 - An understanding of basic Markdoc concepts [Markdoc Docs](https://markdoc.dev)
 - For astro you must use [Astro Markdoc](https://docs.astro.build/en/guides/integrations-guide/markdoc/)
 
+:::tip The Markdoc Language Server will boost the DX
+Install it Look for **Markdoc Language support** by Stripe.
+:::
+
 ## Installation
 
 To install this package all you need to do is
@@ -41,10 +45,15 @@ import { defineMarkdocConfig} from '@astrojs/markdoc/config';
 
 import { markdocHTMLTagSchemas } from 'markdoc-html-tag-schemas';
 
+const { nodes, tags } = markdocHTMLTagSchemas()
+
 export default defineMarkdocConfig({
-  extends: [    
-    markdocHTMLTagSchemas()
-    ],
+    nodes: {
+      ...nodes
+    },
+    tags: {
+      ...tags
+    }
 });
  
 ```
@@ -59,15 +68,12 @@ The extension does this for you.
 ```js
 export default defineMarkdocConfig({
     
-  extends: [ //[!code ++]
-    markdocHTMLTagSchemas() //[!code ++]
-  ], //[!code ++]
-
   nodes: {   //[!code --]
     document: {  //[!code --]
       ...nodes.document,  //[!code --]
       render: null,  //[!code --]
     },  //[!code --]
+    ...nodes //[!code ++]
   },  //[!code --]
 
 });
