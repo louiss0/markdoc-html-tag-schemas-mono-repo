@@ -36,6 +36,5 @@
         "playsinline",
         "referrerpolicy",
         "srcset"
-    ],
-    "testing.automaticallyOpenPeekView": "never"
+    ]
 }
