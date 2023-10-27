@@ -43,8 +43,8 @@ describe("Testing SizesAttribute.returnMarkdocErrorObjectOrNothing()", () => {
         it.each([
             "./foo/image.jpg 200w",
             "../foo/image.jpg 200w",
-            "foo/image.jpg 200vw",
-            "foo/image.jpg 200vw",
+            "/foo/image.jpg 200vw",
+            "/foo/image.jpg 200vw",
         ])("returns undefined with %s passed in", (value) => {
 
 
@@ -67,9 +67,9 @@ describe("Testing SizesAttribute.returnMarkdocErrorObjectOrNothing()", () => {
 
         it.each([
             "../foo/image.jpg 2x",
-            "foo/image.jpg 2x",
+            "/foo/image.jpg 2x",
             "../foo/image.jpg 1x",
-            "foo/image.jpg 1x",
+            "/foo/image.jpg 1x",
         ])("returns undefined with %s passed in", (value) => {
 
 
