@@ -33,8 +33,8 @@ describe("Testing SizesAttribute.returnMarkdocErrorObjectOrNothing()", () => {
 
         it.each([
             ['arrayHasEmptyString', ["(max-width: 710px) 120px", ""]],
-            ['arrayHasANull', ["(max-width: 710px) 120px", , null]],
-            ['arrayHasANumber', ["(max-width: 710px) 120px", , 4]],
+            ['arrayHasANull', ["(max-width: 710px) 120px", null]],
+            ['arrayHasANumber', ["(max-width: 710px) 120px", 4]],
         ])("returns s% a markdoc error object that tells the user a value isn't right", (_, value) => {
 
 
