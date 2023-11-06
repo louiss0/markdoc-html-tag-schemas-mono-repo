@@ -27,7 +27,20 @@ Information about images can be found [here](/schemas/images).
 ## Audio and Video
 
 The audio tag allows you to play audio by linking to a file.
+
+```md
+{%audio %}
+    {%source src="audio.mp4" /%}
+{% /audio %}
+```
+
 The video tag allows you to play video by linking to a file.
+
+```md
+{%video %}
+    {%source src="video.mp4" /%}
+{% /video %}
+```
 
 :::info
 They both share the following attributes With the following values.
@@ -62,10 +75,16 @@ They both share the following attributes With the following values.
 You can use an iframe as well it's a tag that allows you to display a website inside of another website.
  It's a [Leaf Schema](/attributes/index#leaf-schema) with the following attributes.
 
+ ```md
+ {% iframe 
+    src="https://forastro-docs.onrender.com/libraries/utilities/content-collection-helpers" 
+ /%}
+ ```
+
 | attribute | type                               | required |
 | --------- | ---------------------------------- | -------- |
 | src       | [SourceAttribute][SourceAttribute] | true     |
-| allow     | [AllowAttribute](#allow-attribute) | true     |
+| allow     | [AllowAttribute](#allow-attribute) | false    |
 
 ### Allow Attribute
 
@@ -142,9 +161,9 @@ When it comes to using the picture tag it must have a source in order for it to 
 
 :::info This tag supports the following global attributes.
 
-- width
-- height
-- refferpolicy
+- [width](../attributes/index.md#width)
+- [height](../attributes/index.md#height)
+- [refferpolicy](../attributes/index.md#refferpolicy)
 
 :::
 
