@@ -27,6 +27,11 @@ are documented in this page [External Media](/schemas/external-media) and [Image
 The name of the schema is the name of the tag that will be rendered.
 :::
 
+:::tip
+If you want to know how attributes are implemented by this library.
+refer to this [page](/attributes/index)
+:::
+
 ## Text Schemas
 
 A schema that takes a required primary attribute and uses it as a child.
