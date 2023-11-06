@@ -76,7 +76,7 @@ The AllowAttribute is an attribute that looks for and object with
 
 The values of each property must be either
 
-- A *****.
+- A "*".
 - A string that starts with either src or self and ends with a http url.
 
 :::info It will then transform that object into a string that places all types and required side by side.
