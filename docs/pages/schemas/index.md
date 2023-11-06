@@ -6,9 +6,9 @@
 
 [mozilla developer network]: https://developer.mozilla.org
 
-[SourceAttribute]: /attributes/custom#sourceattribute
-
 [DownloadAttribute]: /attributes/custom#downloadattribute
+
+[Media Types]: https://www.iana.org/assignments/media-types/media-types.xhtml
 
 # Schemas
 
@@ -62,12 +62,15 @@ Here is a list of all schema that belong in that category.
 
 ### Ins and Del
 
-Both the ins and del schemas have the following attributes.
+The ins and del schemas render the html attributes `<ins>` and `<del>`.
 
-| attribute | type                                                             | required |
-| --------- | ---------------------------------------------------------------- | -------- |
-| cite      | [SourceAttribute][SourceAttribute]                               | false    |
-| datetime  | An attribute that validates the value only if it's a date string | false    |
+```md
+ My favorite color is  {% ins "blue" /%} {% del "red" /%}!.
+
+```
+
+- [cite](../attributes/index.md#cite)
+- [datetime](../attributes/index.md#datetime)
 
 ## Auto Transform Text Schemas
 
@@ -93,7 +96,7 @@ The text that was the primary attribute will be the title attribute of the abbr 
 Writing this
 
 ```md
-    {% abbr Hyper Text Markup Language  /%}
+    {% abbr "Hyper Text Markup Language"  /%}
 ```
 
 Will create this HTML
@@ -171,11 +174,11 @@ You can even use the `li` tag as only a self closing one.
 
 :::info The following attributes are allowed
 
-- title
-- spellcheck
-- lang
-- translate
-- dir
+- [title](../attributes/index.md#title)
+- [spellcheck]((../attributes/index.md#spellcheck))
+- [lang]((../attributes/index.md#lang))
+- [translate]((../attributes/index.md#translate))
+- [dir]((../attributes/index.md#dir))
 
 :::
 
@@ -212,8 +215,15 @@ You can even use the `li` tag as only a self closing one.
 You can now specify columns in a table by using the colgroup and col.
 Both of them share the following attributes.
 
-- hidden
-- style
+```md
+{%colgroup %}
+    {%col "content one" /%}
+    {%col "content two" span=2 /%}
+{%/colgroup %}
+```
+
+- [hidden](../attributes/index.md#hidden)
+- [style](../attributes/index.md#style)
 
 | span | type                                 | required |
 | ---- | ------------------------------------ | -------- |
@@ -222,7 +232,12 @@ Both of them share the following attributes.
 ### Definitions
 
 Definition list are available through the `dl` container schema
-and the `dd` and `dt` text schemas.  
+and the `dd` and `dt` text schemas.
+
+:::danger
+The dl tag can only have `dd` and `dt` as it's children.
+They must also be written as dd first then dt each time they are used as children.
+:::
 
 :::info Example
 
@@ -252,6 +267,12 @@ The summary tag is a self-closing one.
 
 ### Anchor
 
+```md
+{% a href="/" %}
+  Home
+{% /a  %}
+```
+
 You can use the anchor tag like a regular anchor tag.
 
 It's children must can only be.
@@ -263,29 +284,33 @@ It's children must can only be.
 - image
 - img
 - text
+
 It's schema is called `a` it supports the following attributes.
 
-| attribute      | type                                   | required | matches                                                      |
-| -------------- | -------------------------------------- | -------- | ------------------------------------------------------------ |
-| href           | String                                 | true     | It's a relative or absolute path                             |
-|                |                                        |          | A http URL                                                   |
-|                |                                        |          | A word that starts with `mailto:` and ends with an email.    |
-|                |                                        |          | A word that starts with `tel:` and ends with a phone number. |
-|                |                                        |          | A word that starts with a #.                                 |
-| type           | String                                 | false    |                                                              |
-| referrerpolicy | String                                 | false    | no-referrer                                                  |
-|                |                                        |          | no-referrer-when-downgrade                                   |
-|                |                                        |          | origin                                                       |
-|                |                                        |          | origin-when-cross-origin                                     |
-|                |                                        |          | same-origin                                                  |
-|                |                                        |          | strict-origin                                                |
-|                |                                        |          | strict-origin-when-cross-origin                              |
-|                |                                        |          | unsafe-url                                                   |
-| download       | [DownloadAttribute][DownloadAttribute] | false    |                                                              |
+| attribute      | type                                   | ref                        | required | matches                         |
+| -------------- | -------------------------------------- | -------------------------- | -------- | ------------------------------- |
+| href           | [HrefAttribute](#href-attribute)       |                            | true     |                                 |
+| type           | String                                 | [Media Types][Media Types] | false    |                                 |
+| referrerpolicy | String                                 |                            | false    | no-referrer                     |
+|                |                                        |                            |          | no-referrer-when-downgrade      |
+|                |                                        |                            |          | origin                          |
+|                |                                        |                            |          | origin-when-cross-origin        |
+|                |                                        |                            |          | same-origin                     |
+|                |                                        |                            |          | strict-origin                   |
+|                |                                        |                            |          | strict-origin-when-cross-origin |
+|                |                                        |                            |          | unsafe-url                      |
+| download       | [DownloadAttribute][DownloadAttribute] |                            | false    |
 
-### Others
+#### Href Attribute
 
-#### blockquote
+This is an attribute that checks for the following strings.
+It's a relative or absolute path
+A word that starts with `tel:` and ends with a phone number.
+A http URL
+A word that starts with a #.
+A word that starts with `mailto:` and ends with an email.
+
+### blockquote
 
 You can use the blockquote tag.It's schema has the cite attribute
 built in.
@@ -296,20 +321,20 @@ It can only have the following children.
 - paragraph
 - img
 
-#### address
+### address
 
 You can use the address tag. It's schema has the following attributes.
 
-- draggable
-- translate
-- spellcheck
-- dir
+- [draggable](../attributes/index.md#draggable)
+- [translate](../attributes/index.md#translate)
+- [spellcheck](../attributes/index.md#spellcheck)
+- [dir](../attributes/index.md#dir)
 
 It can only have the following children.
 
 - inline
 - span
-- paragraph
+- p
 - list
 
 #### paragraph
@@ -317,13 +342,13 @@ It can only have the following children.
 You can use paragraphs and the paragraph tag as well. It's
 schema has the following attributes built in.
 
-- contenteditable,
-- draggable,
-- title,
-- lang,
-- spellcheck,
-- dir,
-- translate
+- [contenteditable](../attributes/index.md#contenteditable)
+- [draggable](../attributes/index.md#draggable)
+- [title](../attributes/index.md#title)
+- [lang](../attributes/index.md#lang)
+- [spellcheck](../attributes/index.md#spellcheck)
+- [dir](../attributes/index.md#dir)
+- [translate](../attributes/index.md#translate)
 
 It can only have the following children.
 
