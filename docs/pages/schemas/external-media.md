@@ -30,113 +30,44 @@ The video tag allows you to play video by linking to a file.
 They both share the following attributes With the following values.
 :::
 
-### autoplay
-
-| key      | value   |
-| -------- | ------- |
-| type     | Boolean |
-| required | false   |
-
-### controls
-
-| key      | value   |
-| -------- | ------- |
-| type     | Boolean |
-| required | false   |
-
-### loop
-
-| key      | value   |
-| -------- | ------- |
-| type     | Boolean |
-| required | false   |
-
-### muted
-
-| key      | value   |
-| -------- | ------- |
-| type     | Boolean |
-| required | false   |
-
-### controlslist
-
-| key      | value                                    |
-| -------- | ---------------------------------------- |
-| type     | String                                   |
-| required | false                                    |
-| matches  | nodownload,nofullscreen,noremoteplayback |
-
-### crossorigin
-
-| key      | value                      |
-| -------- | -------------------------- |
-| type     | String                     |
-| required | false                      |
-| matches  | anonymous,use-credentials, |
+| attribute    | type    | required | matches                                    |
+| ------------ | ------- | -------- | ------------------------------------------ |
+| autoplay     | Boolean | false    |                                            |
+| controls     | Boolean | false    |                                            |
+| loop         | Boolean | false    |                                            |
+| muted        | Boolean | false    |                                            |
+| controlslist | String  | false    | nodownload, nofullscreen, noremoteplayback |
+| crossorigin  | String  | false    | anonymous, use-credentials,                |
 
 ### Unique to Audio
 
-#### preload
-
-| key      | value                |
-| -------- | -------------------- |
-| type     | String               |
-| required | false                |
-| matches  | none,metadata,audio, |
+| attribute | type   | required | matches              |
+| --------- | ------ | -------- | -------------------- |
+| preload   | String | false    | none,metadata,audio, |
 
 ### Unique to Video
 
-#### playsinline
-
-| key      | value   |
-| -------- | ------- |
-| type     | Boolean |
-| required | false   |
-
-#### poster
-
-| key      | value  |
-| -------- | ------ |
-| type     | String |
-| required | false  |
-
-#### width
-
-| key      | value                                |
-| -------- | ------------------------------------ |
-| type     | [IntegerAttribute][IntegerAttribute] |
-| required | false                                |
-
-#### height
-
-| key      | value                                |
-| -------- | ------------------------------------ |
-| type     | [IntegerAttribute][IntegerAttribute] |
-| required | false                                |
+| attribute   | type                                 | required |
+| ----------- | ------------------------------------ | -------- |
+| playsinline | Boolean                              | false    |
+| poster      | String                               | false    |
+| width       | [IntegerAttribute][IntegerAttribute] | false    |
+| height      | [IntegerAttribute][IntegerAttribute] | false    |
 
 ## Iframe
 
 You can use an iframe as well it's a tag that allows you to display a website inside of another website.
  It's a [Leaf Schema](/attributes/index#leaf-schema) with the following attributes.
 
-### src
+| attribute | type                               | required |
+| --------- | ---------------------------------- | -------- |
+| src       | [SourceAttribute][SourceAttribute] | true     |
+| allow     | [AllowAttribute](#allow-attribute) | true     |
 
-| key      | value                              |
-| -------- | ---------------------------------- |
-| type     | [SourceAttribute][SourceAttribute] |
-| required | true                               |
-
-### allow
-
-| key      | value          |
-| -------- | -------------- |
-| type     | AllowAttribute |
-| required | true           |
-
-#### Allow Attribute
+### Allow Attribute
 
 The AllowAttribute is an attribute that looks for and object with
-**keys** that are **one or more** of the following words.
+**types** trequired are **one or more** of the following words.
 
 - camera
 - display-capture
@@ -151,7 +82,8 @@ The values of each property must be either
 - A *****.
 - A string that starts with either src or self and ends with a http url.
 
-:::info It will then transform that object into a string that places all keys and values side by side.
+:::info It will then transform that object into a string that places all types and required side by side.
+
 This code will transform
 
 ```md
@@ -173,54 +105,21 @@ into this code.
 
 :::
 
-### name
-
-| key      | value                              |
-| -------- | ---------------------------------- |
-| type     | [SourceAttribute][SourceAttribute] |
-| required | false                              |
-
-### loading
-
-| key      | value                              |
-| -------- | ---------------------------------- |
-| type     | [SourceAttribute][SourceAttribute] |
-| required | false                              |
-
-### sandbox
-
-| key      | value                              |
-| -------- | ---------------------------------- |
-| type     | [SourceAttribute][SourceAttribute] |
-| required | false                              |
-
-:::info This attribute checks for one of the following values.
-
-- allow-downloads
-- allow-forms
-- allow-modals
-- allow-orientation-lock
-- allow-pointer-lock
-- allow-popups
-- allow-popups-to-escape-sandbox
-- allow-same-origin
-- allow-scripts
-- allow-top-navigation
-- allow-top-navigation-by-user-activation
-- allow-top-navigation-to-custom-protocols
-
-:::
-
-#### width
-
-| key      | value                                |
-| -------- | ------------------------------------ |
-| type     | [IntegerAttribute][IntegerAttribute] |
-| required | false                                |
-
-#### height
-
-| key      | value                                |
-| -------- | ------------------------------------ |
-| type     | [IntegerAttribute][IntegerAttribute] |
-| required | false                                |
+| attribute | type                                 | required | matches                                  |
+| --------- | ------------------------------------ | -------- | ---------------------------------------- |
+| name      | [SourceAttribute][SourceAttribute]   | false    |                                          |
+| loading   | [SourceAttribute][SourceAttribute]   | false    |                                          |
+| sandbox   | string                               | false    | allow-downloads                          |
+|           |                                      |          | allow-forms                              |
+|           |                                      |          | allow-modals                             |
+|           |                                      |          | allow-orientation-lock                   |
+|           |                                      |          | allow-pointer-lock                       |
+|           |                                      |          | allow-popups                             |
+|           |                                      |          | allow-popups-to-escape-sandbox           |
+|           |                                      |          | allow-same-origin                        |
+|           |                                      |          | allow-scripts                            |
+|           |                                      |          | allow-top-navigation                     |
+|           |                                      |          | allow-top-navigation-by-user-activation  |
+|           |                                      |          | allow-top-navigation-to-custom-protocols |
+| width     | [IntegerAttribute][IntegerAttribute] | false    |                                          |
+| height    | [IntegerAttribute][IntegerAttribute] | false    |                                          |
