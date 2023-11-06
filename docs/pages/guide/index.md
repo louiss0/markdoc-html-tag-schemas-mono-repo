@@ -41,7 +41,7 @@ their tag versions.
 In a `markdoc.config.[m(ts|js)]` file do this.
 
 ```js
-import { defineMarkdocConfig} from '@astrojs/markdoc/config';
+import { defineMarkdocConfig } from '@astrojs/markdoc/config';
 
 import { markdocHTMLTagSchemas } from 'markdoc-html-tag-schemas';
 
