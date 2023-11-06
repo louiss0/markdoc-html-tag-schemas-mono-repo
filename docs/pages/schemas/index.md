@@ -265,23 +265,23 @@ It's children must can only be.
 - text
 It's schema is called `a` it supports the following attributes.
 
-| attribute      | type                                   | required | matches                                                        |
-| -------------- | -------------------------------------- | -------- | -------------------------------------------------------------- |
-| href           | String                                 | true     | - It's a relative or absolute path                             |
-|                |                                        |          | - A http URL                                                   |
-|                |                                        |          | - A word that starts with `mailto:` and ends with an email.    |
-|                |                                        |          | - A word that starts with `tel:` and ends with a phone number. |
-|                |                                        |          | - A word that starts with a #.                                 |
-| type           | String                                 | false    |                                                                |
-| referrerpolicy | String                                 | false    | - no-referrer                                                  |
-|                |                                        |          | - no-referrer-when-downgrade                                   |
-|                |                                        |          | - origin                                                       |
-|                |                                        |          | - origin-when-cross-origin                                     |
-|                |                                        |          | - same-origin                                                  |
-|                |                                        |          | - strict-origin                                                |
-|                |                                        |          | - strict-origin-when-cross-origin                              |
-|                |                                        |          | - unsafe-url                                                   |
-| download       | [DownloadAttribute][DownloadAttribute] | false    |                                                                |
+| attribute      | type                                   | required | matches                                                      |
+| -------------- | -------------------------------------- | -------- | ------------------------------------------------------------ |
+| href           | String                                 | true     | It's a relative or absolute path                             |
+|                |                                        |          | A http URL                                                   |
+|                |                                        |          | A word that starts with `mailto:` and ends with an email.    |
+|                |                                        |          | A word that starts with `tel:` and ends with a phone number. |
+|                |                                        |          | A word that starts with a #.                                 |
+| type           | String                                 | false    |                                                              |
+| referrerpolicy | String                                 | false    | no-referrer                                                  |
+|                |                                        |          | no-referrer-when-downgrade                                   |
+|                |                                        |          | origin                                                       |
+|                |                                        |          | origin-when-cross-origin                                     |
+|                |                                        |          | same-origin                                                  |
+|                |                                        |          | strict-origin                                                |
+|                |                                        |          | strict-origin-when-cross-origin                              |
+|                |                                        |          | unsafe-url                                                   |
+| download       | [DownloadAttribute][DownloadAttribute] | false    |                                                              |
 
 ### Others
 
