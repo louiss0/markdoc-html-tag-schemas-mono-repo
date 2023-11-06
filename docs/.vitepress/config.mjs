@@ -37,7 +37,11 @@ export default defineConfig({
       '/attributes/': [
         {
           text: 'Attributes',
+          link: '/attributes/index',
           items: [
+            {
+              text: '',
+            },
             {
               text: 'Custom',
               link: '/attributes/custom',
