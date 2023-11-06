@@ -1,6 +1,3 @@
----
- outline: [2,4]
----
 [IntegerAttribute]: /attributes/custom#integerattribute
 
 [markdoc]: https://markdoc.dev
@@ -62,19 +59,10 @@ Here is a list of all schema that belong in that category.
 
 Both the ins and del schemas have the following attributes.
 
-#### cite
-
-| key      | value                              |
-| -------- | ---------------------------------- |
-| type     | [SourceAttribute][SourceAttribute] |
-| required | false                              |
-
-#### datetime
-
-| key      | value                                                            |
-| -------- | ---------------------------------------------------------------- |
-| type     | An attribute that validates the value only if it's a date string |
-| required | false                                                            |
+| attribute | type                                                             | required |
+| --------- | ---------------------------------------------------------------- | -------- |
+| cite      | [SourceAttribute][SourceAttribute]                               | false    |
+| datetime  | An attribute that validates the value only if it's a date string | false    |
 
 ## Auto Transform Text Schemas
 
@@ -222,12 +210,9 @@ Both of them share the following attributes.
 - hidden
 - style
 
-#### span
-
-| key      | value                                |
-| -------- | ------------------------------------ |
-| type     | [IntegerAttribute][IntegerAttribute] |
-| required | false                                |
+| span | type                                 | required |
+| ---- | ------------------------------------ | -------- |
+| span | [IntegerAttribute][IntegerAttribute] | false    |
 
 ### Definitions
 
@@ -274,43 +259,28 @@ It's children must can only be.
 - img
 - text
 
+
 It's schema is called `a` it supports the following attributes.
 
-#### href
-
-It's an attribute that is required. It will only be valid if
-
-- It's a relative or absolute path
-- A http URL
-- A word that starts with `mailto:` and ends with an email.
-- A word that starts with `tel:` and ends with a phone number.
-- A word that starts with a #.
-
-#### type
-
-A word that starts with,
-application,audio,font,example,image,message,model,multipart,text,video has a **/** in the middle
-and ends with a word.
-
-#### referrerpolicy
-
-A attribute that must match one of the following values.
-
-- no-referrer
-- no-referrer-when-downgrade
-- origin
-- origin-when-cross-origin
-- same-origin
-- strict-origin
-- strict-origin-when-cross-origin
-- unsafe-url
-
-#### download
-
-| key      | value                                  |
-| -------- | -------------------------------------- |
-| type     | [DownloadAttribute][DownloadAttribute] |
-| required | true                                   |
+| attribute      | type                                                                                | required |
+| -------------- | ----------------------------------------------------------------------------------- | -------- |
+| href           |                                                                                     | true     |
+|                | - It's a relative or absolute path                                                  |          |
+|                | - A http URL                                                                        |          |
+|                | - A word that starts with `mailto:` and ends with an email.                         |          |
+|                | - A word that starts with `tel:` and ends with a phone number.                      |          |
+|                | - A word that starts with a #.                                                      |          |
+| type           | application,audio,font,example,image,message,model,multipart,text,video has a **/** | false    |
+| href           | string                                                                              | true     |
+| referrerpolicy | - no-referrer                                                                       | false    |
+|                | - no-referrer-when-downgrade                                                        |          |
+|                | - origin                                                                            |          |
+|                | - origin-when-cross-origin                                                          |          |
+|                | - same-origin                                                                       |          |
+|                | - strict-origin                                                                     |          |
+|                | - strict-origin-when-cross-origin                                                   |          |
+|                | - unsafe-url                                                                        |          |
+| download       | [DownloadAttribute][DownloadAttribute]                                              | false    |
 
 ### Others
 
