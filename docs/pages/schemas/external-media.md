@@ -1,6 +1,3 @@
----
-    outline: [2,3]
----
 
 [SourceAttribute]: /attributes/custom#sourceattribute
 
