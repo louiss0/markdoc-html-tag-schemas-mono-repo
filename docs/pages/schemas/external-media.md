@@ -3,6 +3,12 @@
 
 [IntegerAttribute]: /attributes/custom#integerattribute
 
+[SizesAttribute]: /attributes/custom#sizesattribute
+
+[SrcSetAttribute]: /attributes/custom#srcsetattribute
+
+[MediaAttribute]: /attributes/custom#srcsetattribute
+
 # External Media
 
 When it comes to the use of external media you can use the HTML tags you know.
@@ -120,3 +126,52 @@ into this code.
 |           |                                      |          | allow-top-navigation-to-custom-protocols |
 | width     | [IntegerAttribute][IntegerAttribute] | false    |                                          |
 | height    | [IntegerAttribute][IntegerAttribute] | false    |                                          |
+
+## Images
+
+You can use the image tag and the picture tag in markdoc when using this library.
+When you do use them. When it comes to the image node
+the src,title and alt attribute are validated in the
+same way is the image tag. The image tag allows for the use
+of all the attributes that are needed in the img tag.
+
+The picture tag requires the use of the source tag to make it function.
+When it comes to using the picture tag it must have a source in order for it to work.
+
+### Image Tag
+
+:::info This tag supports the following global attributes.
+
+- width
+- height
+- refferpolicy
+
+:::
+
+| attribute     | type                               | required | error Level | matches                   |
+| ------------- | ---------------------------------- | -------- | ----------- | ------------------------- |
+| src           | [SourceAttribute][SourceAttribute] | true     | critical    |                           |
+| srcset        | [SrcSetAttribute][SrcSetAttribute] | false    | critical    |                           |
+| sizes         | [SizesAttribute][SizesAttribute]   | false    | warning     |                           |
+| alt           | String                             | true     |             |                           |
+| crossorigin   | Attribute                          | false    |             | anonymous,use-credentials |
+| decoding      | String                             | false    |             | auto,sync,async           |
+| fetchpriority | String                             | false    |             | high,low,auto             |
+| loading       | String                             | false    |             | eager,lazy                |
+
+### The Picture Tag
+
+The picture tag is a tag that only requires the source and img tag as children. It will validate the source tags,
+only if they have a `srcset=` attribute.
+
+### The source tag
+
+The source tag is a tag that can't be used on it's own. It must be used as the child of the picture,audio and video tags.
+x
+It has the following attributes.
+
+| attribute     | type                               | required | error Level |
+| src           | [SourceAttribute][SourceAttribute] | true     | critical    |
+| srcset        | [SrcSetAttribute][SrcSetAttribute] | false    | critical    |
+| sizes         | [SizesAttribute][SizesAttribute]   | false    | warning     |
+| media         | [MediaAttribute][MediaAttribute]   |  true    |             |
