@@ -42,20 +42,6 @@ It validates based on if the attribute is a valid http url or a valid path
 
 It validates based on if the value is a boolean or a valid path
 
-## SrcSetAttribute
-
-It validates based on if the value is just a string or an array
-with more then one value.
-
-:::warning
-There must only be one valid media query per string
-even if it's a string.  
-:::
-
-## SizesAttribute
-
-It validates based on if the value is a valid Array of
-height, width of those  prefixed with max- or min- media-query'.
 
 ## IntegerAttribute
 
