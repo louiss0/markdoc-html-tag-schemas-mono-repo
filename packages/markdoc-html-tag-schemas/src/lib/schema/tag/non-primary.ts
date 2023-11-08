@@ -331,7 +331,7 @@ export const video = getGenerateNonPrimarySchema()({
                     && !videoTypeRegex.test(node.attributes["type"])
                 )
 
-        const validTagNames = ["source"];
+        const validTagNames = ["source", "track", "a"];
 
         return createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue(
             getResultOfHasNoChildrenCheckAndTheEmptyChildrenMarkdocErrorObject(node, validTagNames),
@@ -543,12 +543,13 @@ export const blockquote = getGenerateNonPrimarySchema()({
         AllowedMarkdocNodes.FENCE,
         AllowedMarkdocNodes.LIST,
         AllowedMarkdocNodes.IMAGE,
+        AllowedMarkdocNodes.BLOCKQUOTE,
         AllowedMarkdocNodes.PARAGRAPH
     ],
 }, {
     validate(node) {
 
-        const allowedTagNames = ["p", "ul", "ol", "img"]
+        const allowedTagNames = ["p", "ul", "ol", "img", "blockquote"]
 
         return createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue(
             getResultOfHasNoChildrenCheckAndTheEmptyChildrenMarkdocErrorObject(node, allowedTagNames),
@@ -572,6 +573,7 @@ export const details = getGenerateNonPrimarySchemaWithATransformThatGeneratesDat
     children: [
         AllowedMarkdocNodes.TAG,
         AllowedMarkdocNodes.PARAGRAPH,
+        AllowedMarkdocNodes.BLOCKQUOTE,
         AllowedMarkdocNodes.FENCE,
         AllowedMarkdocNodes.IMAGE,
         AllowedMarkdocNodes.LIST,
@@ -579,7 +581,7 @@ export const details = getGenerateNonPrimarySchemaWithATransformThatGeneratesDat
 }, {
     validate(node) {
 
-        const allowedTagNames = ["p", "summary", "ul", "ol"]
+        const allowedTagNames = ["p", "summary", "ul", "ol", "blockquote"]
 
         return createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue(
             getResultOfHasNoChildrenCheckAndTheEmptyChildrenMarkdocErrorObject(node, allowedTagNames),
