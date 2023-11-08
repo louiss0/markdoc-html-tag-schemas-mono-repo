@@ -106,7 +106,7 @@ You can now specify columns in a table by using the colgroup and col.
 Both of them share the following attributes.
 
 ```md
-{%colgroup %}
+{% colgroup %}
     {%col "content one" /%}
     {%col "content two" span=2 /%}
 {% /colgroup %}
