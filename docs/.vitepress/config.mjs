@@ -26,14 +26,13 @@ export default defineConfig({
         {
           text: 'Schemas',
           items: [
+            { text: 'Text', link: '/schemas/text' },
+            { text: 'Container', link: '/schemas/container' },
+            { text: 'Leaf', link: '/schemas/leaf' },
             {
               text: 'External Media',
               link: '/schemas/external-media',
             },
-            { text: 'Text', link: '/schemas/text' },
-            { text: 'Container', link: '/schemas/container' },
-            { text: 'Leaf', link: '/schemas/leaf' },
-            { text: 'Images', link: '/schemas/images' },
           ],
         },
       ],
