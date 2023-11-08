@@ -1,19 +1,17 @@
 {
-    "name": "markdoc-html-tag-schemas",
-    "$schema": "../../node_modules/nx/schemas/project-schema.json",
-    "sourceRoot": "packages/markdoc-html-tag-schemas",
-    "projectType": "library",
-    "targets": {
-        "test": {
-            "executor": "@nx/vite:test",
-            "outputs": [
-                "coverage/packages/markdoc-html-tag-schemas"
-            ],
-            "options": {
-                "passWithNoTests": true,
-                "reportsDirectory": "../../coverage/packages/markdoc-html-tag-schemas"
-            }
-        }
-    },
-    "tags": []
+  "name": "markdoc-html-tag-schemas",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/markdoc-html-tag-schemas",
+  "projectType": "library",
+  "targets": {
+    "test": {
+      "executor": "@nx/vite:test",
+      "outputs": ["{workspaceRoot}/coverage/packages/markdoc-html-tag-schemas"],
+      "options": {
+        "passWithNoTests": true,
+        "reportsDirectory": "../../coverage/packages/markdoc-html-tag-schemas"
+      }
+    }
+  },
+  "tags": []
 }

@@ -16,21 +16,13 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
-    "lib": [
-      "es2020",
-      "dom"
-    ],
+    "lib": ["es2020", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@markdoc-html-tag-schemas": [
-        "packages/markdoc-html-tag-schemas/src"
-      ]
+      "@markdoc-html-tag-schemas": ["packages/markdoc-html-tag-schemas/src"]
     }
   },
-  "exclude": [
-    "node_modules",
-    "tmp"
-  ]
+  "exclude": ["node_modules", "tmp"]
 }
