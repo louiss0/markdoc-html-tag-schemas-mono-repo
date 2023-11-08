@@ -26,7 +26,10 @@ const anchorAttributesList = [
     {
         attribute: "type",
         type: "String",
-        ref: "https://www.iana.org/assignments/media-types/media-types.xhtml"
+        reference: {
+            href: "https://www.iana.org/assignments/media-types/media-types.xhtml",
+            text: "Media Types"
+        }
     },
     {
         attribute: "referrerpolicy",
