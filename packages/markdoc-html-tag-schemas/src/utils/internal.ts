@@ -27,6 +27,7 @@ export const mergeObjects = <
 export const AllowedMarkdocNodes = Object.freeze({
 
     PARAGRAPH: "paragraph",
+    BLOCKQUOTE: "blockquote",
     HR: "hr",
     IMAGE: "image",
     FENCE: "fence",
