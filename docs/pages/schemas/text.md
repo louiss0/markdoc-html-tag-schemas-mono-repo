@@ -1,13 +1,18 @@
 ---
  outline: [2,3]
 ---
+
 # Text
 
-A schema that takes a required primary attribute and uses it as a child.
-All of them are self-closing and most of them are not.
-They require the use of a primary attribute which is a string.
+A text schema is a schema that allows tags that render html tags that
+change the text of their children to rendered in Markdoc.
+These kinds of schema only allow self-closing tags with primary attributes.
+Most of these schemas don't allow any attributes at all.
+
+The ones that do have attributes are specified in the following sections.
+
 Some of them use the primary attribute to create new text that is used as the child.
-Those are called [Auto Text Transform Schemas](#auto-transform-text-schemas).
+Those are called [Text Manipulation Schemas](#text-manipulation-schemas).
 
 Here is a list of all schema that belong in that category.
 
@@ -41,17 +46,13 @@ The ins and del schemas render the html attributes `<ins>` and `<del>`.
 - [cite](../attributes/index.md#cite)
 - [datetime](../attributes/index.md#datetime)
 
-## Auto Transform Text Schemas
+## Text Manipulation Schemas
 
 This library also provides schemas that will attempt to transform
 it's primary attribute into a different string or string format.
 They are **Auto Transform Text Schemas** these schemas attempt to use
 the primary attribute and either transform it into something else
 or use it in a different attribute.
-
-:::info
-The following sections are the schemas that do what is said above.
-:::
 
 ### abbr
 
@@ -76,8 +77,10 @@ Will create this HTML
 
 :::
 
+:::tip
 If you decide to write the title and the primary attribute.
 Then the abbreviation tag will behave as normal.
+:::
 
 ### time
 
