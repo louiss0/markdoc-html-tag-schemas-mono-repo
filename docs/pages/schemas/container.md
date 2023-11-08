@@ -6,11 +6,11 @@
 
 [SourceAttribute]: /attributes/custom#sourceattribute
 
-[SizesAttribute]: ./container#sizes-attribute
+[SizesAttribute]: /attributes/custom#sizes-attribute
 
-[SrcSetAttribute]: ./container#srcset-attribute
+[SrcSetAttribute]: /attributes/custom#srcset-attribute
 
-[MediaAttribute]: ./container#media-attribute
+[MediaAttribute]: /attributes/custom#media-attribute
 
 # Container
 
@@ -263,26 +263,6 @@ It has the following attributes.
 | sizes     | [SizesAttribute][SizesAttribute]   | false    | warning     |
 | media     | [MediaAttribute][MediaAttribute]   | true     |             |
 
-#### SrcSet Attribute
-
-This attribute validates the value if it's a.
-
-- A relative or absolute path.
-- An array of relative or absolute paths.
-- A relative or absolute path spaced with a pixel density.
-- An array of relative or absolute paths spaced with a pixel density.
-- A relative or absolute path spaced with a number suffixed with `w`  or `vw`.
-- An array of relative or absolute paths spaced with a number suffixed with `w`  or `vw`.
-
-If you pass in an array all the values will joined into a string
-with a comma at the end of each word.
-
-#### Sizes Attribute
-
-This attribute validates the value if it's an array of strings.
-That are media queries written without the `@media` keyword and
-has a spaced up to 4 digit number with a **v** or vw at the end.
-
 #### Media Attribute
 
 The Media Attribute is an attribute that validates a value if it's is a string that
@@ -299,7 +279,7 @@ and an value as an object literal is called a **Data Schema**.
 It's a schema that takes the keys of each value adds a **data-** as the prefix to it,
 lowercase's it, then it mixes that object with attributes that written on the tag.
 
-```mdoc
+```md
   {% p 
     data={
         theme:"dark"

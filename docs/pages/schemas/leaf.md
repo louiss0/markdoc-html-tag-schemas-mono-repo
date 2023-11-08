@@ -1,6 +1,12 @@
 <!-- markdownlint-disable MD033 -->
 <!-- markdownlint-disable MD041 -->
 
+[SourceAttribute]:/attributes/custom#sourceattribute
+
+[SrcSetAttribute]:/attributes/custom#src-set-attribute
+
+[SizesAttribute]:/attributes/custom#sizes-attribute
+
 <script setup>
 
 const iframeAttributesDataList = [
@@ -58,8 +64,6 @@ const iframeAttributesDataList = [
 ]
 
 </script>
-
-[SourceAttribute]: /attributes/custom#sourceattribute
 
 # Leaf
 
