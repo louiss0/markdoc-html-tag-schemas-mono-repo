@@ -7,7 +7,10 @@ type Attribute =  {
       } | string ;
       required?: "true";
       errorLevel?:string;
-      reference?:string;
+      reference?:{
+        href: string;
+        text: string;
+      };
       matches?: Array<string> | undefined;
     };
 
@@ -34,7 +37,7 @@ const someValuesAreReferences = attributeList
       <th>type</th>
       <th>required</th>
       <th v-if="someValuesAreErrorLevels">error level</th>
-      <th v-if="someValuesAreReferences">ref</th>
+      <th v-if="someValuesAreReferences">reference</th>
       <th>matches</th>
     </thead>
 
@@ -69,7 +72,10 @@ const someValuesAreReferences = attributeList
           </td>
           <td v-if="someValuesAreReferences">
             
-            {{ reference }}
+            <a :href="reference?.href">
+
+              {{ reference?.text }}
+            </a>
           
           </td>
 
