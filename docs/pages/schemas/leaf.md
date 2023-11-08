@@ -124,6 +124,44 @@ const imageAttributesList = [
   },
 ]
 
+const trackAttributesList = [
+  {
+    attribute: 'src',
+      type:{
+        href:'/attributes/custom#sourceattribute',
+        text:''
+    },
+    required:'true',
+  },
+  {
+    attribute: 'default',
+    type:"Boolean",
+  },
+  {
+    attribute: 'label',
+    type:"String",
+  },
+  {
+    attribute: 'srclang',
+    type: "Boolean",
+    reference: {
+      href: "attributes/index.md#lang",
+      text: "lang"
+    }
+  },
+  {
+    attribute: 'kind',
+    type: "String",
+    matches: [
+          "captions",
+          "chapters",
+          "descriptions",
+          "metadata",
+          "subtitles",
+        ]
+  },
+]
+
 </script>
 
 # Leaf
@@ -207,7 +245,13 @@ into this code.
 
 ## image
 
-:::info This tag supports the following global attributes.
+A schema that allows the use of the `img` tag in Markdoc.
+
+```md
+{%img src="flower.jpg" /%}
+```
+
+:::info This schema has supports the following global attributes.
 
 - [width](../attributes/index.md#width)
 - [height](../attributes/index.md#height)
@@ -216,3 +260,21 @@ into this code.
 :::
 
 <AttributeTable :attributeList="imageAttributesList" />
+
+## track
+
+A schema that allows the use of the `track` tag in Markdoc.
+
+```md
+{% video %}
+  {%track src="/media/examples/friday.vtt" /%}
+{% /video %}
+```
+
+```md
+{% audio %}
+  {%track src="track.mp4" /%}
+{% /audio %}
+```
+
+<AttributeTable :attributeList="trackAttributesList" />
