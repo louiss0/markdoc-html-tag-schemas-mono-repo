@@ -72,10 +72,14 @@ const someValuesAreReferences = attributeList
           </td>
           <td v-if="someValuesAreReferences">
             
-            <a :href="reference?.href">
+            <template v-if="reference">
+              <a :href="reference.href">
+  
+                {{ reference.text }}
+              </a>
 
-              {{ reference?.text }}
-            </a>
+            </template>
+            
           
           </td>
 
