@@ -1,8 +1,7 @@
+<!-- markdownlint-disable MD033 -->
+<!-- markdownlint-disable MD041 -->
+
 [IntegerAttribute]: /attributes/custom#integerattribute
-
-[DownloadAttribute]: /attributes/custom#downloadattribute
-
-[Media Types]: https://www.iana.org/assignments/media-types/media-types.xhtml
 
 [SourceAttribute]: /attributes/custom#sourceattribute
 
@@ -11,6 +10,49 @@
 [SrcSetAttribute]: /attributes/custom#srcset-attribute
 
 [MediaAttribute]: /attributes/custom#media-attribute
+
+<script setup>
+
+const anchorAttributesList = [
+    {
+        attribute: "href",
+        type: {
+            link: "#href-attribute",
+            text: "HrefAttribute"
+        },
+        required:true,
+
+    },
+    {
+        attribute: "type",
+        type: "String",
+        ref: "https://www.iana.org/assignments/media-types/media-types.xhtml"
+    },
+    {
+        attribute: "referrerpolicy",
+        type: "String",
+        matches: [
+            "no-referrer",
+            "no-referrer-when-downgrade",
+            "origin",
+            "origin-when-cross-origin",
+            "same-origin",
+            "strict-origin",
+            "strict-origin-when-cross-origin",
+            "unsafe-url"
+        ]
+    },
+    {
+        attribute: "download",
+        type: {
+            link: "/attributes/custom#downloadattribute",
+            text: "DownloadAttribute"
+        },
+
+    },
+]
+
+</script>
 
 # Container
 
@@ -99,19 +141,7 @@ It's children must can only be.
 
 It's schema is called `a` it supports the following attributes.
 
-| attribute      | type                                   | ref                        | required | matches                         |
-| -------------- | -------------------------------------- | -------------------------- | -------- | ------------------------------- |
-| href           | [HrefAttribute](#href-attribute)       |                            | true     |                                 |
-| type           | String                                 | [Media Types][Media Types] | false    |                                 |
-| referrerpolicy | String                                 |                            | false    | no-referrer                     |
-|                |                                        |                            |          | no-referrer-when-downgrade      |
-|                |                                        |                            |          | origin                          |
-|                |                                        |                            |          | origin-when-cross-origin        |
-|                |                                        |                            |          | same-origin                     |
-|                |                                        |                            |          | strict-origin                   |
-|                |                                        |                            |          | strict-origin-when-cross-origin |
-|                |                                        |                            |          | unsafe-url                      |
-| download       | [DownloadAttribute][DownloadAttribute] |                            | false    |
+<AttributeTable :attributeList="anchorAttributesList" />
 
 ### Href Attribute
 
@@ -190,7 +220,7 @@ It's easier to omit it's use whether than to check if it exists
 and the tag has no child at all.
 :::
 
-## Audio and Video
+### Audio and Video
 
 The audio tag allows you to play audio by linking to a file.
 
@@ -239,7 +269,7 @@ They both share the following attributes With the following values.
 | height      | [IntegerAttribute][IntegerAttribute] | false    |
 :::
 
-### The Picture Tag
+### Picture
 
 ```md
 {%picture %}
@@ -250,7 +280,7 @@ They both share the following attributes With the following values.
 The picture tag is a tag that only requires the source and img tag as children. It will validate the source tags,
 only if they have a `srcset=` attribute.
 
-### The source tag
+#### The source tag
 
 The source tag is a tag that can't be used on it's own. It must be used as the child of the picture,audio and video tags.
 
@@ -370,9 +400,10 @@ A schema that allows you to render details.
 
 :::
 
-::info Extra Attributes
+:::info Extra Attributes
 
 | attribute | type   | required |
 | --------- | ------ | -------- |
 | open      | String | false    |
+
 :::
