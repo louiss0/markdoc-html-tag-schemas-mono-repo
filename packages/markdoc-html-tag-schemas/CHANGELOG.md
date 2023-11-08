@@ -12,11 +12,16 @@ Types of changes
 
 -->
 
-# For Astro Markdoc HTML Tags
+# Markdoc HTML Tags Schemas
 
 This library does follow semver.
 
 ## [Unreleased]
+
+### Fixed
+
+- Added track as a viable child of video and audio
+- Added blockquote as a viable child to details and blockquote.
 
 ## [2.1.1] - 2023-08-08
 
