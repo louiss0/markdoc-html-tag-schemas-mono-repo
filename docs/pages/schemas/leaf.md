@@ -134,6 +134,13 @@ const trackAttributesList = [
     required:'true',
   },
   {
+    attribute: 'srclang',
+    type: "Boolean",
+    reference: {
+      href: "attributes/index.md#lang",
+      text: "lang"
+    }
+  },{
     attribute: 'default',
     type:"Boolean",
   },
@@ -141,14 +148,7 @@ const trackAttributesList = [
     attribute: 'label',
     type:"String",
   },
-  {
-    attribute: 'srclang',
-    type: "Boolean",
-    reference: {
-      href: "attributes/index.md#lang",
-      text: "lang"
-    }
-  },
+  
   {
     attribute: 'kind',
     type: "String",
