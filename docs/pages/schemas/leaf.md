@@ -3,12 +3,7 @@
 
 [SourceAttribute]:/attributes/custom#sourceattribute
 
-[SrcSetAttribute]:/attributes/custom#src-set-attribute
-
-[SizesAttribute]:/attributes/custom#sizes-attribute
-
-<script setup>
-
+<script setup lang="ts">
 const iframeAttributesDataList = [
     {
         attribute:"name",
@@ -61,6 +56,72 @@ const iframeAttributesDataList = [
         },
         required: "false",
      },
+]
+
+const imageAttributesList = [
+    { attribute:'src',
+      type:{
+        href:'/attributes/custom#sourceattribute',
+        text:''
+    },
+    errorLevel:'critical',
+    required:'true',
+  },
+    { attribute:'srcset',
+      type:{
+        href:'/attributes/custom#srcset-attribute',
+        text:''
+    },
+    errorLevel:'critical',
+    required:'true',
+  },
+    { attribute:'sizes',
+      type:{
+        href:'/attributes/custom#sizes-attribute',
+        text:''
+    },
+    errorLevel:'warning',
+    required:'true',
+  },
+  {
+    attribute:'alt',
+    type:'String',
+    required:'true',
+  },
+  {
+    attribute:'crossorigin',
+    type:'String',
+    matches: [
+        'anonymous',
+        'use-credentials'
+    ]
+  },
+  {
+    attribute:'fetchpriority',
+    type:'String',
+    matches: [
+        'high',
+        'low',
+        'auto'
+    ]
+  },
+  {
+    attribute:'decoding',
+    type:'String',
+    matches: [
+        'auto',
+        'sync',
+        'async'
+    ]
+  },
+  {
+    attribute:'loading',
+    type:'String',
+    matches: [
+        'eager',
+        'lazy'
+    ]
+  },
 ]
 
 </script>
@@ -142,44 +203,7 @@ into this code.
 
 :::
 
-<table>
-<caption>
-Iframe Attributes
-</caption>
-<thead>
- <th>attribute</th>
- <th>type</th>
- <th>required</th>
- <th>matches</th>
-</thead>
-<tbody>
- <template
- v-for="{attribute, type, required, matches} of iframeAttributesDataList" :key="attribute"
- >
-  <tr>
-   <td>{{attribute}}</td>
-   <template v-if="typeof type === 'string'">
-    <td>{{type}}</td>
-   </template>
-   <template v-else>
-   <td>
-   <a :href="type.href">
-    {{type.text}}
-   </a>
-   </td>
-   </template>
-   <td>{{required}}</td>
-   <td>
-    <template v-if="matches">
-    <template v-for="match of matches">
-         <div>{{match}}</div>
-    </template>
-    </template>
-   </td>
-  </tr>
- </template>
-</tbody>
-</table>
+<AttributeTable :attributeList="iframeAttributesDataList" />
 
 ## image
 
@@ -191,13 +215,4 @@ Iframe Attributes
 
 :::
 
-| attribute     | type                               | required | error Level | matches                   |
-| ------------- | ---------------------------------- | -------- | ----------- | ------------------------- |
-| src           | [SourceAttribute][SourceAttribute] | true     | critical    |                           |
-| srcset        | [SrcSetAttribute][SrcSetAttribute] | false    | critical    |                           |
-| sizes         | [SizesAttribute][SizesAttribute]   | false    | warning     |                           |
-| alt           | String                             | true     |             |                           |
-| crossorigin   | Attribute                          | false    |             | anonymous,use-credentials |
-| decoding      | String                             | false    |             | auto,sync,async           |
-| fetchpriority | String                             | false    |             | high,low,auto             |
-| loading       | String                             | false    |             | eager,lazy                |
+<AttributeTable :attributeList="imageAttributesList" />
