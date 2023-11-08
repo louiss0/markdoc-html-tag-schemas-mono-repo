@@ -416,7 +416,7 @@ export const audio = getGenerateNonPrimarySchema()({
     validate(node) {
 
 
-        const validTagNames = ["source"]
+        const validTagNames = ["source", "track"]
 
         const sourceTags = node.children
             .filter(child => child.tag && validTagNames.includes(child.tag));
