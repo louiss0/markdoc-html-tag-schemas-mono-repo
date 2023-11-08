@@ -29,10 +29,6 @@ export default defineConfig({
             { text: 'Text', link: '/schemas/text' },
             { text: 'Container', link: '/schemas/container' },
             { text: 'Leaf', link: '/schemas/leaf' },
-            {
-              text: 'External Media',
-              link: '/schemas/external-media',
-            },
           ],
         },
       ],
