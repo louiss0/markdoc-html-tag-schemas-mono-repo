@@ -51,17 +51,6 @@ export const small = getGenerateSelfClosingTagSchema()({
 
 });
 
-export const wbr = getGenerateSelfClosingTagSchema()({
-  render: "wbr",
-  attributes: {
-    primary: {
-      required: true,
-      render: true,
-      type: String,
-    }
-  },
-  description: "A schema for creating a sup element"
-});
 
 
 
@@ -108,17 +97,7 @@ export const sub = getGenerateSelfClosingTagSchema()({
 });
 
 
-export const cite = getGenerateSelfClosingTagSchema()({
-  render: "cite",
-  attributes: {
-    primary: {
-      required: true,
-      render: true,
-      type: String,
-    }
-  },
-  description: "A schema for creating a cite element"
-});
+
 export const code = getGenerateSelfClosingTagSchema()({
   render: "code",
   attributes: {
@@ -221,7 +200,7 @@ export const dd = getGenerateSelfClosingTagSchema()({
       type: String,
     }
   },
-  inline:false,
+  inline: false,
   description: "A schema for creating a dd element"
 });
 
@@ -234,7 +213,7 @@ export const dt = getGenerateSelfClosingTagSchema()({
       type: String,
     }
   },
-  inline:false,
+  inline: false,
   description: "A schema for creating a dt element",
 });
 

@@ -31,7 +31,6 @@ const {
     translate,
     spellcheck,
     dir,
-    cite,
     width,
     height,
     style,
@@ -536,7 +535,7 @@ export const ol = getGenerateNonPrimarySchemaWithATransformThatGeneratesDataAttr
 export const blockquote = getGenerateNonPrimarySchema()({
     render: "blockquote",
     attributes: {
-        cite,
+        cite: MarkdocAttributes.cite,
         hidden,
     },
     children: [
@@ -806,7 +805,46 @@ export const p = getGenerateNonPrimarySchema()({
 );
 
 
+export const wbr = getGenerateNonPrimarySchema()({
+    render: "wbr",
+    selfClosing: true,
+    attributes: {
+        hidden
+    },
+    description: "A schema for creating a wbr element"
+});
+
+export const cite = getGenerateNonPrimarySchema()({
+    render: "cite",
+    attributes: {
+        hidden,
+        translate,
+        spellcheck
+    },
+    description: "A schema for creating a cite element",
+    children: [
+        AllowedMarkdocNodes.TAG,
+        AllowedMarkdocNodes.TEXT,
+        AllowedMarkdocNodes.LINK,
+        AllowedMarkdocNodes.EM,
+        AllowedMarkdocNodes.STRONG,
+    ],
+
+}, {
+    validate(node) {
 
 
+        const allowedTagNames = ["a"]
+
+        return createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue(
+            getResultOfHasNoChildrenCheckAndTheEmptyChildrenMarkdocErrorObject(node, allowedTagNames),
+            getResultOfNodeHasTheWrongChildTagCheckAndTheInvalidChildrenMarkdocErrorObject(node, allowedTagNames),
+
+        )
+
+
+
+    },
+});
 
 
