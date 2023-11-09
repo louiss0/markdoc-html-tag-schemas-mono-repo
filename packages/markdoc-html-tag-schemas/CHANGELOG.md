@@ -18,6 +18,15 @@ This library does follow semver.
 
 ## [Unreleased]
 
+## Changed
+
+- cite is now a non-primary schema with a children attribute
+- wbr is now a non-primary schema with a self-closing attribute
+
+## Fixed
+
+- Wrote the descriptions for each self-closing tag properly
+
 ## [2.1.2] - 2023-11-08
 
 ### Fixed
