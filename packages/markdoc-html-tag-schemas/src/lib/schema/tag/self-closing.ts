@@ -65,7 +65,7 @@ export const del = getGenerateSelfClosingTagSchema()({
     cite: MarkdocAttributes.cite,
     datetime: MarkdocAttributes.datetime
   },
-  description: "A schema for creating a sup element"
+  description: "A schema for creating a del element"
 });
 
 
@@ -80,7 +80,7 @@ export const ins = getGenerateSelfClosingTagSchema()({
     cite: MarkdocAttributes.cite,
     datetime: MarkdocAttributes.datetime
   },
-  description: "A schema for creating a sup element"
+  description: "A schema for creating a ins element"
 },);
 
 
@@ -109,6 +109,7 @@ export const code = getGenerateSelfClosingTagSchema()({
   },
   description: "A schema for creating a code element"
 });
+
 export const samp = getGenerateSelfClosingTagSchema()({
   render: "samp",
   attributes: {
@@ -142,8 +143,9 @@ export const q = getGenerateSelfClosingTagSchema()({
       type: String,
     }
   },
-  description: "A schema for creating a mark element"
+  description: "A schema for creating a q element"
 });
+
 export const kbd = getGenerateSelfClosingTagSchema()({
   render: "kbd",
   attributes: {
@@ -153,8 +155,9 @@ export const kbd = getGenerateSelfClosingTagSchema()({
       type: String,
     }
   },
-  description: "A schema for creating a sup element"
+  description: "A schema for creating a kbd element"
 });
+
 export const bdo = getGenerateSelfClosingTagSchema()({
   render: "bdo",
   attributes: {
