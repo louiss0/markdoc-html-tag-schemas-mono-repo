@@ -177,6 +177,7 @@ and use attributes as a way to make the so special things.
 - br
 - track
 - img
+- wbr
 
 :::
 
@@ -278,3 +279,27 @@ A schema that allows the use of the `track` tag in Markdoc.
 ```
 
 <AttributeTable :attributeList="trackAttributesList" />
+
+## wbr
+
+ This schema allows `wbr` tags to be rendered in markdoc.
+
+```md
+{% wbr  /%}
+```
+
+## br
+
+ This schema allows `br` tags to be rendered in markdoc.
+
+```md
+{% br  /%}
+```
+
+## hr
+
+ This schema allows `hr` tags to be rendered in markdoc.
+
+```md
+{% hr  /%}
+```
