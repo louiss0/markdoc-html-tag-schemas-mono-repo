@@ -2,6 +2,26 @@
 
 # Markdoc-HTML-Tag-Schemas
 
+```md
+  {% ul title="chores" %}
+    {% li "Clean my room" %}
+    {% li "Wash the dishes" %}
+    {% li "Takeout the garbage" %}
+    {% li "Go to the recital" %}
+  {% /ul %}
+
+
+  {% a href="/" %}
+    Go Home 
+  {% /a %}
+
+
+{% video %}
+    {% source src="video.mp4" /%}
+{% /video %}
+
+```
+
 This library is a library that was created to add essential tags that are meant to used in Markdoc.
 Markdoc doesn't allow you to use HTML at all it will only respect tags and Common Mark syntax.
 This library comes with a set of Markdoc attributes that are supposed to check for proper types
@@ -18,7 +38,6 @@ of HTML attributes. The list of html elements that are supported as tags are.
 - picture
 - time
 - span
-- address
 - track
 - ul
   - li  
@@ -26,8 +45,10 @@ of HTML attributes. The list of html elements that are supported as tags are.
 - details
   - summary
 - dl
+  - dd
+  - dt
 - colgroup
-- col
+  - col
 - p
 - sup
 - sub
@@ -44,7 +65,6 @@ of HTML attributes. The list of html elements that are supported as tags are.
 - bdo
 - bdi
 - data
-- dd
 - span
 - time
 - dfn
@@ -117,4 +137,3 @@ To enable strict headings you can do this.
 ```js
 markdocHTMLTagSchemas({strictHeadings:true})
 ```
-
