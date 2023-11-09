@@ -18,6 +18,8 @@ This library does follow semver.
 
 ## [Unreleased]
 
+## [2.1.2] - 2023-11-08
+
 ### Fixed
 
 - Added track as a viable child of video and audio
