@@ -30,6 +30,8 @@ Here is a list of all schema that belong in that category.
 - dd
 - dt
 - span
+- del
+- ins
 
 ## Ins and Del
 
