@@ -18,6 +18,8 @@ This library does follow semver.
 
 ## [Unreleased]
 
+## [2.1.3] - 2023-11-08
+
 ## Changed
 
 - cite is now a non-primary schema with a children attribute
