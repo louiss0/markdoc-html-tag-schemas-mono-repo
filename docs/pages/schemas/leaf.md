@@ -244,7 +244,7 @@ into this code.
 
 <AttributeTable :attributeList="iframeAttributesDataList" />
 
-## image
+## img
 
 A schema that allows the use of the `img` tag in Markdoc.
 

@@ -1,15 +1,15 @@
 <!-- markdownlint-disable MD033 -->
 <!-- markdownlint-disable MD041 -->
 
-[IntegerAttribute]: /attributes/custom#integerattribute
+[IntegerAttribute]: ../attributes/custom#integerattribute
 
-[SourceAttribute]: /attributes/custom#sourceattribute
+[SourceAttribute]: ../attributes/custom#sourceattribute
 
-[SizesAttribute]: /attributes/custom#sizes-attribute
+[SizesAttribute]: ../attributes/custom#sizes-attribute
 
-[SrcSetAttribute]: /attributes/custom#srcset-attribute
+[SrcSetAttribute]: ../attributes/custom#srcset-attribute
 
-[MediaAttribute]: /attributes/custom#media-attribute
+[MediaAttribute]: ../attributes/custom#media-attribute
 
 <script setup>
 
@@ -214,7 +214,7 @@ When it comes to the use of external media you can use the HTML tags you know.
 If you want to download a file you can use the `a` tag in markdoc
 and the map and area tag as well. The audio, video tags are also available.
 You can use the picture tag and the image tag this section isn't about them.
-Information about images can be found [here](/schemas/images).
+Information about images can be found [here](../schemas/leaf.md#img).
 
 :::danger
  The audio video and picture tag must use a source to render anything.
@@ -341,10 +341,10 @@ the `li` tag and only allow list nodes.
 :::info The following attributes are also allowed
 
 - [title](../attributes/index.md#title)
-- [spellcheck]((../attributes/index.md#spellcheck))
-- [lang]((../attributes/index.md#lang))
-- [translate]((../attributes/index.md#translate))
-- [dir]((../attributes/index.md#dir))
+- [spellcheck](../attributes/index.md#spellcheck)
+- [lang](../attributes/index.md#lang)
+- [translate](../attributes/index.md#translate)
+- [dir](../attributes/index.md#dir)
 
 :::
 
