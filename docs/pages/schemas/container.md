@@ -410,3 +410,32 @@ A schema that allows you to render details.
 | open      | String | false    |
 
 :::
+
+## cite
+
+ This schema allows `cite` tags to be rendered in markdoc.
+
+It has the following attributes.
+
+- [hidden](../attributes/index.md#hidden)
+- [spellcheck](../attributes/index.md#spellcheck)
+- [translate](../attributes/index.md#translate)
+
+```md
+{% cite %}
+{% a href="http://www.george-orwell.org/1984/0.html" %}Nineteen Eighty-Four{%/a%}
+{% /cite %}
+```
+
+:::danger It only allows the following nodes
+
+- link
+- text
+- em
+- strong
+
+:::
+
+:::danger
+It only validates a tag if it's an anchor tag
+:::
