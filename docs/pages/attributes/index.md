@@ -4,6 +4,11 @@
 
 # Attributes
 
+Attributes for schema are the attributes that are associated with each
+schema. They are objects with properties that tell markdoc what attributes
+are allowed in a specific tag for each schema and what to do after that.
+A custom attribute is a class that manipulates the value of an attribute.
+
 :::tip
  If you want to see the custom attributes click [here](/attributes/custom)
 :::
