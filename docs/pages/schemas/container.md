@@ -79,6 +79,7 @@ inside of them according to the HTML spec.
 - colgroup
 - col
 - p
+- cite
 
 :::
 
