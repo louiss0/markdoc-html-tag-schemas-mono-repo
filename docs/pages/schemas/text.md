@@ -19,11 +19,8 @@ Here is a list of all schema that belong in that category.
 - sup
 - sub
 - small
-- wbr
 - code
-- cite
 - samp
-- mark
 - q
 - kbd
 - bdo
@@ -113,3 +110,101 @@ Render this.
 :::
 
 If you specify your own `datetime=` the time tag will be rendered as normal.
+
+## sup
+
+This schema allows `sup` tags to be rendered in markdoc.
+
+```md
+4{% sup "3" /%}
+```
+
+## sub
+
+ This schema allows `sub` tags to be rendered in markdoc.
+
+```md
+5{% sub "4" /%}
+```
+
+## small
+
+ This schema allows `small` tags to be rendered in markdoc.
+
+```md
+ The color {% small "black" /%} is intimidating.
+```
+
+## code
+
+ This schema allows `code` tags to be rendered in markdoc.
+
+```md
+The {% code "const" /%} keyword in js is used for not
+reassign able variables. 
+```
+
+## samp
+
+ This schema allows `samp` tags to be rendered in markdoc.
+
+```md
+{% samp "Keyboard not found Press F1 to continue" /%}
+```
+
+## mark
+
+ This schema allows `mark` tags to be rendered in markdoc.
+
+```md
+I love the {% mark "moonlit" /%} night.
+```
+
+## q
+
+ This schema allows `q` tags to be rendered in markdoc.
+
+```md
+{% q "Build a future where people live in harmony with nature.</q>
+We hope they succeed." /%}
+```
+
+## kbd
+
+ This schema allows `kbd` tags to be rendered in markdoc.
+
+```md
+{% kbd "Ctrl" /%}
+```
+
+## bdo
+
+ This schema allows `bdo` tags to be rendered in markdoc.
+
+```md
+{% bdo ", אני אוהב להיות ליד חוף הים" /%}
+```
+
+## bdi
+
+ This schema allows `bdi` tags to be rendered in markdoc.
+
+```md
+{% bdi "رجل القوي إيان" /%}
+```
+
+## data
+
+ This schema allows `data` tags to be rendered in markdoc.
+
+```md
+{% data value="398 "Mini Ketchup" /%}
+```
+
+## span
+
+ This schema allows `span` tags to be rendered in markdoc.
+
+```md
+{% span "Im just here" /%}
+```
