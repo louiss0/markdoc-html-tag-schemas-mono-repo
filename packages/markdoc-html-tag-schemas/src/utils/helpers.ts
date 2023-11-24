@@ -19,7 +19,6 @@ const createTag = <T extends string>(
 ) => new markdoc.Tag(name as string, attributes, children);
 
 
-export const createNode = () => markdoc;
 
 
 type CreateTagFunction<T extends string> = typeof createTag<T>
@@ -430,25 +429,34 @@ export const getGenerateNonPrimarySchemaWithATransformThatGeneratesDataAttribute
 
 
 
-export const getHeadingSchema = (strictHeadings: boolean) => ({
-    children: ['inline'],
-    attributes: {
-        level: {
-            type: Number,
-            required: true,
-            matches: strictHeadings ? [1, 2, 3, 4] : null
-        },
-    },
-    transform(node: markdoc.Node, config: markdoc.Config) {
-        return createTag(
-            `h${node.attributes['level']}`,
-            node.transformChildren(config),
-            node.transformAttributes(config),
-        );
-    },
+export const getHeadingSchema = (strictHeadings: boolean) => {
 
+    const headingLevels = [1, 2, 3, 4, 5, 6]
+
+    const FIRST_LEVEL = 0;
+    const STOP_LEVEL = 4;
+    return {
+        children: ['inline'],
+        attributes: {
+            level: {
+                type: Number,
+                required: true,
+                matches: strictHeadings ? headingLevels.slice(
+                    FIRST_LEVEL,
+                    STOP_LEVEL
+                ) : headingLevels
+            },
+        },
+        transform(node: markdoc.Node, config: markdoc.Config) {
+            return createTag(
+                `h${node.attributes['level']}`,
+                node.transformChildren(config),
+                node.transformAttributes(config),
+            );
+        },
+
+    }
 }
-)
 
 export const getDocSchema = (doNotRenderArticle: boolean) => (
     {
