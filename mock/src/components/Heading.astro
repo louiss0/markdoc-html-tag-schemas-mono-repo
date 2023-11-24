@@ -1,0 +1,71 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+type AcceptableLevels = 1 | 2 | 3 | 4;
+
+type Props<T extends AcceptableLevels> = {
+  level: T;
+} & HTMLAttributes<`h${T}`>;
+
+const {
+  slots,
+  props: { level, id, class: $class, ...attrs },
+} = Astro;
+
+const renderDefaultSlotIFItExistsElseRenderRemiderToInsertIt = slots.has(
+  'default',
+)
+  ? await slots.render('default')
+  : 'A word must be put in between these tags';
+
+
+---
+
+{
+  (() => {
+    const levelToHeadingMap = new Map([
+      [
+        1,
+        <h1
+          id={id?.toLowerCase().replace(/\s+/g, '-')}
+          
+          {...attrs}
+        >
+          {renderDefaultSlotIFItExistsElseRenderRemiderToInsertIt}
+        </h1>,
+      ],
+      [
+        2,
+        <h2
+          id={id?.toLowerCase().replace(/\s+/g, '-')}
+          
+          {...attrs}
+        >
+          {renderDefaultSlotIFItExistsElseRenderRemiderToInsertIt}
+        </h2>,
+      ],
+      [
+        3,
+        <h3
+          id={id?.toLowerCase().replace(/\s+/g, '-')}
+          
+          {...attrs}
+        >
+          {renderDefaultSlotIFItExistsElseRenderRemiderToInsertIt}
+        </h3>,
+      ],
+      [
+        4,
+        <h4
+          id={id?.toLowerCase().replace(/\s+/g, '-')}
+          
+          {...attrs}
+        >
+          {renderDefaultSlotIFItExistsElseRenderRemiderToInsertIt}
+        </h4>,
+      ],
+    ]);
+
+    return levelToHeadingMap.get(level) ?? 'You must pass a level of 1-4';
+  })()
+}
