@@ -434,7 +434,8 @@ export const getHeadingSchema = (strictHeadings: boolean) => ({
     children: ['inline'],
     attributes: {
         level: {
-            type: Number, render: false, required: true,
+            type: Number,
+            required: true,
             matches: strictHeadings ? [1, 2, 3, 4] : null
         },
     },
