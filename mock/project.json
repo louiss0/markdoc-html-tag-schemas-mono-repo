@@ -1,33 +1,52 @@
 {
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
   "name": "mock",
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "sourceRoot": "packages/mock/src",
+  "sourceRoot": "apps/mock/src",
+  "tags": [
+    "astro:mock"
+  ],
   "targets": {
     "build": {
-      "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
-      "executor": "@nxtensions/astro:build",
-      "options": {}
-    },
-    "dev": {
-      "executor": "@nxtensions/astro:dev"
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm exec astro --root apps/mock build"
+      }
     },
     "preview": {
+      "executor": "nx:run-commands",
       "dependsOn": [
-        {
-          "target": "build",
-          "projects": "self"
-        }
+        "build"
       ],
-      "executor": "@nxtensions/astro:preview",
-      "options": {}
+      "options": {
+        "commands": [
+          "pnpm exec astro --root apps/mock preview"
+        ]
+      }
     },
-    "check": {
-      "executor": "@nxtensions/astro:check"
+    "add": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm exec astro --root apps/mock add"
+      }
     },
-    "sync": {
-      "executor": "@nxtensions/astro:sync"
+    "info": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm exec astro --root apps/mock info"
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm exec astro --root apps/mock check"
+      }
+    },
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm exec astro --root apps/mock dev"
+      }
     }
-  },
-  "tags": []
+  }
 }
