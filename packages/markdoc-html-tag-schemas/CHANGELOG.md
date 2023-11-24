@@ -18,6 +18,10 @@ This library does follow semver.
 
 ## [Unreleased]
 
+### Fixed
+
+Removed headings now render the level attribute.
+
 ## [2.1.3] - 2023-11-08
 
 ## Changed
