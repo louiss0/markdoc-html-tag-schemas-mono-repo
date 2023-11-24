@@ -6,7 +6,7 @@ hero:
   text: Markdoc HTML Tag Schemas Library 
   tagline: The right HTML tags for Markdoc.
   
-  
+
 features:
   - title: Schemas
     details: 

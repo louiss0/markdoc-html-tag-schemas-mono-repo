@@ -1,4 +1,6 @@
-# Guide
+<!-- markdownlint-disable no-inline-html -->
+
+# Guide <Badge type="info" text="2.1.4"  />
 
 ## Prerequisites
 
@@ -78,6 +80,48 @@ export default defineMarkdocConfig({
 
 });
 ```
+
+:::warning When using schemas with transforms and a render component remove transform.
+Markdoc's transform method will be used over the render `component()`,
+to render markdoc tags. This means if you use both `transform` and `component()`.
+Your componenent will not be rendered.
+
+A common use case would be the `heading` node.
+
+When using a `component()` do this.
+
+```js
+export default defineMarkdocConfig({
+    
+  nodes: {   
+    ...nodes 
+    heading: {
+      render: component("./src/components/Heading.astro"),
+      attributes: nodes.heading.attributes,
+      children: nodes.heading.children,
+    },  
+  },  
+
+});
+```
+
+Instead of this.
+
+```js
+export default defineMarkdocConfig({
+    
+  nodes: {   
+    ...nodes 
+    heading: {
+      render: component("./src/components/Heading.astro"),
+      ...nodes.heading,
+    },  
+  },  
+
+});
+```
+
+:::
 
 ### Frameworks with no Extension Mechanic
 
