@@ -1,4 +1,4 @@
-import { component, defineMarkdocConfig } from '@astrojs/markdoc/config';
+import { component, defineMarkdocConfig, } from '@astrojs/markdoc/config';
 
 import { markdocHTMLTagSchemas } from 'markdoc-html-tag-schemas';
 
@@ -8,8 +8,9 @@ export default defineMarkdocConfig({
   nodes: {
     ...nodes,
     heading: {
-      ...nodes.heading,
-      render: component("./src/components/Heading.astro")
+      render: component("./src/components/Heading.astro"),
+      attributes: nodes.heading.attributes,
+      children: nodes.heading.children,
     }
   },
   tags: {
