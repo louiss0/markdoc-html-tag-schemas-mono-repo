@@ -6,7 +6,9 @@
   "targets": {
     "test": {
       "executor": "@nx/vite:test",
-      "outputs": ["{workspaceRoot}/coverage/packages/markdoc-html-tag-schemas"],
+      "outputs": [
+        "{workspaceRoot}/coverage/packages/markdoc-html-tag-schemas"
+      ],
       "options": {
         "passWithNoTests": true,
         "reportsDirectory": "../../coverage/packages/markdoc-html-tag-schemas"
