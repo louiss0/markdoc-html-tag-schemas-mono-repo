@@ -1,7 +1,7 @@
 
 import * as selfClosingTags from 'packages/markdoc-html-tag-schemas/src/lib/schema/tag/self-closing';
 import * as nonPrimaryTags from 'packages/markdoc-html-tag-schemas/src/lib/schema/tag/non-primary';
-import { getDocSchema, getHeadingSchema } from 'packages/markdoc-html-tag-schemas/src/utils';
+import { createDocSchema, createHeadingSchema } from 'packages/markdoc-html-tag-schemas/src/utils';
 const { a, ul, img, ...restOfTheNonPrimaryTags } = nonPrimaryTags
 
 
@@ -20,8 +20,8 @@ export const markdocHTMLTagSchemas = (
 
     return {
         nodes: {
-            document: getDocSchema(blankDoc),
-            heading: getHeadingSchema(strictHeadings),
+            document: createDocSchema(blankDoc),
+            heading: createHeadingSchema(strictHeadings),
             image: {
                 render: img.render,
                 attributes: {

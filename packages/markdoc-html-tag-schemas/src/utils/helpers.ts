@@ -432,7 +432,7 @@ export const getGenerateNonPrimarySchemaWithATransformThatGeneratesDataAttribute
 
 
 
-export const getHeadingSchema = (strictHeadings: boolean) => {
+export const createHeadingSchema = (strictHeadings: boolean) => {
 
     const headingLevels = [1, 2, 3, 4, 5, 6]
 
@@ -460,7 +460,7 @@ export const getHeadingSchema = (strictHeadings: boolean) => {
     }
 }
 
-export const getDocSchema = (doNotRenderArticle: boolean) => (
+export const createDocSchema = (doNotRenderArticle: boolean) => (
     {
 
         ...markdoc.nodes.document,
