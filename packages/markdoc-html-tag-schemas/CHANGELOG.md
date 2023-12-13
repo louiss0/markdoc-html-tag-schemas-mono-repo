@@ -18,6 +18,8 @@ This library does follow semver.
 
 ## [Unreleased]
 
+## [2.2.0] - 2023-12-13
+
 ### Changed
 
 - `getHeadingSchema()` and `getDocSchema` are now `createHeadingSchema()` and `createDocSchema`.
