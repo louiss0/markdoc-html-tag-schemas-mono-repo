@@ -1,4 +1,7 @@
-import * as markdoc from '@markdoc/markdoc';
+import markdoc from '@markdoc/markdoc';
+import type {
+    Tag, Schema, ConfigType, ValidationError, Config, Node
+} from '@markdoc/markdoc';
 import type {
     SchemaAttributesWithAPrimaryKey,
     SchemaAttributesWithNoPrimaryKey,
@@ -14,7 +17,7 @@ import {
 
 const createTag = <T extends string>(
     name: T | Omit<string, T>,
-    children: Exclude<markdoc.Tag['children'], undefined>,
+    children: Exclude<Tag['children'], undefined>,
     attributes?: Record<string, unknown>
 ) => new markdoc.Tag(name as string, attributes, children);
 
@@ -23,7 +26,7 @@ const createTag = <T extends string>(
 
 type CreateTagFunction<T extends string> = typeof createTag<T>
 
-type MarkdocTransform = Exclude<markdoc.Schema['transform'], undefined>;
+type MarkdocTransform = Exclude<Schema['transform'], undefined>;
 
 type ObjectWithTransformMethod<T extends string> = {
     transform?(
@@ -40,7 +43,7 @@ type GenericRenderProperty<T extends string> = { render: T }
 type TagsSchema<
     T extends RequiredSchemaAttribute,
     R extends string,
-> = Omit<markdoc.Schema<markdoc.ConfigType, R>, 'attributes'>
+> = Omit<Schema<ConfigType, R>, 'attributes'>
     & GenericRenderProperty<R>
     & {
         attributes: SchemaAttributesWithAPrimaryKey<T>;
@@ -85,7 +88,7 @@ export const createAnArrayOfMarkdocErrorObjectsBasedOnEachConditionThatIsTrue =
         >
     ) =>
         conditionalErrors.reduce(
-            (carry: Array<markdoc.ValidationError>, [condition, error]) =>
+            (carry: Array<ValidationError>, [condition, error]) =>
                 condition ? carry.concat(error) : carry,
             []
         );
@@ -127,7 +130,7 @@ export const getGeneratePrimarySchema = <
                 primaryConfig,
                 {
                     ...rest,
-                    transform: (node: markdoc.Node, config: markdoc.Config) =>
+                    transform: (node: Node, config: Config) =>
                         transform?.(node, config, createTag),
                 }))
 
@@ -187,7 +190,7 @@ export const getGenerateNonPrimarySchema = <
             } = secondaryConfig
 
             const transformWithSecondaryConfig = {
-                transform: (node: markdoc.Node, config: markdoc.Config) =>
+                transform: (node: Node, config: Config) =>
                     transform(node, config, createTag),
                 ...rest
             }
@@ -271,14 +274,14 @@ export const getGenerateSelfClosingTagSchema = <
 
 
 export const generateMarkdocErrorObject = (
-    id: markdoc.ValidationError['id'],
-    level: markdoc.ValidationError['level'],
-    message: markdoc.ValidationError['message'],
-    location?: markdoc.ValidationError['location']
+    id: ValidationError['id'],
+    level: ValidationError['level'],
+    message: ValidationError['message'],
+    location?: ValidationError['location']
 ) =>
     Object.freeze(
         location ? { id, level, message, location } : { id, level, message }
-    ) satisfies markdoc.ValidationError;
+    ) satisfies ValidationError;
 
 export const generateMarkdocErrorObjectThatHasAMessageThatTellsTheUserATypeIsNotRight =
     (type: AllowedMarkdocTypesAsStrings) =>
@@ -341,7 +344,7 @@ export const getGenerateNonPrimarySchemaWithATransformThatGeneratesDataAttribute
 
             const transformAndValidate = {
 
-                validate(node: markdoc.Node, config: markdoc.Config) {
+                validate(node: Node, config: Config) {
                     const attrs = node.transformAttributes(config);
 
                     const validationErrorsFromConfig = secondaryConfig?.validate?.(node, config)
@@ -377,7 +380,7 @@ export const getGenerateNonPrimarySchemaWithATransformThatGeneratesDataAttribute
 
                 },
 
-                transform(node: markdoc.Node, config: markdoc.Config, createTag: CreateTagFunction<R>) {
+                transform(node: Node, config: Config, createTag: CreateTagFunction<R>) {
 
                     const attributes = node.transformAttributes(config);
 
@@ -435,47 +438,34 @@ export const getHeadingSchema = (strictHeadings: boolean) => {
 
     const FIRST_LEVEL = 0;
     const STOP_LEVEL = 4;
+
+
+
     return {
-        children: ['inline'],
+        ...markdoc.nodes.heading,
         attributes: {
+            ...markdoc.nodes.heading.attributes,
             level: {
                 type: Number,
                 required: true,
-                matches: strictHeadings ? headingLevels.slice(
-                    FIRST_LEVEL,
-                    STOP_LEVEL
-                ) : headingLevels
+                matches: strictHeadings
+                    ? headingLevels.slice(
+                        FIRST_LEVEL,
+                        STOP_LEVEL
+                    ) : headingLevels
             },
         },
-        transform(node: markdoc.Node, config: markdoc.Config) {
-            return createTag(
-                `h${node.attributes['level']}`,
-                node.transformChildren(config),
-                node.transformAttributes(config),
-            );
-        },
+
 
     }
 }
 
 export const getDocSchema = (doNotRenderArticle: boolean) => (
     {
+
+        ...markdoc.nodes.document,
         render: doNotRenderArticle ? null : "article",
-        children: [
-            'heading',
-            'paragraph',
-            'image',
-            'table',
-            'tag',
-            'fence',
-            'blockquote',
-            'comment',
-            'list',
-            'hr',
-        ],
-        attributes: {
-            frontmatter: { render: false },
-        },
+
     }
 )
 
