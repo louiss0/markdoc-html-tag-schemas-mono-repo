@@ -78,5 +78,3 @@ To lint run.
 ```shell
 nx run markdoc-html-tag-schemas:lint
 ```
-
-
