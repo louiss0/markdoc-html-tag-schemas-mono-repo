@@ -18,6 +18,13 @@ This library does follow semver.
 
 ## [Unreleased]
 
+### Changed
+
+- `getHeadingSchema()` and `getDocSchema` are now `createHeadingSchema()` and `createDocSchema`.
+- `createHeadingSchema()` and `createDocSchema` use nodes from markdoc instead of written code.
+
+## [2.1.4]
+
 ### Fixed
 
 Removed headings now render the level attribute.
